@@ -161,10 +161,10 @@ export function RouletteModal({ isOpen, penalty, onAccept }: RouletteModalProps)
                     className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold py-4 rounded-2xl text-base transition-colors shadow-[0_0_24px_rgba(239,68,68,.3)]"
                   >
                     <CheckCircle size={18} />
-                    J'accepte mon sort, gage accompli
+                    Gage accompli — passer à la suite
                   </motion.button>
                   <p className="text-center text-xs text-zinc-600">
-                    Accomplis le gage pour retenter l'étape.
+                    Le gage est le prix pour zapper cette étape (0 pts).
                   </p>
                 </motion.div>
               )}

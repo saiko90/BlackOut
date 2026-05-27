@@ -147,7 +147,9 @@ export async function POST(req: Request) {
     .single()
 
   if (sessionError || !session) {
-    return NextResponse.json({ error: 'Session introuvable', details: sessionError?.message }, { status: 404 })
+    const msg = `[render] Session introuvable — id=${session_id} — ${sessionError?.message ?? 'no data'}`
+    console.error(msg)
+    return NextResponse.json({ error: msg }, { status: 404 })
   }
 
   /* ── 3. Récupérer les médias triés par étape ── */
@@ -158,8 +160,12 @@ export async function POST(req: Request) {
     .order('step_number', { ascending: true })
 
   if (mediasError) {
-    return NextResponse.json({ error: 'Erreur lecture médias', details: mediasError.message }, { status: 500 })
+    const msg = `[render] Erreur lecture media_uploads — ${mediasError.message}`
+    console.error(msg)
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
+
+  console.log(`[render] session=${session_id} team="${session.team_name}" score=${session.score} medias=${medias?.length ?? 0}`)
 
   /* ── 4. Construire le payload Shotstack ── */
   const payload = buildPayload(
@@ -180,29 +186,27 @@ export async function POST(req: Request) {
       body: JSON.stringify(payload),
     })
   } catch (err) {
-    return NextResponse.json(
-      { error: 'Impossible de contacter Shotstack', details: String(err) },
-      { status: 502 }
-    )
+    const msg = `[render] Réseau — impossible de contacter Shotstack — ${String(err)}`
+    console.error(msg)
+    return NextResponse.json({ error: msg }, { status: 502 })
   }
 
   if (!shotstackRes.ok) {
     const raw = await shotstackRes.text()
-    return NextResponse.json(
-      { error: `Shotstack a répondu ${shotstackRes.status}`, details: raw },
-      { status: 502 }
-    )
+    const msg = `[render] Shotstack HTTP ${shotstackRes.status} — ${raw}`
+    console.error(msg)
+    return NextResponse.json({ error: msg }, { status: 502 })
   }
 
   const result = await shotstackRes.json()
   const render_id: string | undefined = result?.response?.id
 
   if (!render_id) {
-    return NextResponse.json(
-      { error: 'Aucun render_id reçu de Shotstack', details: result },
-      { status: 502 }
-    )
+    const msg = `[render] Aucun render_id dans la réponse Shotstack — ${JSON.stringify(result)}`
+    console.error(msg)
+    return NextResponse.json({ error: msg }, { status: 502 })
   }
 
+  console.log(`[render] render_id=${render_id} lancé avec succès`)
   return NextResponse.json({ render_id, media_count: medias?.length ?? 0 })
 }

@@ -12,6 +12,7 @@ import { TopBar } from '@/components/game/TopBar'
 import { StepCard } from '@/components/game/StepCard'
 import { RouletteModal } from '@/components/game/RouletteModal'
 import { VictoryScreen } from '@/components/game/VictoryScreen'
+import { IntroStoryModal } from '@/components/game/IntroStoryModal'
 import type { GameSession } from '@/lib/supabase/types'
 
 /* ── Variants swipe ── */
@@ -35,6 +36,7 @@ export default function PlayPage() {
   const [swipeDir, setSwipeDir]     = useState(1)
   const [score, setScore]           = useState(0)
   const [activePenalty, setPenalty] = useState('')
+  const [introShown, setIntroShown] = useState(false)
 
   const step = SION_SCENARIO[stepIndex]
 
@@ -144,10 +146,9 @@ export default function PlayPage() {
     setPhase('roulette')
   }
 
-  /* ── Après roulette acceptée ── */
+  /* ── Après roulette acceptée → zapper l'étape (0 pts) ── */
   const handleRouletteAccept = () => {
-    setPhase('playing')
-    // L'étape est retentée sans pénalité sur le score
+    advanceStep(0)
   }
 
   /* ── États de chargement ── */
@@ -258,6 +259,12 @@ export default function PlayPage() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Intro narrative (step 1 uniquement, avant le premier défi) */}
+        <IntroStoryModal
+          isOpen={phase === 'playing' && stepIndex === 0 && !introShown}
+          onStart={() => setIntroShown(true)}
+        />
 
         {/* Roulette (plein écran dans le conteneur) */}
         <RouletteModal

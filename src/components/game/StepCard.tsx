@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Camera, Video, Mic, Type,
-  Send, Upload, SkipForward, Loader2,
+  Send, Upload, SkipForward, Loader2, Navigation,
 } from 'lucide-react'
 import type { Step } from '@/lib/game/sion-scenario'
 import { cn } from '@/lib/utils'
@@ -84,6 +84,21 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
           {step.instruction}
         </p>
       </motion.div>
+
+      {/* ── Bouton GPS ── */}
+      <motion.a
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.28 }}
+        whileTap={{ scale: 0.97 }}
+        href={`https://www.google.com/maps/dir/?api=1&destination=${step.gpsCoordinates}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2.5 bg-pink-600/15 border border-pink-500/30 hover:bg-pink-600/25 text-pink-400 font-bold py-3.5 rounded-2xl text-sm transition-all"
+      >
+        <Navigation size={16} />
+        📍 M&apos;y emmener (Google Maps)
+      </motion.a>
 
       {/* ── Zone input ── */}
       <motion.div

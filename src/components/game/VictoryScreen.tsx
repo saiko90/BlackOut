@@ -65,7 +65,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
           body: JSON.stringify({ session_id: session.id }),
         })
         const data = await res.json()
-        if (!res.ok) throw new Error(data.error ?? 'Erreur de rendu')
+        if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status} — réponse inattendue`)
         setRenderId(data.render_id)
       } catch (err: unknown) {
         setErrorMsg(err instanceof Error ? err.message : 'Erreur inconnue')
@@ -90,12 +90,13 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
           setPhase('done')
         } else if (data.status === 'failed') {
           clearInterval(pollingRef.current!)
-          setErrorMsg('Le rendu vidéo a échoué côté Shotstack.')
+          setErrorMsg(data.error ?? 'Le rendu vidéo a échoué côté Shotstack.')
           setPhase('failed')
         }
         // queued / fetching / rendering → on continue de poller
-      } catch {
+      } catch (err) {
         // Erreur réseau passagère — on réessaie au prochain tick
+        console.warn('[VictoryScreen] polling error (retry next tick):', err)
       }
     }, 3000)
 
@@ -313,12 +314,14 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
               key="failed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="glass rounded-2xl p-6 flex flex-col items-center gap-4 text-center"
+              className="glass rounded-2xl p-6 flex flex-col items-center gap-4 text-center border border-red-500/20"
             >
               <AlertCircle size={36} className="text-red-400" />
               <div>
                 <p className="font-bold text-white">La génération a échoué</p>
-                <p className="text-xs text-zinc-500 mt-1">{errorMsg ?? 'Erreur inconnue'}</p>
+                <p className="text-xs text-red-300 mt-2 font-mono bg-red-950/30 rounded-lg px-3 py-2 text-left break-all">
+                  {errorMsg ?? 'Erreur inconnue'}
+                </p>
               </div>
               <p className="text-xs text-zinc-600">
                 Vérifie que <code className="text-zinc-400">SHOTSTACK_API_KEY</code> et{' '}
