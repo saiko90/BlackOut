@@ -26,7 +26,7 @@ type ShotstackClip = {
    Builder de payload Shotstack
 ──────────────────────────────────────────────────────────── */
 const LOGO_URL   = 'https://black-out-brown.vercel.app/logo.png'
-const MUSIC_URL  = 'https://shotstack-assets.s3-ap-southeast-2.amazonaws.com/music/unminus/cologne.mp3'
+const MUSIC_URL  = 'https://black-out-brown.vercel.app/soundtrack.mp3'
 const OUTRO_DUR  = 4
 
 function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
