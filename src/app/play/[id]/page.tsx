@@ -10,6 +10,7 @@ import { useToastStore } from '@/store/toastStore'
 import { SION_SCENARIO, TOTAL_STEPS } from '@/lib/game/sion-scenario'
 import { TopBar } from '@/components/game/TopBar'
 import { StepCard } from '@/components/game/StepCard'
+import { StepInterlude } from '@/components/game/StepInterlude'
 import { RouletteModal } from '@/components/game/RouletteModal'
 import { VictoryScreen } from '@/components/game/VictoryScreen'
 import { IntroStoryModal } from '@/components/game/IntroStoryModal'
@@ -36,7 +37,8 @@ export default function PlayPage() {
   const [swipeDir, setSwipeDir]     = useState(1)
   const [score, setScore]           = useState(0)
   const [activePenalty, setPenalty] = useState('')
-  const [introShown, setIntroShown] = useState(false)
+  const [introShown, setIntroShown]     = useState(false)
+  const [showInterlude, setShowInterlude] = useState(false)
 
   const step = SION_SCENARIO[stepIndex]
 
@@ -72,6 +74,7 @@ export default function PlayPage() {
       finishGame(newScore)
     } else {
       setSwipeDir(1)
+      setShowInterlude(true)   // affiche le bridge narratif avant la mission suivante
       setStepIndex((i) => i + 1)
       setPhase('playing')
     }
@@ -146,8 +149,13 @@ export default function PlayPage() {
     setPhase('roulette')
   }
 
-  /* ── Après roulette acceptée → zapper l'étape (0 pts) ── */
-  const handleRouletteAccept = () => {
+  /* ── Roulette : retenter l'étape ── */
+  const handleRouletteRetry = () => {
+    setPhase('playing')
+  }
+
+  /* ── Roulette : sauter l'étape (0 pts) ── */
+  const handleRouletteSkip = () => {
     advanceStep(0)
   }
 
@@ -191,12 +199,31 @@ export default function PlayPage() {
           score={score}
         />
 
-        {/* Zone centrale avec swipe */}
+        {/* Zone centrale */}
         <div className="relative flex-1 overflow-hidden">
-          <AnimatePresence custom={swipeDir} mode="wait">
-            {step && (
+          <AnimatePresence mode="wait">
+
+            {/* ── Interlude narratif ── */}
+            {step && showInterlude && (
               <motion.div
-                key={stepIndex}
+                key={`interlude-${stepIndex}`}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] } }}
+                exit={{ opacity: 0, y: -20, transition: { duration: 0.25 } }}
+                className="absolute inset-0"
+              >
+                <StepInterlude
+                  step={step}
+                  stepNumber={stepIndex + 1}
+                  onContinue={() => setShowInterlude(false)}
+                />
+              </motion.div>
+            )}
+
+            {/* ── Mission (StepCard) ── */}
+            {step && !showInterlude && (
+              <motion.div
+                key={`step-${stepIndex}`}
                 custom={swipeDir}
                 variants={SWIPE_VARIANTS}
                 initial="enter"
@@ -214,7 +241,7 @@ export default function PlayPage() {
               </motion.div>
             )}
 
-            {/* Étapes hors scénario : fin de jeu en attente */}
+            {/* ── Hors scénario (ne devrait plus arriver avec 10 étapes) ── */}
             {!step && stepIndex >= SION_SCENARIO.length && (
               <motion.div
                 key="beyond-scenario"
@@ -270,7 +297,8 @@ export default function PlayPage() {
         <RouletteModal
           isOpen={phase === 'roulette'}
           penalty={activePenalty}
-          onAccept={handleRouletteAccept}
+          onRetry={handleRouletteRetry}
+          onSkipStep={handleRouletteSkip}
         />
       </div>
     </div>

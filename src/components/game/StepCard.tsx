@@ -59,15 +59,13 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
         </span>
       </motion.div>
 
-      {/* ── Titre + Contexte ── */}
+      {/* ── Titre ── */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="space-y-2"
       >
         <h2 className="text-2xl font-black text-white tracking-tight">{step.title}</h2>
-        <p className="text-sm text-zinc-500 italic leading-relaxed">{step.context}</p>
       </motion.div>
 
       {/* ── Carte instruction ── */}

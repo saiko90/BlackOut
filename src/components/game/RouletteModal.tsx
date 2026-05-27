@@ -25,10 +25,11 @@ const DECOY_PENALTIES = [
 type RouletteModalProps = {
   isOpen: boolean
   penalty: string
-  onAccept: () => void
+  onRetry: () => void      // ferme la modale, le joueur retente l'étape
+  onSkipStep: () => void   // passe à l'étape suivante (0 pt)
 }
 
-export function RouletteModal({ isOpen, penalty, onAccept }: RouletteModalProps) {
+export function RouletteModal({ isOpen, penalty, onRetry, onSkipStep }: RouletteModalProps) {
   const [displayText, setDisplayText] = useState(DECOY_PENALTIES[0])
   const [spinning, setSpinning] = useState(false)
   const [landed, setLanded] = useState(false)
@@ -155,17 +156,24 @@ export function RouletteModal({ isOpen, penalty, onAccept }: RouletteModalProps)
                   transition={{ delay: 0.4 }}
                   className="w-full max-w-xs space-y-3"
                 >
+                  {/* Bouton principal : retenter l'étape */}
                   <motion.button
                     whileTap={{ scale: 0.96 }}
-                    onClick={onAccept}
-                    className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold py-4 rounded-2xl text-base transition-colors shadow-[0_0_24px_rgba(239,68,68,.3)]"
+                    onClick={onRetry}
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 text-white font-bold py-4 rounded-2xl text-base transition-colors shadow-[0_0_24px_rgba(124,58,237,.35)]"
                   >
                     <CheckCircle size={18} />
-                    Gage accompli — passer à la suite
+                    Gage accompli — Retenter l&apos;étape
                   </motion.button>
-                  <p className="text-center text-xs text-zinc-600">
-                    Le gage est le prix pour zapper cette étape (0 pts).
-                  </p>
+
+                  {/* Bouton secondaire : sauter l'étape */}
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={onSkipStep}
+                    className="w-full flex items-center justify-center gap-2 border border-red-500/30 hover:border-red-500/60 text-red-400/70 hover:text-red-400 font-semibold py-3 rounded-2xl text-sm transition-all"
+                  >
+                    Passer à la suite (0 pt)
+                  </motion.button>
                 </motion.div>
               )}
             </AnimatePresence>
