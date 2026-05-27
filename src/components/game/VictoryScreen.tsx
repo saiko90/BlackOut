@@ -52,6 +52,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
   const [errorMsg, setErrorMsg]     = useState<string | null>(null)
   const [msgIndex, setMsgIndex]     = useState(0)
   const [shared, setShared]         = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
   const pollingRef                  = useRef<ReturnType<typeof setInterval> | null>(null)
 
   /* ── Lancer le rendu au montage ── */
@@ -113,30 +114,38 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
   /* ── Partage natif ── */
   const handleShare = useCallback(async () => {
     if (!videoUrl) return
-    const shareData = {
-      title: 'Black Out ! — Mon film compromettant',
-      text:  `💀 Je viens de survivre à Black Out ! Sion — ${session.score} pts\n#BlackOutSion`,
-      url:   videoUrl,
-    }
+    const text = `Je viens de survivre au Black Out à Sion ! 💀🍻 #BlackOutSion @BlackOutGame`
     try {
       if (navigator.share) {
-        await navigator.share(shareData)
+        await navigator.share({ title: 'Black Out ! — Mon film souvenir', text, url: videoUrl })
       } else {
-        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`)
+        await navigator.clipboard.writeText(`${text}\n${videoUrl}`)
       }
       setShared(true)
       setTimeout(() => setShared(false), 3000)
     } catch { /* annulé par l'utilisateur */ }
-  }, [videoUrl, session.score])
+  }, [videoUrl])
 
-  /* ── Téléchargement ── */
-  const handleDownload = useCallback(() => {
-    if (!videoUrl) return
-    const a = document.createElement('a')
-    a.href     = videoUrl
-    a.download = `blackout-${session.team_name.replace(/\s+/g, '-')}-${Date.now()}.mp4`
-    a.click()
-  }, [videoUrl, session.team_name])
+  /* ── Téléchargement blob (reste dans la PWA) ── */
+  const handleDownload = useCallback(async () => {
+    if (!videoUrl || isDownloading) return
+    setIsDownloading(true)
+    try {
+      const response = await fetch(videoUrl)
+      const blob     = await response.blob()
+      const url      = window.URL.createObjectURL(blob)
+      const a        = document.createElement('a')
+      a.href         = url
+      a.download     = 'BlackOut_Souvenir.mp4'
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch {
+      // Fallback CORS : ouvre dans un nouvel onglet sans quitter la PWA
+      window.open(videoUrl, '_blank')
+    } finally {
+      setIsDownloading(false)
+    }
+  }, [videoUrl, isDownloading])
 
   return (
     <div className="relative w-full h-dvh bg-zinc-950 flex flex-col overflow-hidden">
@@ -162,7 +171,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
           <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-violet-600 to-cyan-500 mx-auto flex items-center justify-center shadow-[0_0_50px_rgba(124,58,237,.5)] mb-4">
             <Trophy size={40} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1">Mission accomplie</p>
+          <p className="text-xs font-bold text-pink-400 uppercase tracking-widest mb-1">Mission accomplie</p>
           <h1 className="text-4xl font-black text-white tracking-tight leading-none">
             BLACK<br />OUT !
           </h1>
@@ -180,7 +189,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
         >
           {[
             { icon: Star,   value: `${session.score}`,                         label: 'pts',       color: 'text-violet-400' },
-            { icon: Timer,  value: formatDuration(session.start_time, session.end_time), label: 'durée', color: 'text-cyan-400'   },
+            { icon: Timer,  value: formatDuration(session.start_time, session.end_time), label: 'durée', color: 'text-pink-400'   },
             { icon: Trophy, value: `${SION_SCENARIO.length}`,                  label: 'étapes',    color: 'text-amber-400' },
           ].map(({ icon: Icon, value, label, color }) => (
             <div key={label} className="glass rounded-2xl px-3 py-4 flex flex-col items-center gap-1">
@@ -240,7 +249,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                   <motion.div
                     animate={{ x: ['-100%', '200%'] }}
                     transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-                    className="h-full w-1/3 bg-gradient-to-r from-violet-600 to-cyan-400 rounded-full"
+                    className="h-full w-1/3 bg-gradient-to-r from-violet-600 to-pink-400 rounded-full"
                   />
                 </div>
                 <p className="text-xs text-zinc-600 mt-2 text-center">
@@ -259,8 +268,8 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
               transition={{ type: 'spring', damping: 22 }}
               className="flex flex-col gap-4"
             >
-              {/* Player vidéo */}
-              <div className="rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(34,211,238,.25)]">
+              {/* Player vidéo — format portrait 9:16 */}
+              <div className="rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(236,72,153,.2)] mx-auto max-w-[280px]">
                 {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                 <video
                   src={videoUrl}
@@ -268,7 +277,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                   autoPlay
                   loop
                   playsInline
-                  className="w-full rounded-2xl border-2 border-cyan-500/60 shadow-[0_0_24px_rgba(34,211,238,.3)]"
+                  className="w-full rounded-2xl border-2 border-pink-500/60 shadow-[0_0_24px_rgba(236,72,153,.25)]"
                 />
               </div>
 
@@ -276,30 +285,33 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
               <motion.button
                 whileTap={{ scale: 0.96 }}
                 onClick={handleShare}
-                className="relative w-full flex flex-col items-center justify-center gap-1 bg-gradient-to-r from-cyan-600 to-violet-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(34,211,238,.3)]"
+                className="relative w-full flex flex-col items-center justify-center gap-1 bg-gradient-to-r from-pink-600 to-violet-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(236,72,153,.3)]"
               >
                 <span aria-hidden className="absolute inset-0 animate-pulse bg-white/5" />
                 <span className="relative flex items-center gap-2 text-base">
-                  {shared ? '✓ Lien copié !' : <><Share2 size={18} /> CAP OU PAS CAP ? Partager</>}
+                  {shared ? '✓ Partagé !' : <><Share2 size={18} /> CAP OU PAS CAP ? Partager</>}
                 </span>
-                <span className="relative text-xs text-white/70 font-normal">Télécharger et partager sur vos réseaux</span>
+                <span className="relative text-xs text-white/70 font-normal">#BlackOutSion @BlackOutGame</span>
               </motion.button>
 
               {/* Bouton télécharger */}
               <motion.button
                 whileTap={{ scale: 0.97 }}
                 onClick={handleDownload}
-                className="w-full flex items-center justify-center gap-2 border border-white/10 hover:border-white/20 text-zinc-400 hover:text-white font-semibold py-3 rounded-2xl text-sm transition-all"
+                disabled={isDownloading}
+                className="w-full flex items-center justify-center gap-2 border border-white/10 hover:border-white/20 text-zinc-400 hover:text-white disabled:opacity-50 font-semibold py-3 rounded-2xl text-sm transition-all"
               >
-                <Download size={15} />
-                Télécharger le fichier MP4
+                {isDownloading
+                  ? <><Loader2 size={15} className="animate-spin" /> Téléchargement en cours…</>
+                  : <><Download size={15} /> Télécharger le fichier MP4</>
+                }
               </motion.button>
 
               {/* Marketing viral */}
               <div className="glass rounded-2xl p-4 text-center">
                 <p className="text-xs text-zinc-400 leading-relaxed">
                   Partage cette vidéo <span className="text-white font-semibold">en public</span> avec le hashtag{' '}
-                  <span className="text-cyan-400 font-bold">#BlackOutSion</span> et tag{' '}
+                  <span className="text-pink-400 font-bold">#BlackOutSion</span> et tag{' '}
                   <span className="text-violet-400 font-bold">@BlackOutGame</span> pour participer au{' '}
                   <span className="text-white font-semibold">tirage au sort mensuel</span>{' '}
                   <span className="text-amber-400 font-bold">(bon de 50 CHF 🎁)</span>

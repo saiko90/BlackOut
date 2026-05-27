@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Camera, Video, Mic, Type,
-  Send, Upload, SkipForward, Loader2, Navigation,
+  Send, Upload, SkipForward, Loader2, Navigation, Smartphone,
 } from 'lucide-react'
 import type { Step } from '@/lib/game/sion-scenario'
 import { cn } from '@/lib/utils'
@@ -132,6 +132,18 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
         {/* PHOTO / VIDEO */}
         {(step.type === 'photo' || step.type === 'video') && (
           <>
+            {/* Badge orientation verticale */}
+            <motion.div
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
+              className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/50 rounded-xl px-3 py-2"
+            >
+              <Smartphone size={13} className="text-yellow-400 shrink-0" />
+              <p className="text-xs font-semibold text-yellow-400">
+                📱 Filmez à la verticale pour un meilleur rendu final !
+              </p>
+            </motion.div>
+
             {/* Input caché */}
             <input
               ref={fileInputRef}

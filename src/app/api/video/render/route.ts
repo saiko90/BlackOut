@@ -78,7 +78,7 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
             : { type: 'video', src: media.media_url, volume: 0.7 },
         start: cursor,
         length: duration,
-        fit: 'crop',                            // gère tous les ratios mobile
+        fit: 'contain',                         // affiche en entier + bandes noires si paysage
         transition: { in: 'fade', out: 'fade' },
       }
       if (media.media_type === 'photo') clip.effect = 'zoomIn'
@@ -111,7 +111,7 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
         asset: { type: 'image', src: LOGO_URL },
         start: 0,
         length: totalDuration,
-        position: 'bottomRight',
+        position: 'topRight',
         scale: 0.15,
         opacity: 0.6,
       } satisfies ShotstackClip,
@@ -132,7 +132,8 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
     },
     output: {
       format: 'mp4',
-      resolution: 'hd',
+      resolution: '1080',
+      aspectRatio: '9:16',
     },
   }
 }
