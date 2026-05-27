@@ -22,10 +22,13 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
     title: 'Black Out !',
   },
+  icons: {
+    apple: '/icon.png',
+  },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#080808',
+  themeColor: '#09090b',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,

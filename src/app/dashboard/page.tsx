@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
-  LogOut, User, Trophy, Clock, Search, ChevronRight, Zap,
+  LogOut, User, Trophy, Clock, Search, ChevronRight, Zap, Play,
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
@@ -295,32 +295,63 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div className="space-y-2">
-                {sessions.map((session) => (
-                  <div
-                    key={session.id}
-                    className="glass rounded-2xl px-4 py-3 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
-                        <Trophy size={14} className="text-violet-400" />
+                {sessions.map((session) =>
+                  session.is_completed ? (
+                    /* ── Session terminée ── */
+                    <div
+                      key={session.id}
+                      className="glass rounded-2xl px-4 py-3 flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                          <Trophy size={14} className="text-violet-400" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-white">{session.team_name}</p>
+                          <p className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
+                            <Clock size={10} />
+                            {new Date(session.start_time).toLocaleDateString('fr-CH')}
+                            {' · '}{session.city}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-semibold text-white">{session.team_name}</p>
-                        <p className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
-                          <Clock size={10} />
-                          {new Date(session.start_time).toLocaleDateString('fr-CH')}
-                          {' · '}{session.city}
+                      <div className="text-right">
+                        <p className="text-sm font-black text-pink-400">{session.score} pts</p>
+                        <p className="text-xs text-emerald-400 mt-0.5">Mission Terminée ✓</p>
+                      </div>
+                    </div>
+                  ) : (
+                    /* ── Session en cours → bouton Reprendre ── */
+                    <motion.button
+                      key={session.id}
+                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.01 }}
+                      onClick={() => router.push(`/play/${session.id}`)}
+                      className="w-full glass rounded-2xl px-4 py-3 flex items-center justify-between border border-yellow-500/20 hover:border-yellow-400/40 transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="relative w-8 h-8 rounded-lg bg-yellow-500/15 flex items-center justify-center">
+                          <Play size={14} className="text-yellow-400" />
+                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-sm font-semibold text-white">{session.team_name}</p>
+                          <p className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
+                            <Clock size={10} />
+                            {new Date(session.start_time).toLocaleDateString('fr-CH')}
+                            {' · '}{session.city}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-sm font-black text-yellow-400">{session.score} pts</p>
+                        <p className="text-xs text-yellow-500 font-bold mt-0.5 flex items-center gap-1 justify-end">
+                          ▶ Reprendre
                         </p>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-black text-white">{session.score} pts</p>
-                      <p className={`text-xs mt-0.5 ${session.is_completed ? 'text-emerald-400' : 'text-amber-400'}`}>
-                        {session.is_completed ? 'Terminée' : 'En cours'}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                    </motion.button>
+                  )
+                )}
               </div>
             )}
           </motion.section>
