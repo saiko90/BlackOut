@@ -10,6 +10,7 @@ export type Token = {
   user_id: string
   city: string
   is_used: boolean
+  gift_code: string | null
   created_at: string
   used_at: string | null
 }

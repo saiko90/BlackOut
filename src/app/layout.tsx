@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { ToastContainer } from '@/components/ui/Toast'
 import './globals.css'
 
 const geistSans = Geist({
@@ -39,8 +40,9 @@ export default function RootLayout({
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
     >
-      <body className="min-h-dvh bg-background text-foreground antialiased overflow-x-hidden">
+      <body className="min-h-dvh bg-zinc-950 text-white antialiased overflow-x-hidden">
         {children}
+        <ToastContainer />
       </body>
     </html>
   )

@@ -3,11 +3,14 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Zap, ChevronRight, LogOut, User } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { CityCard } from '@/components/ui/CityCard'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
+import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt'
 
 /* ── Variants Framer Motion ── */
 const fadeUp = {
@@ -60,13 +63,14 @@ export default function HomePage() {
 
   return (
     <div className="flex justify-center min-h-dvh bg-zinc-950">
+      <PwaInstallPrompt />
       <div className="relative w-full max-w-md h-dvh bg-zinc-950 overflow-hidden flex flex-col shadow-2xl">
 
         {/* Ambiances lumineuses */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-32 -left-16 w-72 h-72 rounded-full bg-violet-600/15 blur-3xl" />
-          <div className="absolute top-1/3 -right-24 w-64 h-64 rounded-full bg-cyan-500/10 blur-3xl" />
-          <div className="absolute bottom-1/4 -left-20 w-56 h-56 rounded-full bg-violet-800/12 blur-3xl" />
+          <div className="absolute top-1/3 -right-24 w-64 h-64 rounded-full bg-pink-500/10 blur-3xl" />
+          <div className="absolute bottom-1/4 -left-20 w-56 h-56 rounded-full bg-yellow-500/8 blur-3xl" />
         </div>
 
         {/* Contenu scrollable */}
@@ -78,20 +82,22 @@ export default function HomePage() {
 
               {/* Badge live */}
               <motion.div variants={fadeUp} className="mb-4">
-                <span className="inline-flex items-center gap-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold px-3 py-1.5 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold px-3 py-1.5 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
                   GAME IS ON — SION
                 </span>
               </motion.div>
 
-              {/* Titre */}
-              <motion.div variants={fadeUp}>
-                <h1 className="font-black leading-none tracking-tighter text-white">
-                  <span className="block text-[4.5rem] text-glow-violet">BLACK</span>
-                  <span className="block text-[4.5rem] bg-gradient-to-r from-violet-400 via-cyan-300 to-violet-400 bg-clip-text text-transparent">
-                    OUT !
-                  </span>
-                </h1>
+              {/* Logo */}
+              <motion.div variants={fadeUp} className="mb-2">
+                <Image
+                  src="/logo.png"
+                  alt="Black Out Logo"
+                  width={250}
+                  height={250}
+                  className="mx-auto drop-shadow-[0_0_20px_rgba(236,72,153,0.5)]"
+                  priority
+                />
               </motion.div>
 
               {/* Tagline */}
@@ -137,8 +143,13 @@ export default function HomePage() {
               animate="visible"
               className="space-y-3"
             >
-              {CITIES.map(({ city, country, price, isActive }) => (
-                <motion.div key={city} variants={fadeUp}>
+              {CITIES.map(({ city, country, price, isActive }, i) => (
+                <motion.div
+                  key={city}
+                  variants={fadeUp}
+                  whileHover={{ rotate: i % 2 === 0 ? -1 : 1, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                >
                   <CityCard
                     city={city}
                     country={country}
@@ -177,6 +188,17 @@ export default function HomePage() {
               </motion.div>
             ))}
           </motion.section>
+
+          {/* ── FOOTER LÉGAL ── */}
+          <footer className="mt-10 mb-2 flex items-center justify-center gap-4">
+            <Link href="/cgv" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">
+              CGV
+            </Link>
+            <span className="text-zinc-700">·</span>
+            <Link href="/mentions-legales" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">
+              Mentions légales
+            </Link>
+          </footer>
         </div>
 
         {/* ── STICKY BOTTOM BAR ── */}
