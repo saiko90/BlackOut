@@ -17,18 +17,25 @@ type ShotstackClip = {
   transition?: { in?: string; out?: string }
   effect?: string
   fit?: string
+  position?: string
+  scale?: number
+  opacity?: number
 }
 
 /* ────────────────────────────────────────────────────────────
    Builder de payload Shotstack
 ──────────────────────────────────────────────────────────── */
+const LOGO_URL   = 'https://black-out-brown.vercel.app/logo.png'
+const MUSIC_URL  = 'https://shotstack-assets.s3-ap-southeast-2.amazonaws.com/music/unminus/cologne.mp3'
+const OUTRO_DUR  = 4
+
 function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
-  const clips: ShotstackClip[] = []
+  const mainClips: ShotstackClip[] = []
   let cursor = 0
 
   /* ── Intro ── */
   const INTRO_DUR = 3
-  clips.push({
+  mainClips.push({
     asset: {
       type: 'title',
       text: `BLACK OUT !\n${teamName}`,
@@ -46,8 +53,7 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
 
   /* ── Médias ou fallback ── */
   if (medias.length === 0) {
-    // Aucun média (parties 100% textuelles) : clip narratif de substitution
-    clips.push({
+    mainClips.push({
       asset: {
         type: 'title',
         text: 'Aucune preuve visuelle.\nCe qui se passe à Sion\nreste à Sion.',
@@ -72,18 +78,17 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
             : { type: 'video', src: media.media_url, volume: 0.7 },
         start: cursor,
         length: duration,
-        fit: 'cover',
+        fit: 'crop',                            // gère tous les ratios mobile
         transition: { in: 'fade', out: 'fade' },
       }
-      // Effet zoom léger sur les photos
       if (media.media_type === 'photo') clip.effect = 'zoomIn'
-      clips.push(clip)
+      mainClips.push(clip)
       cursor += duration
     }
   }
 
   /* ── Outro score ── */
-  clips.push({
+  mainClips.push({
     asset: {
       type: 'title',
       text: `Score final\n${score} pts\n#BlackOutSion`,
@@ -94,18 +99,40 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
       position: 'center',
     },
     start: cursor,
-    length: 4,
+    length: OUTRO_DUR,
     transition: { in: 'fade', out: 'fade' },
   })
+  const totalDuration = cursor + OUTRO_DUR
+
+  /* ── Watermark logo (track 0 = couche supérieure) ── */
+  const watermarkTrack = {
+    clips: [
+      {
+        asset: { type: 'image', src: LOGO_URL },
+        start: 0,
+        length: totalDuration,
+        position: 'bottomRight',
+        scale: 0.15,
+        opacity: 0.6,
+      } satisfies ShotstackClip,
+    ],
+  }
 
   return {
     timeline: {
       background: '#09090b',
-      tracks: [{ clips }],
+      soundtrack: {
+        src: MUSIC_URL,
+        effect: 'fadeOut',
+      },
+      tracks: [
+        watermarkTrack,       // index 0 = par-dessus tout
+        { clips: mainClips }, // index 1 = contenu principal
+      ],
     },
     output: {
       format: 'mp4',
-      resolution: 'hd', // 1280×720
+      resolution: 'hd',
     },
   }
 }

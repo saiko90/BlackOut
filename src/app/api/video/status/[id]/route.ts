@@ -47,9 +47,17 @@ export async function GET(
   const response = data?.response
 
   // Statuts Shotstack : queued | fetching | rendering | saving | done | failed
+  const status: string = response?.status ?? 'unknown'
+
+  if (status === 'failed') {
+    const shotstackError: string = response?.error ?? 'Erreur inconnue côté Shotstack'
+    console.error(`[status] render_id=${id} FAILED — ${shotstackError}`)
+    return NextResponse.json({ status: 'failed', error: shotstackError })
+  }
+
   return NextResponse.json({
-    status: response?.status ?? 'unknown',
-    url:    response?.url   ?? null,    // URL MP4 disponible quand status === 'done'
+    status,
+    url:    response?.url    ?? null,   // URL MP4 disponible quand status === 'done'
     poster: response?.poster ?? null,
   })
 }
