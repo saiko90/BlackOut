@@ -50,16 +50,16 @@ export function CheckoutDrawer({
       return
     }
     setLoading(true)
-    try {
-      const { clientSecret: secret } = await createCheckoutSession(user.id, isGift)
-      if (!secret) throw new Error('Impossible d\'obtenir la session de paiement.')
-      setClientSecret(secret)
-      setView('stripe')
-    } catch (err: unknown) {
-      addToast(err instanceof Error ? err.message : 'Erreur Stripe', 'error')
-    } finally {
-      setLoading(false)
+    const result = await createCheckoutSession(user.id, isGift)
+    setLoading(false)
+
+    if (result.error || !result.clientSecret) {
+      addToast(`Erreur Stripe : ${result.error ?? 'client_secret manquant'}`, 'error')
+      return
     }
+
+    setClientSecret(result.clientSecret)
+    setView('stripe')
   }
 
   return (
