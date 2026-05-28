@@ -4,10 +4,12 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Camera, Video, Mic, Type,
-  Send, Upload, SkipForward, Loader2, Navigation, Smartphone,
+  Send, Upload, SkipForward, Loader2, Navigation, Smartphone, MapPin,
 } from 'lucide-react'
 import type { Step } from '@/lib/game/sion-scenario'
 import { cn } from '@/lib/utils'
+import { getDistanceFromLatLonInM } from '@/lib/game/gps'
+import { useToastStore } from '@/store/toastStore'
 
 const TYPE_META = {
   photo: { icon: Camera, label: 'Photo requise',  color: 'text-cyan-400',   bg: 'bg-cyan-500/10 border-cyan-500/20' },
@@ -15,6 +17,8 @@ const TYPE_META = {
   text:  { icon: Type,   label: 'Réponse texte',  color: 'text-amber-400',  bg: 'bg-amber-500/10 border-amber-500/20' },
   audio: { icon: Mic,    label: 'Audio requis',   color: 'text-emerald-400',bg: 'bg-emerald-500/10 border-emerald-500/20' },
 }
+
+const GPS_RADIUS_M = 80
 
 type StepCardProps = {
   step: Step
@@ -25,13 +29,58 @@ type StepCardProps = {
 }
 
 export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAbandon }: StepCardProps) {
+  const { addToast } = useToastStore()
   const [textAnswer, setTextAnswer] = useState('')
   const [filePreview, setFilePreview] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [isCheckingGps, setIsCheckingGps] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const meta = TYPE_META[step.type]
   const Icon = meta.icon
+
+  /* ── Vérification GPS ── */
+  const verifyLocation = (): Promise<boolean> => {
+    if (process.env.NODE_ENV === 'development') return Promise.resolve(true)
+
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) {
+        addToast('La géolocalisation n\'est pas supportée par ce navigateur.', 'error')
+        resolve(false)
+        return
+      }
+
+      setIsCheckingGps(true)
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setIsCheckingGps(false)
+          const [targetLat, targetLon] = step.gpsCoordinates.split(',').map(Number)
+          const distance = Math.round(
+            getDistanceFromLatLonInM(
+              position.coords.latitude, position.coords.longitude,
+              targetLat, targetLon,
+            )
+          )
+          if (distance <= GPS_RADIUS_M) {
+            resolve(true)
+          } else {
+            addToast(`Tricheur ! Tu es encore à ${distance} m du lieu exact. Rapproche-toi ! 📍`, 'error')
+            resolve(false)
+          }
+        },
+        (err) => {
+          setIsCheckingGps(false)
+          if (err.code === err.PERMISSION_DENIED) {
+            addToast('Veuillez autoriser la géolocalisation pour valider ce défi.', 'error')
+          } else {
+            addToast('Impossible d\'obtenir votre position GPS. Réessayez.', 'error')
+          }
+          resolve(false)
+        },
+        { enableHighAccuracy: true, timeout: 10_000, maximumAge: 0 },
+      )
+    })
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -42,6 +91,17 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
 
   const handleFileSubmit = () => {
     if (selectedFile) onFileSelected(selectedFile)
+  }
+
+  const handleOpenCamera = async () => {
+    const ok = await verifyLocation()
+    if (ok) fileInputRef.current?.click()
+  }
+
+  const handleTextSubmit = async () => {
+    if (!textAnswer.trim()) return
+    const ok = await verifyLocation()
+    if (ok) onTextSubmit(textAnswer.trim())
   }
 
   return (
@@ -113,19 +173,25 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
                 type="text"
                 value={textAnswer}
                 onChange={(e) => setTextAnswer(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && textAnswer.trim() && onTextSubmit(textAnswer.trim())}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleTextSubmit() }}
                 placeholder="Ta réponse…"
                 className="w-full bg-zinc-800/60 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-zinc-600 text-base focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 transition-all pr-14"
               />
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                disabled={!textAnswer.trim()}
-                onClick={() => onTextSubmit(textAnswer.trim())}
+                disabled={!textAnswer.trim() || isCheckingGps}
+                onClick={handleTextSubmit}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-violet-600 disabled:opacity-30 rounded-xl flex items-center justify-center text-white transition-colors"
               >
-                <Send size={15} />
+                {isCheckingGps ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
               </motion.button>
             </div>
+            {isCheckingGps && (
+              <p className="text-xs text-zinc-500 flex items-center gap-1.5 px-1">
+                <MapPin size={11} className="animate-pulse text-pink-500" />
+                Vérification de la position…
+              </p>
+            )}
           </>
         )}
 
@@ -169,19 +235,30 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
             {!filePreview ? (
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                onClick={() => fileInputRef.current?.click()}
+                disabled={isCheckingGps}
+                onClick={handleOpenCamera}
                 className={cn(
-                  'w-full flex flex-col items-center justify-center gap-2 py-8 rounded-2xl border-2 border-dashed transition-all',
+                  'w-full flex flex-col items-center justify-center gap-2 py-8 rounded-2xl border-2 border-dashed transition-all disabled:opacity-60',
                   step.type === 'photo'
                     ? 'border-cyan-500/30 hover:border-cyan-500/60 text-cyan-400 hover:bg-cyan-500/5'
                     : 'border-violet-500/30 hover:border-violet-500/60 text-violet-400 hover:bg-violet-500/5'
                 )}
               >
-                <Icon size={32} />
-                <span className="font-bold text-sm">
-                  {step.type === 'photo' ? 'Ouvrir l\'appareil photo' : 'Filmer la scène'}
-                </span>
-                <span className="text-xs opacity-60">Appuyez pour ouvrir la caméra</span>
+                {isCheckingGps ? (
+                  <>
+                    <MapPin size={32} className="animate-pulse text-pink-500" />
+                    <span className="font-bold text-sm text-pink-400">Vérification de la position…</span>
+                    <span className="text-xs opacity-60">Localisation GPS en cours</span>
+                  </>
+                ) : (
+                  <>
+                    <Icon size={32} />
+                    <span className="font-bold text-sm">
+                      {step.type === 'photo' ? 'Ouvrir l\'appareil photo' : 'Filmer la scène'}
+                    </span>
+                    <span className="text-xs opacity-60">Appuyez pour ouvrir la caméra</span>
+                  </>
+                )}
               </motion.button>
             ) : (
               <div className="flex gap-2">
