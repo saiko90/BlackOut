@@ -1,7 +1,6 @@
 'use server'
 
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
-import { checkImageSafety } from '@/lib/security/nsfw'
 
 type UploadResult =
   | { publicUrl: string; error?: never }
@@ -16,12 +15,6 @@ export async function uploadMedia(formData: FormData): Promise<UploadResult> {
 
   if (!file || !sessionId || !userId || !mediaType) {
     return { error: 'Paramètres manquants.' }
-  }
-
-  // NSFW gate — photos only (Sightengine image API doesn't handle video)
-  if (mediaType === 'photo') {
-    const safe = await checkImageSafety(file)
-    if (!safe) return { error: 'NSFW_DETECTED' }
   }
 
   const supabase = getSupabaseAdmin()

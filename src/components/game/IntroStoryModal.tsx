@@ -78,7 +78,7 @@ export function IntroStoryModal({ isOpen, onStart }: IntroStoryModalProps) {
                 <strong className="text-white">Une tournée de trop à la Place du Midi.</strong>
               </p>
               <p className="text-zinc-300 text-sm leading-relaxed">
-                Votre pote a disparu{' '}
+                Un inconnu a disparu{' '}
                 <strong className="text-pink-400">avec les clés de la voiture…</strong>
               </p>
               <p className="text-zinc-300 text-sm leading-relaxed">

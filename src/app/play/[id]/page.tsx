@@ -128,10 +128,7 @@ export default function PlayPage() {
     const result = await uploadMedia(fd)
 
     if (result.error) {
-      const message = result.error === 'NSFW_DETECTED'
-        ? '🔞 Oh oh... Gardez vos vêtements ! Photo inappropriée refusée par notre IA.'
-        : 'Erreur lors de l\'envoi du fichier.'
-      addToast(message, 'error')
+      addToast('Erreur lors de l\'envoi du fichier.', 'error')
       setPhase('playing')
       return
     }
