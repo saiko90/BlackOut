@@ -24,7 +24,7 @@ export async function createCheckoutSession(
       'https://black-out-brown.vercel.app'
 
     const session = await stripe.checkout.sessions.create({
-      ui_mode: 'embedded' as Stripe.Checkout.SessionCreateParams.UiMode,
+      ui_mode: 'embedded_page' as Stripe.Checkout.SessionCreateParams.UiMode,
       payment_method_types: ['card', 'twint'] as Stripe.Checkout.SessionCreateParams.PaymentMethodType[],
       currency: 'chf',
       line_items: [
