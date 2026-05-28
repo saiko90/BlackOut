@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
 })
+
+function generateGiftCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  const random = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+  return `SION-${random}`
+}
 
 /* ────────────────────────────────────────────────────────────
    POST /api/webhooks/stripe
@@ -38,7 +45,24 @@ export async function POST(req: Request) {
       ` userId=${userId} isGift=${isGift} amount=${session.amount_total}`
     )
 
-    // Mission 16 : insérer le token en base ici
+    if (!userId) {
+      console.error('[webhook] userId manquant dans session.metadata')
+      return NextResponse.json({ error: 'userId manquant' }, { status: 400 })
+    }
+
+    const supabase = getSupabaseAdmin()
+    const tokenRow = isGift
+      ? { user_id: userId, city: 'Sion', is_used: false, gift_code: generateGiftCode() }
+      : { user_id: userId, city: 'Sion', is_used: false }
+
+    try {
+      const { error: dbError } = await supabase.from('tokens').insert(tokenRow)
+      if (dbError) throw dbError
+      console.log(`[webhook] token inséré pour userId=${userId} isGift=${isGift}`)
+    } catch (err) {
+      console.error(`[webhook] Erreur insertion token — ${String(err)}`)
+      return NextResponse.json({ error: 'DB error' }, { status: 500 })
+    }
   }
 
   return NextResponse.json({ received: true })
