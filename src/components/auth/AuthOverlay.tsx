@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
@@ -164,6 +165,18 @@ export function AuthOverlay({ isOpen, onClose, onSuccess }: AuthOverlayProps) {
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
+
+                {/* Mot de passe oublié — login uniquement */}
+                {mode === 'login' && (
+                  <div className="flex justify-end -mt-1">
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs text-zinc-500 hover:text-violet-400 transition-colors"
+                    >
+                      Mot de passe oublié ?
+                    </Link>
+                  </div>
+                )}
 
                 {/* Feedback */}
                 <AnimatePresence mode="wait">

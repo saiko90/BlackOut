@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
-  LogOut, User, Trophy, Clock, Search, ChevronRight, Zap, Play,
+  LogOut, User, Trophy, Clock, Search, ChevronRight, Zap, Play, Lock, Loader2,
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
@@ -35,6 +35,8 @@ export default function DashboardPage() {
   const [checkoutOpen, setCheckoutOpen] = useState(false)
   const [giftCode, setGiftCode]   = useState('')
   const [redeemLoading, setRedeemLoading] = useState(false)
+  const [newPassword, setNewPassword]   = useState('')
+  const [pwdLoading, setPwdLoading]     = useState(false)
 
   /* ── Fetch inventaire + historique ── */
   const fetchData = useCallback(async () => {
@@ -138,6 +140,23 @@ export default function DashboardPage() {
   }
 
   const displayName = user?.email?.split('@')[0] ?? 'Joueur'
+
+  /* ── Modifier le mot de passe ── */
+  const handlePasswordUpdate = async () => {
+    if (!newPassword.trim() || newPassword.length < 6) {
+      addToast('Minimum 6 caractères requis.', 'error')
+      return
+    }
+    setPwdLoading(true)
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    setPwdLoading(false)
+    if (error) {
+      addToast(error.message, 'error')
+    } else {
+      addToast('Mot de passe mis à jour !', 'success')
+      setNewPassword('')
+    }
+  }
 
   return (
     <div className="flex justify-center min-h-dvh bg-zinc-950">
@@ -348,6 +367,38 @@ export default function DashboardPage() {
                 )}
               </div>
             )}
+          </motion.section>
+
+          {/* ── SÉCURITÉ ── */}
+          <motion.section custom={5} variants={fadeUp} initial="hidden" animate="visible">
+            <div className="flex items-center gap-2 mb-3">
+              <Lock size={14} className="text-zinc-500" />
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">
+                Sécurité
+              </p>
+            </div>
+            <div className="glass rounded-2xl p-4 flex gap-2">
+              <div className="relative flex-1">
+                <Lock size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" />
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handlePasswordUpdate()}
+                  placeholder="Nouveau mot de passe"
+                  minLength={6}
+                  className="w-full bg-zinc-800/60 border border-white/10 rounded-xl pl-9 pr-3 py-2.5 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 transition-all"
+                />
+              </div>
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handlePasswordUpdate}
+                disabled={pwdLoading || newPassword.length < 6}
+                className="bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors flex items-center gap-1.5 shrink-0"
+              >
+                {pwdLoading ? <Loader2 size={15} className="animate-spin" /> : 'Mettre à jour'}
+              </motion.button>
+            </div>
           </motion.section>
 
         </div>

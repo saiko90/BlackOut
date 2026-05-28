@@ -190,7 +190,11 @@ export default function HomePage() {
           </motion.section>
 
           {/* ── FOOTER LÉGAL ── */}
-          <footer className="mt-10 mb-2 flex items-center justify-center gap-4">
+          <footer className="mt-10 mb-2 flex items-center justify-center gap-4 flex-wrap">
+            <Link href="/concept" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-medium">
+              Le Concept
+            </Link>
+            <span className="text-zinc-700">·</span>
             <Link href="/cgv" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">
               CGV
             </Link>
@@ -257,15 +261,21 @@ export default function HomePage() {
                     <ChevronRight size={18} />
                   </span>
                 </motion.button>
-                <p className="text-center text-xs text-zinc-600 mt-2">
-                  Déjà un compte ?{' '}
-                  <button
-                    onClick={() => setAuthOpen(true)}
-                    className="text-violet-400 hover:text-violet-300 transition-colors"
-                  >
-                    Se connecter
-                  </button>
-                </p>
+                <div className="flex items-center justify-center gap-3 mt-2">
+                  <p className="text-xs text-zinc-600">
+                    Déjà un compte ?{' '}
+                    <button
+                      onClick={() => setAuthOpen(true)}
+                      className="text-violet-400 hover:text-violet-300 transition-colors"
+                    >
+                      Se connecter
+                    </button>
+                  </p>
+                  <span className="text-zinc-700">·</span>
+                  <Link href="/concept" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+                    Le Concept
+                  </Link>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

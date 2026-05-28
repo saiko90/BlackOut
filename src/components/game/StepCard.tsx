@@ -10,7 +10,10 @@ import type { Step } from '@/lib/game/sion-scenario'
 import { cn } from '@/lib/utils'
 import { getDistanceFromLatLonInM } from '@/lib/game/gps'
 import { useToastStore } from '@/store/toastStore'
+import { useGameStore } from '@/store/gameStore'
 import { DecibelMeter } from '@/components/game/DecibelMeter'
+
+const ADMIN_EMAILS = ['m.kaeser90@gmail.com']
 
 const TYPE_META = {
   photo:   { icon: Camera,  label: 'Photo requise',  color: 'text-cyan-400',   bg: 'bg-cyan-500/10 border-cyan-500/20' },
@@ -33,6 +36,8 @@ type StepCardProps = {
 
 export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onDecibelSuccess, onAbandon }: StepCardProps) {
   const { addToast } = useToastStore()
+  const { user }     = useGameStore()
+  const isAdmin      = !!(user?.email && ADMIN_EMAILS.includes(user.email))
   const [textAnswer, setTextAnswer] = useState('')
   const [filePreview, setFilePreview] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -44,6 +49,7 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onDe
 
   /* ── Vérification GPS ── */
   const verifyLocation = (): Promise<boolean> => {
+    if (isAdmin) return Promise.resolve(true)
     if (process.env.NODE_ENV === 'development') return Promise.resolve(true)
 
     return new Promise((resolve) => {
@@ -128,7 +134,14 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onDe
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
       >
-        <h2 className="text-2xl font-black text-white tracking-tight">{step.title}</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-2xl font-black text-white tracking-tight">{step.title}</h2>
+          {isAdmin && (
+            <span title="God Mode — GPS désactivé" className="text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/25 px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
+              ⚡ GOD
+            </span>
+          )}
+        </div>
       </motion.div>
 
       {/* ── Carte instruction ── */}
