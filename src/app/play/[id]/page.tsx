@@ -54,7 +54,10 @@ export default function PlayPage() {
         if (error || !data) { router.push('/dashboard'); return }
         setSession(data)
         setScore(data.score)
-        // Si la partie est déjà terminée, afficher directement le VictoryScreen
+        const resumeStep = data.current_step ?? 0
+        setStepIndex(resumeStep)
+        // Don't show intro if the player is resuming mid-game
+        if (resumeStep > 0) setIntroShown(true)
         setPhase(data.is_completed ? 'completed' : 'playing')
       })
   }, [id, router])
@@ -64,10 +67,10 @@ export default function PlayPage() {
     const newScore = score + earnedPoints
     setScore(newScore)
 
-    // Mise à jour score en base
+    // Mise à jour score + étape en base
     await supabase
       .from('game_sessions')
-      .update({ score: newScore })
+      .update({ score: newScore, current_step: stepIndex + 1 })
       .eq('id', id)
 
     if (stepIndex + 1 >= SION_SCENARIO.length) {
@@ -237,6 +240,7 @@ export default function PlayPage() {
                   isUploading={phase === 'uploading'}
                   onTextSubmit={handleTextSubmit}
                   onFileSelected={handleFileSelected}
+                  onDecibelSuccess={() => advanceStep(step.points)}
                   onAbandon={handleAbandon}
                 />
               </motion.div>

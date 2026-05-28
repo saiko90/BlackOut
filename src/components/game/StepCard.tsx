@@ -4,18 +4,20 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Camera, Video, Mic, Type,
-  Send, Upload, SkipForward, Loader2, Navigation, Smartphone, MapPin,
+  Send, Upload, SkipForward, Loader2, Navigation, Smartphone, MapPin, Volume2,
 } from 'lucide-react'
 import type { Step } from '@/lib/game/sion-scenario'
 import { cn } from '@/lib/utils'
 import { getDistanceFromLatLonInM } from '@/lib/game/gps'
 import { useToastStore } from '@/store/toastStore'
+import { DecibelMeter } from '@/components/game/DecibelMeter'
 
 const TYPE_META = {
-  photo: { icon: Camera, label: 'Photo requise',  color: 'text-cyan-400',   bg: 'bg-cyan-500/10 border-cyan-500/20' },
-  video: { icon: Video,  label: 'Vidéo requise',  color: 'text-violet-400', bg: 'bg-violet-500/10 border-violet-500/20' },
-  text:  { icon: Type,   label: 'Réponse texte',  color: 'text-amber-400',  bg: 'bg-amber-500/10 border-amber-500/20' },
-  audio: { icon: Mic,    label: 'Audio requis',   color: 'text-emerald-400',bg: 'bg-emerald-500/10 border-emerald-500/20' },
+  photo:   { icon: Camera,  label: 'Photo requise',  color: 'text-cyan-400',   bg: 'bg-cyan-500/10 border-cyan-500/20' },
+  video:   { icon: Video,   label: 'Vidéo requise',  color: 'text-violet-400', bg: 'bg-violet-500/10 border-violet-500/20' },
+  text:    { icon: Type,    label: 'Réponse texte',  color: 'text-amber-400',  bg: 'bg-amber-500/10 border-amber-500/20' },
+  audio:   { icon: Mic,     label: 'Audio requis',   color: 'text-emerald-400',bg: 'bg-emerald-500/10 border-emerald-500/20' },
+  decibel: { icon: Volume2, label: 'Défi vocal',     color: 'text-rose-400',   bg: 'bg-rose-500/10 border-rose-500/20' },
 }
 
 const GPS_RADIUS_M = 80
@@ -25,10 +27,11 @@ type StepCardProps = {
   isUploading: boolean
   onTextSubmit: (answer: string) => void
   onFileSelected: (file: File) => void
+  onDecibelSuccess: () => void
   onAbandon: () => void
 }
 
-export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAbandon }: StepCardProps) {
+export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onDecibelSuccess, onAbandon }: StepCardProps) {
   const { addToast } = useToastStore()
   const [textAnswer, setTextAnswer] = useState('')
   const [filePreview, setFilePreview] = useState<string | null>(null)
@@ -288,6 +291,14 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onAb
               </div>
             )}
           </>
+        )}
+
+        {/* DECIBEL */}
+        {step.type === 'decibel' && (
+          <DecibelMeter
+            onSuccess={onDecibelSuccess}
+            onBeforeActivate={verifyLocation}
+          />
         )}
 
         {/* Bouton abandonner */}

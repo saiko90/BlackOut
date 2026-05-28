@@ -11,6 +11,7 @@ import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
 import { TokenCard } from '@/components/dashboard/TokenCard'
 import { CheckoutDrawer } from '@/components/payment/CheckoutDrawer'
+import { activateToken } from '@/app/actions/session'
 import type { Token, GameSession } from '@/lib/supabase/types'
 
 type TokenWithGift = Token & { gift_code?: string | null }
@@ -71,33 +72,17 @@ export default function DashboardPage() {
   /* ── Activer un jeton ── */
   const handleActivate = async (tokenId: string) => {
     if (!user) return
-    // Crée la session de jeu
-    const { data: session, error } = await supabase
-      .from('game_sessions')
-      .insert({
-        user_id: user.id,
-        team_name: user.email?.split('@')[0] ?? 'Joueur',
-        city: 'Sion',
-        start_time: new Date().toISOString(),
-        score: 0,
-        is_completed: false,
-      })
-      .select()
-      .single()
-
-    if (error || !session) {
-      addToast('Erreur lors du lancement de la partie', 'error')
+    const result = await activateToken(
+      tokenId,
+      user.id,
+      user.email?.split('@')[0] ?? 'Joueur',
+    )
+    if (result.error || !result.sessionId) {
+      addToast(result.error ?? 'Erreur inconnue', 'error')
       return
     }
-
-    // Marque le token comme utilisé
-    await supabase
-      .from('tokens')
-      .update({ is_used: true, used_at: new Date().toISOString() })
-      .eq('id', tokenId)
-
     addToast('Partie lancée ! Bonne chance.', 'success')
-    router.push(`/play/${session.id}`)
+    router.push(`/play/${result.sessionId}`)
   }
 
   /* ── Racheter un code cadeau ── */

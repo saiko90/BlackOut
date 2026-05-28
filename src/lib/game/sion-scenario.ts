@@ -1,4 +1,4 @@
-export type StepType = 'photo' | 'video' | 'text' | 'audio'
+export type StepType = 'photo' | 'video' | 'text' | 'audio' | 'decibel'
 
 export type Step = {
   id: number

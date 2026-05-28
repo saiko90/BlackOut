@@ -25,6 +25,7 @@ export type GameSession = {
   score: number
   is_completed: boolean
   final_video_url: string | null
+  current_step: number
 }
 
 export type MediaUpload = {
