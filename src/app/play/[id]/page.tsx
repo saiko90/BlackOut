@@ -54,7 +54,8 @@ export default function PlayPage() {
         if (error || !data) { router.push('/dashboard'); return }
         setSession(data)
         setScore(data.score)
-        setPhase('playing')
+        // Si la partie est déjà terminée, afficher directement le VictoryScreen
+        setPhase(data.is_completed ? 'completed' : 'playing')
       })
   }, [id, router])
 

@@ -300,14 +300,14 @@ export default function DashboardPage() {
                     /* ── Session terminée ── */
                     <div
                       key={session.id}
-                      className="glass rounded-2xl px-4 py-3 flex items-center justify-between"
+                      className="glass rounded-2xl px-4 py-3 flex items-center justify-between gap-3"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center shrink-0">
                           <Trophy size={14} className="text-violet-400" />
                         </div>
-                        <div>
-                          <p className="text-sm font-semibold text-white">{session.team_name}</p>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-white truncate">{session.team_name}</p>
                           <p className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
                             <Clock size={10} />
                             {new Date(session.start_time).toLocaleDateString('fr-CH')}
@@ -315,9 +315,18 @@ export default function DashboardPage() {
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right shrink-0">
                         <p className="text-sm font-black text-pink-400">{session.score} pts</p>
-                        <p className="text-xs text-emerald-400 mt-0.5">Mission Terminée ✓</p>
+                        <p className="text-xs text-emerald-400 mt-0.5">Terminée ✓</p>
+                        {session.final_video_url && (
+                          <motion.button
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => router.push(`/play/${session.id}`)}
+                            className="mt-1.5 text-xs font-bold text-violet-400 hover:text-violet-300 flex items-center gap-1 transition-colors"
+                          >
+                            🎬 Revoir mon film
+                          </motion.button>
+                        )}
                       </div>
                     </div>
                   ) : (

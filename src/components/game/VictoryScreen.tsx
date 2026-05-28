@@ -46,17 +46,19 @@ function formatDuration(startIso: string, endIso?: string | null): string {
 }
 
 export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
-  const [phase, setPhase]           = useState<RenderPhase>('idle')
+  // Si la vidéo est déjà persistée en base, on saute le rendu
+  const [phase, setPhase]           = useState<RenderPhase>(session.final_video_url ? 'done' : 'idle')
   const [renderId, setRenderId]     = useState<string | null>(null)
-  const [videoUrl, setVideoUrl]     = useState<string | null>(null)
+  const [videoUrl, setVideoUrl]     = useState<string | null>(session.final_video_url ?? null)
   const [errorMsg, setErrorMsg]     = useState<string | null>(null)
   const [msgIndex, setMsgIndex]     = useState(0)
   const [shared, setShared]         = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
   const pollingRef                  = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  /* ── Lancer le rendu au montage ── */
+  /* ── Lancer le rendu au montage (sauf si vidéo déjà disponible) ── */
   useEffect(() => {
+    if (session.final_video_url) return  // déjà persistée — pas besoin de re-render
     const startRender = async () => {
       setPhase('rendering')
       try {
@@ -74,7 +76,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
       }
     }
     startRender()
-  }, [session.id])
+  }, [session.id, session.final_video_url])
 
   /* ── Polling statut ── */
   useEffect(() => {
@@ -82,7 +84,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
 
     pollingRef.current = setInterval(async () => {
       try {
-        const res  = await fetch(`/api/video/status/${renderId}`)
+        const res  = await fetch(`/api/video/status/${renderId}?session_id=${session.id}`)
         const data = await res.json()
 
         if (data.status === 'done' && data.url) {
@@ -280,6 +282,11 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                   className="w-full rounded-2xl border-2 border-pink-500/60 shadow-[0_0_24px_rgba(236,72,153,.25)]"
                 />
               </div>
+
+              {/* Note 48h */}
+              <p className="text-xs text-yellow-500/80 text-center font-medium">
+                ⚠️ Ce film souvenir est disponible en ligne pendant 48 heures. Pensez à le télécharger !
+              </p>
 
               {/* CTA viral */}
               <motion.button
