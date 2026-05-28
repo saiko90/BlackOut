@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
 import { SION_SCENARIO, TOTAL_STEPS } from '@/lib/game/sion-scenario'
+import { uploadMedia } from '@/app/actions/upload'
 import { TopBar } from '@/components/game/TopBar'
 import { StepCard } from '@/components/game/StepCard'
 import { StepInterlude } from '@/components/game/StepInterlude'
@@ -117,30 +118,23 @@ export default function PlayPage() {
     if (!session || !user || !step) return
     setPhase('uploading')
 
-    const ext = file.name.split('.').pop() ?? 'bin'
-    const path = `${user.id}/${session.id}/step_${step.id}_${Date.now()}.${ext}`
+    const fd = new FormData()
+    fd.append('file',      file)
+    fd.append('sessionId', session.id)
+    fd.append('userId',    user.id)
+    fd.append('stepId',    String(step.id))
+    fd.append('mediaType', file.type.startsWith('image/') ? 'photo' : 'video')
 
-    const { error: uploadError } = await supabase.storage
-      .from('game-media')
-      .upload(path, file, { upsert: false })
+    const result = await uploadMedia(fd)
 
-    if (uploadError) {
-      addToast('Erreur lors de l\'envoi du fichier.', 'error')
+    if (result.error) {
+      const message = result.error === 'NSFW_DETECTED'
+        ? '🔞 Oh oh... Gardez vos vêtements ! Photo inappropriée refusée par notre IA.'
+        : 'Erreur lors de l\'envoi du fichier.'
+      addToast(message, 'error')
       setPhase('playing')
       return
     }
-
-    const { data: { publicUrl } } = supabase.storage
-      .from('game-media')
-      .getPublicUrl(path)
-
-    await supabase.from('media_uploads').insert({
-      session_id: session.id,
-      user_id: user.id,
-      step_number: step.id,
-      media_url: publicUrl,
-      media_type: file.type.startsWith('image/') ? 'photo' : 'video',
-    })
 
     addToast('Média envoyé ! Étape validée.', 'success')
     advanceStep(step.points)
