@@ -30,7 +30,7 @@ export default function CGVPage() {
             <p>
               Les présentes Conditions Générales de Vente (CGV) régissent l'achat et l'utilisation des
               passes d'accès au jeu urbain interactif <strong className="text-zinc-100">Black Out!</strong>,
-              édité et exploité par [Raison sociale – À REMPLIR], ci-après dénommé « l'Éditeur ».
+              édité et exploité par [Raison sociale – The Black-Out Game], ci-après dénommé « l'Éditeur ».
             </p>
             <p className="mt-2">
               Tout achat d'un pass vaut acceptation pleine et entière des présentes CGV.

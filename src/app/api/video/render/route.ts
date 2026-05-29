@@ -205,7 +205,7 @@ export async function POST(req: Request) {
   /* ── 5. Envoyer à Shotstack ── */
   let shotstackRes: Response
   try {
-    shotstackRes = await fetch('https://api.shotstack.io/stage/render', {
+    shotstackRes = await fetch('https://api.shotstack.io/edit/v1/render', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

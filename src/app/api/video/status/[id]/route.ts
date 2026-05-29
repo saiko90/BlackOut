@@ -23,7 +23,7 @@ export async function GET(
 
   let res: Response
   try {
-    res = await fetch(`https://api.shotstack.io/stage/render/${id}`, {
+    res = await fetch(`https://api.shotstack.io/edit/v1/render/${id}`, {
       method: 'GET',
       headers: { 'x-api-key': process.env.SHOTSTACK_API_KEY },
       cache: 'no-store',

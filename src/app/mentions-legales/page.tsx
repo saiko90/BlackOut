@@ -30,23 +30,19 @@ export default function MentionsLegalesPage() {
             <dl className="space-y-1.5 text-zinc-400">
               <div className="flex gap-2">
                 <dt className="text-zinc-500 shrink-0 w-36">Raison sociale</dt>
-                <dd className="text-yellow-400/80">[À REMPLIR]</dd>
+                <dd className="text-yellow-400/80">The Black-Out Game</dd>
               </div>
               <div className="flex gap-2">
                 <dt className="text-zinc-500 shrink-0 w-36">Forme juridique</dt>
-                <dd>[À REMPLIR — ex: Entreprise individuelle / Sàrl]</dd>
+                <dd>Entreprise individuelle</dd>
               </div>
               <div className="flex gap-2">
                 <dt className="text-zinc-500 shrink-0 w-36">Siège social</dt>
-                <dd>[Adresse complète — À REMPLIR], Valais, Suisse</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="text-zinc-500 shrink-0 w-36">N° IDE (CHE)</dt>
-                <dd className="text-yellow-400/80">[CHE-XXX.XXX.XXX — À REMPLIR]</dd>
+                <dd>rte de derborence 28, 1976 Aven, Valais, Suisse</dd>
               </div>
               <div className="flex gap-2">
                 <dt className="text-zinc-500 shrink-0 w-36">Responsable</dt>
-                <dd>[Prénom Nom — À REMPLIR]</dd>
+                <dd>Fiorbianco Krystel</dd>
               </div>
               <div className="flex gap-2">
                 <dt className="text-zinc-500 shrink-0 w-36">E-mail</dt>
@@ -55,7 +51,7 @@ export default function MentionsLegalesPage() {
                     href="mailto:[email@domaine.ch]"
                     className="text-violet-400 hover:text-violet-300 transition-colors"
                   >
-                    [email@domaine.ch — À REMPLIR]
+                    contact@theblackoutgame.ch
                   </a>
                 </dd>
               </div>
@@ -90,7 +86,7 @@ export default function MentionsLegalesPage() {
             <h2 className="text-base font-bold text-white mb-3">Propriété intellectuelle</h2>
             <p>
               L'ensemble du contenu de ce site (textes, images, scénarios, logo, code source) est la
-              propriété exclusive de [À REMPLIR] et est protégé par le droit d'auteur suisse
+              propriété exclusive de The Black-Out Game et est protégé par le droit d'auteur suisse
               (LDA — Loi fédérale sur le droit d'auteur). Toute reproduction, même partielle, est
               interdite sans autorisation écrite préalable.
             </p>
@@ -110,7 +106,7 @@ export default function MentionsLegalesPage() {
               ni cédées à des tiers à des fins commerciales.
             </p>
             <p className="mt-2">
-              Pour exercer vos droits : <span className="text-violet-400">[email@domaine.ch — À REMPLIR]</span>
+              Pour exercer vos droits : <span className="text-violet-400">contact@theblackoutgame.ch</span>
             </p>
           </section>
 
