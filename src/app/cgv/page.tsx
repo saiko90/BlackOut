@@ -145,7 +145,7 @@ export default function CGVPage() {
               Les données personnelles collectées (email, historique de partie, médias) sont traitées
               conformément à la Loi fédérale suisse sur la protection des données (nLPD) du
               25 septembre 2020. Elles ne sont pas cédées à des tiers. Toute demande d'accès,
-              rectification ou suppression peut être adressée à [email de contact – À REMPLIR].
+              rectification ou suppression peut être adressée à contact@theblackoutgame.ch.
             </p>
           </section>
 
