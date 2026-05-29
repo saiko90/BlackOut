@@ -197,7 +197,7 @@ export function CheckoutDrawer({
 
                 <p className="text-center text-xs text-zinc-600 mt-3 flex items-center justify-center gap-1">
                   <ShoppingBag size={11} />
-                  Carte bancaire et TWINT acceptés · Powered by Stripe
+                  Carte · Apple Pay · Google Pay · PayPal · Powered by Stripe
                 </p>
               </div>
             )}
