@@ -355,7 +355,7 @@ export default function AdminPage() {
                 </motion.section>
               )}
 
-              {/* ── Placeholder Vercel Analytics ── */}
+              {/* ── Vercel Analytics ── */}
               <motion.section
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -364,18 +364,42 @@ export default function AdminPage() {
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">
                   Trafic Visiteurs
                 </p>
-                <div className="glass rounded-2xl border border-dashed border-zinc-700 p-6 flex flex-col items-center justify-center gap-3 text-center min-h-[160px]">
-                  <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-                    <BarChart3 size={20} className="text-zinc-500" />
+                <div className="glass rounded-2xl p-5 space-y-4">
+                  {/* Statut tracking */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+                        <BarChart3 size={16} className="text-zinc-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-white">Vercel Analytics</p>
+                        <p className="text-xs text-zinc-500">Tracking actif sur toutes les pages</p>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded-full shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Actif
+                    </span>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-zinc-400">Vercel Analytics</p>
-                    <p className="text-xs text-zinc-600 mt-1 leading-relaxed">
-                      Intègre le composant{' '}
-                      <code className="text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px]">&lt;Analytics /&gt;</code>{' '}
-                      de <span className="text-zinc-500">@vercel/analytics</span> ici.
-                    </p>
-                  </div>
+
+                  {/* Explication */}
+                  <p className="text-xs text-zinc-500 leading-relaxed border-t border-white/5 pt-3">
+                    Les données (visiteurs, pages vues, pays, appareils) sont disponibles sur le dashboard Vercel — elles ne s&apos;affichent pas ici directement.
+                  </p>
+
+                  {/* Bouton */}
+                  <a
+                    href="https://vercel.com/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-500 text-sm font-semibold text-zinc-300 hover:text-white transition-all"
+                  >
+                    <BarChart3 size={15} />
+                    Ouvrir le dashboard Vercel →
+                  </a>
+                  <p className="text-[10px] text-zinc-600 text-center -mt-1">
+                    vercel.com → ton projet → onglet Analytics
+                  </p>
                 </div>
               </motion.section>
             </>
