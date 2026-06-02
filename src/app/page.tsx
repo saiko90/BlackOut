@@ -38,14 +38,6 @@ export default function HomePage() {
     return () => subscription.unsubscribe()
   }, [setUser])
 
-  const handleChooseCity = () => {
-    if (!user) {
-      setAuthOpen(true)
-    } else {
-      router.push('/dashboard')
-    }
-  }
-
   const handleProfile = () => {
     if (!user) {
       setAuthOpen(true)
@@ -99,20 +91,20 @@ export default function HomePage() {
             className="w-full space-y-3"
           >
             {/* Choisir ma ville — primary */}
-            <motion.button
-              variants={fadeUp}
-              whileTap={{ scale: 0.97 }}
-              onClick={handleChooseCity}
-              className="w-full flex items-center gap-4 px-5 py-4 bg-gradient-to-r from-violet-600 to-violet-500 text-white font-bold rounded-2xl glow-violet text-left"
-            >
-              <span className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-                <MapPin size={20} />
-              </span>
-              <div>
-                <p className="text-base font-bold">Choisir ma ville</p>
-                <p className="text-xs font-normal text-violet-200/80 mt-0.5">Sion disponible · 29 CHF</p>
-              </div>
-            </motion.button>
+            <motion.div variants={fadeUp} whileTap={{ scale: 0.97 }}>
+              <Link
+                href="/cities"
+                className="w-full flex items-center gap-4 px-5 py-4 bg-gradient-to-r from-violet-600 to-violet-500 text-white font-bold rounded-2xl glow-violet text-left block"
+              >
+                <span className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                  <MapPin size={20} />
+                </span>
+                <div>
+                  <p className="text-base font-bold">Choisir ma ville</p>
+                  <p className="text-xs font-normal text-violet-200/80 mt-0.5">Sion disponible · 29 CHF</p>
+                </div>
+              </Link>
+            </motion.div>
 
             {/* Le concept */}
             <motion.div variants={fadeUp}>

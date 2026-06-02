@@ -66,7 +66,30 @@ const FAQ = [
   },
   {
     q: 'Faut-il installer une application ?',
-    a: 'Non. Tout se joue directement sur le navigateur web de votre téléphone — Safari ou Chrome. Pas de téléchargement, pas de mise à jour qui plante au mauvais moment.',
+    a: (
+      <span className="space-y-3 block">
+        <span className="block">
+          Non, ce n&apos;est pas obligatoire. Tout fonctionne directement dans votre navigateur (Safari ou Chrome) — aucun téléchargement requis.
+        </span>
+        <span className="block text-zinc-500">
+          Vous pouvez cependant l&apos;installer comme une vraie app pour un meilleur confort : plein écran, accès rapide depuis l&apos;écran d&apos;accueil, et pas de barre de navigation qui gêne.
+        </span>
+        <span className="block space-y-2">
+          <span className="flex items-start gap-2">
+            <span className="shrink-0 bg-zinc-800 border border-zinc-700 text-zinc-300 text-[10px] font-bold px-2 py-0.5 rounded-md mt-0.5">Android</span>
+            <span className="text-zinc-400 text-xs leading-relaxed">
+              Dans Chrome, appuyez sur le menu <span className="font-bold text-zinc-300">⋮</span> en haut à droite, puis <span className="font-bold text-zinc-300">&quot;Ajouter à l&apos;écran d&apos;accueil&quot;</span>.
+            </span>
+          </span>
+          <span className="flex items-start gap-2">
+            <span className="shrink-0 bg-zinc-800 border border-zinc-700 text-zinc-300 text-[10px] font-bold px-2 py-0.5 rounded-md mt-0.5">iPhone</span>
+            <span className="text-zinc-400 text-xs leading-relaxed">
+              Dans Safari, appuyez sur l&apos;icône <span className="font-bold text-zinc-300">Partager</span> <span className="text-zinc-500">(carré avec flèche)</span>, puis <span className="font-bold text-zinc-300">&quot;Sur l&apos;écran d&apos;accueil&quot;</span>.
+            </span>
+          </span>
+        </span>
+      </span>
+    ),
     icon: Smartphone,
   },
   {
@@ -81,7 +104,7 @@ const FAQ = [
   },
 ]
 
-function FaqItem({ q, a, icon: Icon }: { q: string; a: string; icon: React.ElementType }) {
+function FaqItem({ q, a, icon: Icon }: { q: string; a: React.ReactNode; icon: React.ElementType }) {
   const [open, setOpen] = useState(false)
   return (
     <motion.div
@@ -117,9 +140,9 @@ function FaqItem({ q, a, icon: Icon }: { q: string; a: string; icon: React.Eleme
             transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 pt-0 text-sm text-zinc-400 leading-relaxed border-t border-white/5">
+            <div className="px-5 pb-5 pt-3 text-sm text-zinc-400 leading-relaxed border-t border-white/5">
               {a}
-            </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
