@@ -27,7 +27,7 @@ const STEPS = [
     color: 'text-violet-400',
     border: 'border-violet-500/25',
     glow: 'bg-violet-500/10',
-    body: 'Achetez un accès unique à 29 CHF. Un seul téléphone gère la partie pour tout votre groupe — idéal pour 2 à 6 joueurs. Pas de téléchargement obligatoire, pas d\'inscription longue. Pour plus de confort, installez-le comme une vraie app depuis votre navigateur.',
+    body: 'Achetez un accès unique à 29 CHF pour toute votre équipe (2 à 6 joueurs). Rien à télécharger depuis les stores — le jeu s\'ouvre directement dans le navigateur de votre téléphone (Safari ou Chrome). Pour jouer avec plus de confort en extérieur, vous pourrez ajouter un simple raccourci sur votre écran d\'accueil.',
   },
   {
     num: '02',
