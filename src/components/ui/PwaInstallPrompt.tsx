@@ -43,7 +43,7 @@ export function PwaInstallPrompt() {
                   Jouez avec plus de confort !
                 </p>
                 <p className="text-xs text-white/70 leading-tight mt-0.5">
-                  Aucun téléchargement requis — ajoutez simplement le jeu à votre écran d&apos;accueil.
+                  Aucun téléchargement requis — ajoutez simplement le jeu à votre écran d&apos;accueil si vous le souhaitez, cela garantit une expérience optimale.
                 </p>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
