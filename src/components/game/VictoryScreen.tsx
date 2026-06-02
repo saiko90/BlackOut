@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Trophy, Share2, Download, Home, Loader2, AlertCircle,
-  Film, Timer, Star,
+  Film, Timer, Star, Gift, Medal,
 } from 'lucide-react'
 import type { GameSession } from '@/lib/supabase/types'
 import { SION_SCENARIO } from '@/lib/game/sion-scenario'
@@ -296,7 +296,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
               >
                 <span aria-hidden className="absolute inset-0 animate-pulse bg-white/5" />
                 <span className="relative flex items-center gap-2 text-base">
-                  {shared ? '✓ Partagé !' : <><Share2 size={18} /> CAP OU PAS CAP ? Partager</>}
+                  {shared ? '✓ Partagé !' : <><Share2 size={18} /> Partager ma vidéo</>}
                 </span>
                 <span className="relative text-xs text-white/70 font-normal">#BlackOutSion @BlackOutGame</span>
               </motion.button>
@@ -314,15 +314,33 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                 }
               </motion.button>
 
-              {/* Marketing viral */}
-              <div className="glass rounded-2xl p-4 text-center">
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  Partage cette vidéo <span className="text-white font-semibold">en public</span> avec le hashtag{' '}
-                  <span className="text-pink-400 font-bold">#BlackOutSion</span> et tag{' '}
-                  <span className="text-violet-400 font-bold">@BlackOutGame</span> pour participer au{' '}
-                  <span className="text-white font-semibold">tirage au sort mensuel</span>{' '}
-                  <span className="text-amber-400 font-bold">(bon de 50 CHF 🎁)</span>
-                </p>
+              {/* Concours mensuel */}
+              <div className="glass rounded-2xl overflow-hidden border border-amber-500/20">
+                {/* Header */}
+                <div className="flex items-center gap-3 px-4 pt-4 pb-3 border-b border-white/5">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center shrink-0">
+                    <Medal size={18} className="text-amber-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-black text-white">Concours mensuel</p>
+                    <p className="text-xs text-amber-400 font-semibold">La meilleure vidéo du mois</p>
+                  </div>
+                  <div className="ml-auto flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/25 rounded-full px-3 py-1 shrink-0">
+                    <Gift size={12} className="text-amber-400" />
+                    <span className="text-xs font-black text-amber-300">50.- Migros</span>
+                  </div>
+                </div>
+                {/* Body */}
+                <div className="px-4 pb-4 pt-3 space-y-2">
+                  <p className="text-xs text-zinc-400 leading-relaxed">
+                    Partagez votre vidéo <span className="text-white font-semibold">en public</span> avec le hashtag{' '}
+                    <span className="text-pink-400 font-bold">#BlackOutSion</span> et taguez{' '}
+                    <span className="text-violet-400 font-bold">@BlackOutGame</span> pour participer au concours mensuel de la meilleure vidéo.
+                  </p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">
+                    🏆 Chaque mois, un bon Migros de <span className="text-white font-semibold">50.-</span> est remis au gagnant. Les résultats sont publiés sur notre page officielle et les gagnants avertis par e-mail.
+                  </p>
+                </div>
               </div>
             </motion.div>
           )}
