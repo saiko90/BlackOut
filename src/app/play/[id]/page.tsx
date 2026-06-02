@@ -118,23 +118,30 @@ export default function PlayPage() {
     if (!session || !user || !step) return
     setPhase('uploading')
 
-    const fd = new FormData()
-    fd.append('file',      file)
-    fd.append('sessionId', session.id)
-    fd.append('userId',    user.id)
-    fd.append('stepId',    String(step.id))
-    fd.append('mediaType', file.type.startsWith('image/') ? 'photo' : 'video')
+    try {
+      const fd = new FormData()
+      fd.append('file',      file)
+      fd.append('sessionId', session.id)
+      fd.append('userId',    user.id)
+      fd.append('stepId',    String(step.id))
+      fd.append('mediaType', file.type.startsWith('image/') ? 'photo' : 'video')
 
-    const result = await uploadMedia(fd)
+      const result = await uploadMedia(fd)
 
-    if (result.error) {
-      addToast('Erreur lors de l\'envoi du fichier.', 'error')
+      if (result.error) {
+        addToast(`Erreur d'envoi : ${result.error}`, 'error')
+        setPhase('playing')
+        return
+      }
+
+      addToast('Média envoyé ! Étape validée.', 'success')
+      advanceStep(step.points)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Erreur réseau inconnue'
+      console.error('[upload] exception —', msg)
+      addToast(`Erreur d'envoi : ${msg}`, 'error')
       setPhase('playing')
-      return
     }
-
-    addToast('Média envoyé ! Étape validée.', 'success')
-    advanceStep(step.points)
   }
 
   /* ── Abandon → Roulette ── */

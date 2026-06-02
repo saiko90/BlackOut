@@ -124,7 +124,7 @@ export function CheckoutDrawer({
                       <p className="text-xs text-zinc-500 mt-0.5">
                         {isGift
                           ? 'Un code unique sera généré après paiement'
-                          : 'Accès complet · 10 défis · ~2h de jeu'}
+                          : 'Accès complet · 12 défis · ~2h de jeu'}
                       </p>
                     </div>
                     <span className="font-black text-white">{price}</span>

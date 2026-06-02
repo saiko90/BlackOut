@@ -280,7 +280,13 @@ export function StepCard({ step, isUploading, onTextSubmit, onFileSelected, onDe
               <div className="flex gap-2">
                 <motion.button
                   whileTap={{ scale: 0.96 }}
-                  onClick={() => { setFilePreview(null); setSelectedFile(null) }}
+                  onClick={() => {
+                    setFilePreview(null)
+                    setSelectedFile(null)
+                    // Réinitialise la valeur DOM pour que onChange se déclenche
+                    // même si le joueur repique le même fichier
+                    if (fileInputRef.current) fileInputRef.current.value = ''
+                  }}
                   className="flex-1 py-3.5 rounded-2xl border border-white/10 text-zinc-400 font-semibold text-sm hover:bg-white/5 transition-colors"
                 >
                   Reprendre

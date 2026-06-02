@@ -17,10 +17,10 @@ export const SION_SCENARIO: Step[] = [
     id: 1,
     title: 'Le Réveil des Morts',
     context: 'Vous vous réveillez sur un banc de la Gare de Sion. Bouche pâteuse, aucun souvenir, et un SMS anonyme : "J\'ai vos clés de voiture. Si vous les voulez, jouez avec moi." Début du carnage.',
-    instruction: "Trouvez le panneau d'affichage des bus CarPostal devant la gare. Quel est le numéro de la ligne principale pour monter à Veysonnaz ? (Indice : deux réponses possibles, entrez l'un des deux numéros)",
+    instruction: "Trouvez le panneau d'affichage des bus CarPostal devant la gare. Quel est le numéro de la ligne principale pour monter à Haute-Nendaz ?",
     type: 'text',
     gpsCoordinates: '46.227759,7.358565',
-    expectedAnswer: '363', // Le code de validation acceptera l'une des deux réponses si configuré, ou fixons 363 pour le test
+    expectedAnswer: '362',
     penalty: "Le capitaine doit mimer un bus en faisant 'Biiip biiip' à chaque passant pendant 1 minute.",
     points: 100,
   },

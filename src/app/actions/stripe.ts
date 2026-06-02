@@ -38,7 +38,7 @@ export async function createCheckoutSession(
             unit_amount: 2900,
             product_data: {
               name: 'Pass Black Out — Sion',
-              description: 'Accès complet · 10 défis · ~2h de jeu',
+              description: 'Accès complet · 12 défis · ~2h de jeu',
             },
           },
           quantity: 1,
