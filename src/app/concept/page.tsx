@@ -54,7 +54,7 @@ const STEPS = [
     color: 'text-cyan-400',
     border: 'border-cyan-500/25',
     glow: 'bg-cyan-500/10',
-    body: 'Arrivés au Château de Valère, notre IA compile automatiquement toutes vos photos et vidéos pour créer le film de votre aventure. Un souvenir que vous ne pourrez pas effacer.',
+    body: 'Une fois la dernière étape franchie — victoire ! Notre IA compile automatiquement toutes vos photos et vidéos pour créer le film de votre aventure. Un souvenir que vous ne pourrez pas effacer.',
   },
 ]
 

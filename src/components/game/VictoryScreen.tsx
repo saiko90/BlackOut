@@ -113,10 +113,17 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
     return () => clearInterval(id)
   }, [phase])
 
+  /* ── Hashtag dynamique selon la ville ── */
+  const citySlug = session.city
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')  // supprime les accents
+    .replace(/[^a-zA-Z]/g, '')        // supprime espaces et tirets
+  const cityHashtag = `#BlackOut${citySlug}`
+
   /* ── Partage natif ── */
   const handleShare = useCallback(async () => {
     if (!videoUrl) return
-    const text = `Je viens de survivre au Black Out à Sion ! 💀🍻 #BlackOutSion @BlackOutGame`
+    const text = `Je viens de survivre au Black Out à ${session.city} ! 💀🍻 ${cityHashtag} @BlackOutGame`
     try {
       if (navigator.share) {
         await navigator.share({ title: 'Black Out ! — Mon film souvenir', text, url: videoUrl })
@@ -298,7 +305,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                 <span className="relative flex items-center gap-2 text-base">
                   {shared ? '✓ Partagé !' : <><Share2 size={18} /> Partager ma vidéo</>}
                 </span>
-                <span className="relative text-xs text-white/70 font-normal">#BlackOutSion @BlackOutGame</span>
+                <span className="relative text-xs text-white/70 font-normal">{cityHashtag} @BlackOutGame</span>
               </motion.button>
 
               {/* Bouton télécharger */}
@@ -334,7 +341,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                 <div className="px-4 pb-4 pt-3 space-y-2">
                   <p className="text-xs text-zinc-400 leading-relaxed">
                     Partagez votre vidéo <span className="text-white font-semibold">en public</span> avec le hashtag{' '}
-                    <span className="text-pink-400 font-bold">#BlackOutSion</span> et taguez{' '}
+                    <span className="text-pink-400 font-bold">{cityHashtag}</span> et taguez{' '}
                     <span className="text-violet-400 font-bold">@BlackOutGame</span> pour participer au concours mensuel de la meilleure vidéo.
                   </p>
                   <p className="text-xs text-zinc-500 leading-relaxed">
