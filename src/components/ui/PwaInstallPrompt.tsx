@@ -38,9 +38,14 @@ export function PwaInstallPrompt() {
           >
             <div className="flex items-center gap-3 bg-gradient-to-r from-pink-600/90 to-yellow-500/80 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 shadow-xl">
               <span className="text-2xl shrink-0">📍</span>
-              <p className="flex-1 text-sm font-bold text-white leading-tight">
-                Pour jouer dans la rue, installe l'app !
-              </p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-white leading-tight">
+                  Jouez avec plus de confort !
+                </p>
+                <p className="text-xs text-white/70 leading-tight mt-0.5">
+                  Aucun téléchargement requis — ajoutez simplement le jeu à votre écran d&apos;accueil.
+                </p>
+              </div>
               <div className="flex items-center gap-1.5 shrink-0">
                 <motion.button
                   whileTap={{ scale: 0.9 }}
@@ -48,7 +53,7 @@ export function PwaInstallPrompt() {
                   className="bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1"
                 >
                   <Smartphone size={12} />
-                  Comment ?
+                  Ajouter
                 </motion.button>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
@@ -89,7 +94,7 @@ export function PwaInstallPrompt() {
               </div>
 
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-black text-white">Installer l'app 📲</h2>
+                <h2 className="text-lg font-black text-white">Ajouter le raccourci 📲</h2>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setShowModal(false)}
@@ -138,7 +143,7 @@ export function PwaInstallPrompt() {
                 </div>
 
                 <p className="text-xs text-zinc-600 text-center">
-                  L'app installée fonctionne hors-ligne et s'ouvre instantanément 🚀
+                  Rien à télécharger — l&apos;icône s&apos;ouvre directement sur le jeu 🚀
                 </p>
               </div>
             </motion.div>

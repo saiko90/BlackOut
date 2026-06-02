@@ -69,10 +69,7 @@ const FAQ = [
     a: (
       <span className="space-y-3 block">
         <span className="block">
-          Non, ce n&apos;est pas obligatoire. Tout fonctionne directement dans votre navigateur (Safari ou Chrome) — aucun téléchargement requis.
-        </span>
-        <span className="block text-zinc-500">
-          Vous pouvez cependant l&apos;installer comme une vraie app pour un meilleur confort : plein écran, accès rapide depuis l&apos;écran d&apos;accueil, et pas de barre de navigation qui gêne.
+          Non ! Le jeu s&apos;ouvre et se joue directement dans le navigateur internet de votre téléphone (Safari, Chrome). Rien à télécharger depuis les stores. Cependant, pour un confort de jeu optimal pendant votre course, nous vous proposerons d&apos;ajouter un simple raccourci sur votre écran d&apos;accueil.
         </span>
         <span className="block space-y-2">
           <span className="flex items-start gap-2">
