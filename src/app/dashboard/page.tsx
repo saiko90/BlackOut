@@ -4,8 +4,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
-  LogOut, User, Trophy, Clock, Search, ChevronRight, Zap, Play, Lock, Loader2,
+  LogOut, User, Trophy, Clock, Search, ChevronRight, Zap, Play, Lock, Loader2, ArrowLeft,
 } from 'lucide-react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
@@ -168,6 +169,15 @@ export default function DashboardPage() {
         </div>
 
         <div className="relative z-10 px-4 pt-12 pb-10 space-y-6">
+
+          {/* ── RETOUR ── */}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 transition-colors text-sm font-medium"
+          >
+            <ArrowLeft size={16} />
+            Retour
+          </Link>
 
           {/* ── HEADER ── */}
           <motion.header

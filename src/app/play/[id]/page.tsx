@@ -8,7 +8,7 @@ import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
 import { SION_SCENARIO, TOTAL_STEPS } from '@/lib/game/sion-scenario'
-import { uploadMedia } from '@/app/actions/upload'
+import { getUploadToken, recordMediaUpload } from '@/app/actions/upload'
 import { TopBar } from '@/components/game/TopBar'
 import { StepCard } from '@/components/game/StepCard'
 import { StepInterlude } from '@/components/game/StepInterlude'
@@ -113,26 +113,37 @@ export default function PlayPage() {
     advanceStep(step.points)
   }
 
-  /* ── Upload fichier ── */
+  /* ── Upload fichier (direct browser → Supabase, contourne la limite Next.js) ── */
   const handleFileSelected = async (file: File) => {
     if (!session || !user || !step) return
     setPhase('uploading')
 
     try {
-      const fd = new FormData()
-      fd.append('file',      file)
-      fd.append('sessionId', session.id)
-      fd.append('userId',    user.id)
-      fd.append('stepId',    String(step.id))
-      fd.append('mediaType', file.type.startsWith('image/') ? 'photo' : 'video')
+      const mediaType = file.type.startsWith('image/') ? 'photo' : 'video'
 
-      const result = await uploadMedia(fd)
-
-      if (result.error) {
-        addToast(`Erreur d'envoi : ${result.error}`, 'error')
+      // 1. Obtenir un token d'upload signé depuis le serveur
+      const tokenResult = await getUploadToken(user.id, session.id, step.id, file.type)
+      if ('error' in tokenResult) {
+        addToast(`Erreur : ${tokenResult.error}`, 'error')
         setPhase('playing')
         return
       }
+
+      // 2. Upload directement du navigateur vers Supabase (aucune limite de taille)
+      const { error: uploadError } = await supabase.storage
+        .from('game-media')
+        .uploadToSignedUrl(tokenResult.path, tokenResult.token, file, {
+          contentType: file.type,
+        })
+
+      if (uploadError) {
+        addToast(`Erreur d'envoi : ${uploadError.message}`, 'error')
+        setPhase('playing')
+        return
+      }
+
+      // 3. Enregistrer en base de données
+      await recordMediaUpload(session.id, user.id, step.id, mediaType, tokenResult.path)
 
       addToast('Média envoyé ! Étape validée.', 'success')
       advanceStep(step.points)

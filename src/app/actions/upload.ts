@@ -2,39 +2,49 @@
 
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
-type UploadResult =
-  | { publicUrl: string; error?: never }
-  | { publicUrl?: never; error: string }
-
-export async function uploadMedia(formData: FormData): Promise<UploadResult> {
-  const file      = formData.get('file')      as File   | null
-  const sessionId = formData.get('sessionId') as string | null
-  const userId    = formData.get('userId')    as string | null
-  const stepId    = Number(formData.get('stepId'))
-  const mediaType = formData.get('mediaType') as 'photo' | 'video' | null
-
-  if (!file || !sessionId || !userId || !mediaType) {
-    return { error: 'Paramètres manquants.' }
-  }
-
+// Step 1 — called by the client to get a signed upload URL.
+// The browser then uploads directly to Supabase (no Next.js body-size limit).
+export async function getUploadToken(
+  userId: string,
+  sessionId: string,
+  stepId: number,
+  mimeType: string,
+): Promise<{ token: string; path: string } | { error: string }> {
   const supabase = getSupabaseAdmin()
-  const ext  = file.name.split('.').pop() ?? 'bin'
+
+  // Normalise extension (iOS returns video/quicktime for .mov files)
+  const rawExt = mimeType.split('/')[1] ?? 'bin'
+  const ext    = rawExt === 'quicktime' ? 'mov' : rawExt
+
   const path = `${userId}/${sessionId}/step_${stepId}_${Date.now()}.${ext}`
 
-  const { error: storageError } = await supabase.storage
+  const { data, error } = await supabase.storage
     .from('game-media')
-    .upload(path, file, { upsert: false })
+    .createSignedUploadUrl(path)
 
-  if (storageError) {
-    console.error(`[upload] storage — ${storageError.message}`)
-    return { error: storageError.message }
+  if (error || !data) {
+    console.error(`[getUploadToken] ${error?.message}`)
+    return { error: error?.message ?? 'Signed URL unavailable' }
   }
+
+  return { token: data.token, path }
+}
+
+// Step 2 — called after the browser upload succeeds, to record the media in the DB.
+export async function recordMediaUpload(
+  sessionId: string,
+  userId: string,
+  stepId: number,
+  mediaType: 'photo' | 'video',
+  path: string,
+): Promise<{ publicUrl: string }> {
+  const supabase = getSupabaseAdmin()
 
   const { data: { publicUrl } } = supabase.storage
     .from('game-media')
     .getPublicUrl(path)
 
-  const { error: dbError } = await supabase.from('media_uploads').insert({
+  const { error } = await supabase.from('media_uploads').insert({
     session_id:  sessionId,
     user_id:     userId,
     step_number: stepId,
@@ -42,9 +52,9 @@ export async function uploadMedia(formData: FormData): Promise<UploadResult> {
     media_type:  mediaType,
   })
 
-  if (dbError) {
-    // Non-fatal: media is uploaded, game can continue
-    console.error(`[upload] media_uploads insert — ${dbError.message}`)
+  if (error) {
+    // Non-fatal: media is in storage, game can continue
+    console.error(`[recordMediaUpload] ${error.message}`)
   }
 
   return { publicUrl }

@@ -27,7 +27,7 @@ const STEPS = [
     color: 'text-violet-400',
     border: 'border-violet-500/25',
     glow: 'bg-violet-500/10',
-    body: 'Achetez un accès unique à 29 CHF. Un seul téléphone gère la partie pour tout votre groupe — idéal pour 2 à 6 joueurs. Pas de téléchargement, pas d\'inscription longue.',
+    body: 'Achetez un accès unique à 29 CHF. Un seul téléphone gère la partie pour tout votre groupe — idéal pour 2 à 6 joueurs. Pas de téléchargement obligatoire, pas d\'inscription longue. Pour plus de confort, installez-le comme une vraie app depuis votre navigateur.',
   },
   {
     num: '02',
@@ -36,7 +36,7 @@ const STEPS = [
     color: 'text-pink-400',
     border: 'border-pink-500/25',
     glow: 'bg-pink-500/10',
-    body: 'Le jeu commence à la Gare de Sion. Ouvrez le lien reçu par e-mail, autorisez le GPS et la caméra. Le traceur s\'active et votre aventure peut commencer.',
+    body: 'Le jeu commence à la gare de la ville choisie. Ouvrez le lien reçu par e-mail, autorisez le GPS et la caméra. Le traceur s\'active et votre aventure peut commencer.',
   },
   {
     num: '03',
