@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
 import { ToastContainer } from '@/components/ui/Toast'
 import './globals.css'
+
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -46,6 +48,7 @@ export default function RootLayout({
       <body className="min-h-dvh bg-zinc-950 text-white antialiased overflow-x-hidden">
         {children}
         <ToastContainer />
+        <Analytics />
       </body>
     </html>
   )
