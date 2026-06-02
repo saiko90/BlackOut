@@ -379,8 +379,24 @@ export default function DashboardPage() {
             )}
           </motion.section>
 
+          {/* ── GOD MODE (admin uniquement — absent du DOM pour les autres) ── */}
+          {user?.email === 'm.kaeser90@gmail.com' && (
+            <motion.section custom={5} variants={fadeUp} initial="hidden" animate="visible">
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.01 }}
+                onClick={() => router.push('/admingodmode')}
+                className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-2xl font-bold text-sm text-amber-900 bg-gradient-to-r from-amber-400 to-yellow-300 shadow-[0_0_20px_rgba(251,191,36,.25)] transition-all"
+              >
+                <span className="text-base">⚡</span>
+                Accès God Mode — Admin Dashboard
+                <span className="text-base">⚡</span>
+              </motion.button>
+            </motion.section>
+          )}
+
           {/* ── SÉCURITÉ ── */}
-          <motion.section custom={5} variants={fadeUp} initial="hidden" animate="visible">
+          <motion.section custom={6} variants={fadeUp} initial="hidden" animate="visible">
             <div className="flex items-center gap-2 mb-3">
               <Lock size={14} className="text-zinc-500" />
               <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">

@@ -35,8 +35,8 @@ export async function validatePromoCode(code: string): Promise<PromoResult> {
       return { valid: false, error: 'Oups trop tard ! Les 5 codes ont déjà été offerts.' }
     }
 
-    const percentOff = promoCode.coupon.percent_off ?? 0
-
+    const percentOff = (promoCode as any).coupon?.percent_off ?? 0;
+    
     return { valid: true, promoCodeId: promoCode.id, percentOff }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Erreur inconnue'
