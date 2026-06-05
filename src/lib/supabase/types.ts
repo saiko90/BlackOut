@@ -26,6 +26,8 @@ export type GameSession = {
   is_completed: boolean
   final_video_url: string | null
   current_step: number
+  shotstack_render_id: string | null
+  video_expires_at: string | null
 }
 
 export type MediaUpload = {

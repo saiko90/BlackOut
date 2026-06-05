@@ -56,19 +56,24 @@ export async function GET(
   if (status === 'done' && response?.url) {
     const videoUrl: string = response.url
 
-    // Persister l'URL dans game_sessions si on connaît la session
+    // Persister l'URL, le render_id et la date d'expiration (48h) dans game_sessions
     if (sessionId) {
       try {
         const db = getSupabaseAdmin()
+        const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
         const { error } = await db
           .from('game_sessions')
-          .update({ final_video_url: videoUrl })
+          .update({
+            final_video_url:     videoUrl,
+            shotstack_render_id: id,
+            video_expires_at:    expiresAt,
+          })
           .eq('id', sessionId)
 
         if (error) {
           console.error(`[status] Impossible de persister final_video_url — ${error.message}`)
         } else {
-          console.log(`[status] final_video_url persisté pour session=${sessionId}`)
+          console.log(`[status] final_video_url persisté pour session=${sessionId}, expires=${expiresAt}`)
         }
       } catch (err) {
         // Ne pas bloquer la réponse pour une erreur de persistance
