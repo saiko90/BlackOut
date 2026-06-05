@@ -13,6 +13,7 @@ import { useToastStore } from '@/store/toastStore'
 import { TokenCard } from '@/components/dashboard/TokenCard'
 import { CheckoutDrawer } from '@/components/payment/CheckoutDrawer'
 import { activateToken } from '@/app/actions/session'
+import { trackPurchase } from '@/lib/analytics/meta'
 import type { Token, GameSession } from '@/lib/supabase/types'
 
 type TokenWithGift = Token & { gift_code?: string | null }
@@ -65,6 +66,22 @@ export default function DashboardPage() {
   }, [user])
 
   useEffect(() => { fetchData() }, [fetchData])
+
+  /* ── Tracking achat Meta Pixel (une seule fois par session Stripe) ── */
+  useEffect(() => {
+    const stripeSessionId = new URLSearchParams(window.location.search).get('stripe_session_id')
+    if (!stripeSessionId) return
+
+    // localStorage garantit qu'un refresh de page ne recompte pas l'achat
+    const key = `purchase_tracked_${stripeSessionId}`
+    if (localStorage.getItem(key)) return
+
+    trackPurchase(29.00)
+    localStorage.setItem(key, '1')
+
+    // Nettoyer l'URL : retire ?stripe_session_id=... sans recharger la page
+    window.history.replaceState({}, '', window.location.pathname)
+  }, [])
 
   /* ── Déconnexion ── */
   const handleSignOut = async () => {

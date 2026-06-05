@@ -3,15 +3,9 @@
 import Script from 'next/script'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
+import '@/lib/analytics/meta' // importe la déclaration globale window.fbq
 
 const PIXEL_ID = '1477230536889215'
-
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fbq: (...args: any[]) => void
-  }
-}
 
 export function MetaPixel() {
   const pathname      = usePathname()
