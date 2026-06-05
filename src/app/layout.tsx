@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { ToastContainer } from '@/components/ui/Toast'
+import { MetaPixel } from '@/components/analytics/MetaPixel'
 import './globals.css'
 
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         {children}
         <ToastContainer />
         <Analytics />
+        <MetaPixel />
       </body>
     </html>
   )
