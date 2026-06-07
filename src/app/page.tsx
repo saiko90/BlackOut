@@ -50,7 +50,7 @@ export default function HomePage() {
 
   return (
     <div className="flex justify-center min-h-dvh bg-zinc-950">
-      <PwaInstallPrompt />
+      {user && <PwaInstallPrompt />}
 
       <div className="relative w-full max-w-md h-dvh bg-zinc-950 overflow-hidden flex flex-col items-center justify-center px-6">
 
@@ -61,7 +61,7 @@ export default function HomePage() {
           <div className="absolute bottom-1/4 -left-20 w-56 h-56 rounded-full bg-yellow-500/8 blur-3xl" />
         </div>
 
-        <div className="relative z-10 w-full flex flex-col items-center gap-10">
+        <div className="relative z-10 w-full flex flex-col items-center gap-6">
 
           {/* Logo */}
           <motion.div
@@ -78,8 +78,11 @@ export default function HomePage() {
               className="drop-shadow-[0_0_24px_rgba(236,72,153,0.45)]"
               priority
             />
-            <p className="text-zinc-500 text-sm text-center leading-relaxed">
+            <p className="text-white text-lg font-semibold text-center leading-snug">
               Le rallye urbain qui détruit la dignité.
+            </p>
+            <p className="text-zinc-400 text-sm text-center">
+              100% sur ton téléphone, rien à télécharger.
             </p>
           </motion.div>
 
@@ -90,6 +93,13 @@ export default function HomePage() {
             animate="visible"
             className="w-full space-y-3"
           >
+            {/* Bandeau de réassurance */}
+            <motion.div variants={fadeUp} className="flex justify-center">
+              <span className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs text-zinc-300">
+                🎁 Inclus : Ton film souvenir par IA + Concours 50 CHF
+              </span>
+            </motion.div>
+
             {/* Choisir ma ville — primary */}
             <motion.div variants={fadeUp} whileTap={{ scale: 0.97 }}>
               <Link
@@ -101,7 +111,7 @@ export default function HomePage() {
                 </span>
                 <div>
                   <p className="text-base font-bold">Choisir ma ville</p>
-                  <p className="text-xs font-normal text-violet-200/80 mt-0.5">Sion disponible · 29 CHF</p>
+                  <p className="text-xs font-normal text-violet-200/80 mt-0.5">Voir le scénario</p>
                 </div>
               </Link>
             </motion.div>
