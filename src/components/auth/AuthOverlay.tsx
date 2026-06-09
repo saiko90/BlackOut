@@ -44,9 +44,15 @@ export function AuthOverlay({ isOpen, onClose, onSuccess }: AuthOverlayProps) {
 
     try {
       if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({ email, password })
+        const { data, error } = await supabase.auth.signUp({ email, password })
         if (error) throw error
-        setSuccess('Vérifie ta boîte mail pour confirmer ton compte !')
+        // Confirmation email désactivée → session immédiate → on connecte directement
+        if (data.session) {
+          onSuccess?.()
+          onClose()
+        } else {
+          setSuccess('Vérifie ta boîte mail pour confirmer ton compte !')
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
@@ -236,5 +242,6 @@ function translateError(msg: string): string {
   if (msg.includes('already registered')) return 'Cet email est déjà utilisé.'
   if (msg.includes('Password should')) return 'Le mot de passe doit faire au moins 6 caractères.'
   if (msg.includes('rate limit')) return 'Trop de tentatives. Réessaie dans quelques minutes.'
+  if (msg.toLowerCase().includes('sending') || msg.toLowerCase().includes('email')) return 'Problème d\'envoi d\'email. Réessaie dans quelques minutes ou contacte-nous à contact@theblackoutgame.ch'
   return msg
 }
