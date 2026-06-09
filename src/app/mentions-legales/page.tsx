@@ -20,7 +20,7 @@ export default function MentionsLegalesPage() {
         </Link>
 
         <h1 className="text-3xl font-black text-white mb-2">Mentions Légales</h1>
-        <p className="text-sm text-zinc-500 mb-10">Dernière mise à jour : mai 2025</p>
+        <p className="text-sm text-zinc-500 mb-10">Dernière mise à jour : juin 2025</p>
 
         <div className="space-y-8 text-sm leading-relaxed">
 
@@ -37,18 +37,18 @@ export default function MentionsLegalesPage() {
                 <dd>Entreprise individuelle</dd>
               </div>
               <div className="flex gap-2">
-                <dt className="text-zinc-500 shrink-0 w-36">Siège social</dt>
-                <dd>rte de derborence 28, 1976 Aven, Valais, Suisse</dd>
+                <dt className="text-zinc-500 shrink-0 w-36">Propriétaire</dt>
+                <dd>Krystel Fiorbianco</dd>
               </div>
               <div className="flex gap-2">
-                <dt className="text-zinc-500 shrink-0 w-36">Responsable</dt>
-                <dd>Fiorbianco Krystel</dd>
+                <dt className="text-zinc-500 shrink-0 w-36">Siège social</dt>
+                <dd>Route de Derborence 28, 1976 Aven, Valais, Suisse</dd>
               </div>
               <div className="flex gap-2">
                 <dt className="text-zinc-500 shrink-0 w-36">E-mail</dt>
                 <dd>
                   <a
-                    href="mailto:[email@domaine.ch]"
+                    href="mailto:contact@theblackoutgame.ch"
                     className="text-violet-400 hover:text-violet-300 transition-colors"
                   >
                     contact@theblackoutgame.ch
