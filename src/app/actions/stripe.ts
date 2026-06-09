@@ -15,6 +15,7 @@ export async function createCheckoutSession(
   userId: string,
   isGift = false,
   promoCodeId?: string,
+  promoCodeStr?: string,
 ): Promise<CheckoutResult> {
   try {
     const headersList = await headers()
@@ -47,7 +48,7 @@ export async function createCheckoutSession(
       ],
       mode: 'payment',
       return_url: `${origin}/dashboard?stripe_session_id={CHECKOUT_SESSION_ID}`,
-      metadata: { userId, isGift: isGift ? 'true' : 'false' },
+      metadata: { userId, isGift: isGift ? 'true' : 'false', ...(promoCodeStr && { promoCode: promoCodeStr }) },
       ...(promoCodeId && { discounts: [{ promotion_code: promoCodeId }] }),
     })
 

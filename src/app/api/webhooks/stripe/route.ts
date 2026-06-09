@@ -37,8 +37,9 @@ export async function POST(req: Request) {
   // ── Traitement des événements ──
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    const userId  = session.metadata?.userId
-    const isGift  = session.metadata?.isGift === 'true'
+    const userId    = session.metadata?.userId
+    const isGift    = session.metadata?.isGift === 'true'
+    const promoCode = session.metadata?.promoCode ?? null
 
     console.log(
       `[webhook] checkout.session.completed — session=${session.id}` +
@@ -51,9 +52,8 @@ export async function POST(req: Request) {
     }
 
     const supabase = getSupabaseAdmin()
-    const tokenRow = isGift
-      ? { user_id: userId, city: 'Sion', is_used: false, gift_code: generateGiftCode() }
-      : { user_id: userId, city: 'Sion', is_used: false }
+    const base = { user_id: userId, city: 'Sion', is_used: false, ...(promoCode && { promo_code: promoCode }) }
+    const tokenRow = isGift ? { ...base, gift_code: generateGiftCode() } : base
 
     try {
       const { error: dbError } = await supabase.from('tokens').insert(tokenRow)

@@ -73,7 +73,7 @@ export function CheckoutDrawer({
     setPromoStatus('checking')
     setPromoError(null)
 
-    const result = await validatePromoCode(promoInput)
+    const result = await validatePromoCode(promoInput, user?.id ?? undefined)
 
     if (result.valid) {
       setPromoStatus('valid')
@@ -102,7 +102,8 @@ export function CheckoutDrawer({
       return
     }
     setLoading(true)
-    const result = await createCheckoutSession(user.id, isGift, promoCodeId ?? undefined)
+    const promoStr = promoStatus === 'valid' ? promoInput.trim().toUpperCase() : undefined
+    const result = await createCheckoutSession(user.id, isGift, promoCodeId ?? undefined, promoStr)
     setLoading(false)
 
     if (result.error || !result.clientSecret) {
