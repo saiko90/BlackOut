@@ -172,11 +172,11 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="flex items-center gap-3 text-xs text-zinc-700"
+            className="flex items-center gap-4 text-xs text-zinc-500"
           >
-            <Link href="/cgv" className="hover:text-zinc-400 transition-colors">CGV</Link>
-            <span>·</span>
-            <Link href="/mentions-legales" className="hover:text-zinc-400 transition-colors">Mentions légales</Link>
+            <Link href="/cgv" className="underline underline-offset-2 hover:text-zinc-200 transition-colors">CGV</Link>
+            <span className="text-zinc-700">·</span>
+            <Link href="/mentions-legales" className="underline underline-offset-2 hover:text-zinc-200 transition-colors">Mentions légales</Link>
           </motion.div>
         </div>
 
