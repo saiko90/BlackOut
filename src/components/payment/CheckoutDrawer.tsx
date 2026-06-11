@@ -12,6 +12,7 @@ import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
 import { createCheckoutSession } from '@/app/actions/stripe'
 import { validatePromoCode } from '@/app/actions/promo'
+import { ttqInitiateCheckout } from '@/lib/analytics/tiktok'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -101,6 +102,7 @@ export function CheckoutDrawer({
       addToast('Connecte-toi pour continuer.', 'error')
       return
     }
+    ttqInitiateCheckout()
     setLoading(true)
     const promoStr = promoStatus === 'valid' ? promoInput.trim().toUpperCase() : undefined
     const result = await createCheckoutSession(user.id, isGift, promoCodeId ?? undefined, promoStr)

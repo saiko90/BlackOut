@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { ToastContainer } from '@/components/ui/Toast'
 import { MetaPixel } from '@/components/analytics/MetaPixel'
+import { TikTokPixel } from '@/components/analytics/TikTokPixel'
 import './globals.css'
 
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <ToastContainer />
         <Analytics />
         <MetaPixel />
+        <TikTokPixel />
       </body>
     </html>
   )
