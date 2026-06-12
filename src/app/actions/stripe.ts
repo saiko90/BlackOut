@@ -29,7 +29,7 @@ export async function createCheckoutSession(
       ui_mode: 'embedded_page' as Stripe.Checkout.SessionCreateParams.UiMode,
       payment_method_types: [
         'card',    // inclut Apple Pay et Google Pay automatiquement (wallet via carte)
-        // 'twint', // en attente d'autorisation bancaire
+        'twint',
         'paypal',
       ] as Stripe.Checkout.SessionCreateParams.PaymentMethodType[],
       currency: 'chf',
