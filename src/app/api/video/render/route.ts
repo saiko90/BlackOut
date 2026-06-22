@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { cityHashtag } from '@/lib/utils'
 
 /* ────────────────────────────────────────────────────────────
    Types internes
@@ -29,7 +30,7 @@ const LOGO_URL   = 'https://black-out-brown.vercel.app/logo.png'
 const MUSIC_URL  = 'https://black-out-brown.vercel.app/soundtrack.mp3'
 const OUTRO_DUR  = 4
 
-function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
+function buildPayload(teamName: string, score: number, medias: MediaItem[], city: string) {
   const mainClips: ShotstackClip[] = []
   let cursor = 0
 
@@ -56,7 +57,7 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
     mainClips.push({
       asset: {
         type: 'title',
-        text: 'Aucune preuve visuelle.\nCe qui se passe à Sion\nreste à Sion.',
+        text: `Aucune preuve visuelle.\nCe qui se passe à ${city}\nreste à ${city}.`,
         style: 'minimal',
         color: '#a78bfa',
         size: 'medium',
@@ -91,7 +92,7 @@ function buildPayload(teamName: string, score: number, medias: MediaItem[]) {
   mainClips.push({
     asset: {
       type: 'title',
-      text: `Score final\n${score} pts\n#BlackOutSion`,
+      text: `Score final\n${score} pts\n${cityHashtag(city)}`,
       style: 'minimal',
       color: '#22d3ee',
       size: 'medium',
@@ -199,7 +200,8 @@ export async function POST(req: Request) {
   const payload = buildPayload(
     session.team_name ?? 'Équipe',
     session.score ?? 0,
-    (medias as MediaItem[]) ?? []
+    (medias as MediaItem[]) ?? [],
+    session.city ?? 'Sion'
   )
 
   /* ── 5. Envoyer à Shotstack ── */

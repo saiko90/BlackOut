@@ -20,7 +20,7 @@ type City = {
 
 const CITIES: City[] = [
   { name: 'Sion',     region: 'Valais',   country: 'Suisse', price: '29 CHF', emoji: '🏔️', isActive: true  },
-  { name: 'Lausanne', region: 'Vaud',     country: 'Suisse', price: '29 CHF', emoji: '🌊', isActive: false },
+  { name: 'Lausanne', region: 'Vaud',     country: 'Suisse', price: '29 CHF', emoji: '🌊', isActive: true  },
   { name: 'Martigny', region: 'Valais',   country: 'Suisse', price: '29 CHF', emoji: '🍷', isActive: false },
   { name: 'Genève',   region: 'Genève',   country: 'Suisse', price: '29 CHF', emoji: '⌚', isActive: false },
   { name: 'Fribourg', region: 'Fribourg', country: 'Suisse', price: '29 CHF', emoji: '🏰', isActive: false },
@@ -53,11 +53,14 @@ export default function CitiesPage() {
     return () => subscription.unsubscribe()
   }, [setUser])
 
-  const handleSelectCity = () => {
+  const [pendingCity, setPendingCity] = useState<string | null>(null)
+
+  const handleSelectCity = (cityName: string) => {
     if (!user) {
+      setPendingCity(cityName)
       setAuthOpen(true)
     } else {
-      router.push('/dashboard')
+      router.push(`/dashboard?city=${encodeURIComponent(cityName)}`)
     }
   }
 
@@ -112,7 +115,7 @@ export default function CitiesPage() {
                 key={city.name}
                 variants={fadeUp}
                 whileTap={{ scale: 0.98 }}
-                onClick={handleSelectCity}
+                onClick={() => handleSelectCity(city.name)}
                 className="w-full text-left flex items-center gap-4 px-5 py-4 rounded-2xl border border-violet-500/40 bg-violet-500/8 hover:bg-violet-500/14 hover:border-violet-500/60 transition-all group"
               >
                 <span className="text-3xl">{city.emoji}</span>
@@ -164,7 +167,7 @@ export default function CitiesPage() {
           onClose={() => setAuthOpen(false)}
           onSuccess={() => {
             setAuthOpen(false)
-            router.push('/dashboard')
+            router.push(pendingCity ? `/dashboard?city=${encodeURIComponent(pendingCity)}` : '/dashboard')
           }}
         />
       </div>

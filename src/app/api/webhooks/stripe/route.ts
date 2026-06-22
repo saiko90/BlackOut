@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { citySlug } from '@/lib/utils'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
 })
 
-function generateGiftCode(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+function generateGiftCode(city: string): string {
+  const chars  = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   const random = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-  return `SION-${random}`
+  const prefix = citySlug(city).toUpperCase().slice(0, 4) || 'PASS'
+  return `${prefix}-${random}`
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -38,6 +40,7 @@ export async function POST(req: Request) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
     const userId    = session.metadata?.userId
+    const city      = session.metadata?.city ?? 'Sion'
     const isGift    = session.metadata?.isGift === 'true'
     const promoCode = session.metadata?.promoCode ?? null
 
@@ -52,8 +55,8 @@ export async function POST(req: Request) {
     }
 
     const supabase = getSupabaseAdmin()
-    const base = { user_id: userId, city: 'Sion', is_used: false, ...(promoCode && { promo_code: promoCode }) }
-    const tokenRow = isGift ? { ...base, gift_code: generateGiftCode() } : base
+    const base = { user_id: userId, city, is_used: false, ...(promoCode && { promo_code: promoCode }) }
+    const tokenRow = isGift ? { ...base, gift_code: generateGiftCode(city) } : base
 
     try {
       const { error: dbError } = await supabase.from('tokens').insert(tokenRow)

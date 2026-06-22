@@ -7,7 +7,7 @@ import { Zap } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
-import { SION_SCENARIO, TOTAL_STEPS } from '@/lib/game/sion-scenario'
+import { getScenario, TOTAL_STEPS } from '@/lib/game/scenarios'
 import { getUploadToken, recordMediaUpload } from '@/app/actions/upload'
 import { TopBar } from '@/components/game/TopBar'
 import { StepCard } from '@/components/game/StepCard'
@@ -41,7 +41,8 @@ export default function PlayPage() {
   const [introShown, setIntroShown]     = useState(false)
   const [showInterlude, setShowInterlude] = useState(false)
 
-  const step = SION_SCENARIO[stepIndex]
+  const scenario = getScenario(session?.city)
+  const step = scenario[stepIndex]
 
   /* ── Charger la session ── */
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function PlayPage() {
       .update({ score: newScore, current_step: stepIndex + 1 })
       .eq('id', id)
 
-    if (stepIndex + 1 >= SION_SCENARIO.length) {
+    if (stepIndex + 1 >= scenario.length) {
       // Toutes les étapes du scénario sont terminées
       finishGame(newScore)
     } else {
@@ -256,7 +257,7 @@ export default function PlayPage() {
             )}
 
             {/* ── Hors scénario (ne devrait plus arriver avec 10 étapes) ── */}
-            {!step && stepIndex >= SION_SCENARIO.length && (
+            {!step && stepIndex >= scenario.length && (
               <motion.div
                 key="beyond-scenario"
                 initial={{ opacity: 0 }}
@@ -266,7 +267,7 @@ export default function PlayPage() {
                 <p className="text-4xl">🏁</p>
                 <p className="font-bold text-white text-lg">Parcours en attente de mise à jour</p>
                 <p className="text-zinc-500 text-sm">
-                  Les étapes {SION_SCENARIO.length + 1}–{TOTAL_STEPS} seront disponibles bientôt.
+                  Les étapes {scenario.length + 1}–{TOTAL_STEPS} seront disponibles bientôt.
                 </p>
                 <motion.button
                   whileTap={{ scale: 0.96 }}
@@ -304,6 +305,7 @@ export default function PlayPage() {
         {/* Intro narrative (step 1 uniquement, avant le premier défi) */}
         <IntroStoryModal
           isOpen={phase === 'playing' && stepIndex === 0 && !introShown}
+          city={session.city}
           onStart={() => setIntroShown(true)}
         />
 

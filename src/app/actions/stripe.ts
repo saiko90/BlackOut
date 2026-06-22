@@ -16,6 +16,7 @@ export async function createCheckoutSession(
   isGift = false,
   promoCodeId?: string,
   promoCodeStr?: string,
+  city = 'Sion',
 ): Promise<CheckoutResult> {
   try {
     const headersList = await headers()
@@ -39,7 +40,7 @@ export async function createCheckoutSession(
             currency: 'chf',
             unit_amount: 2900,
             product_data: {
-              name: 'Pass Black Out — Sion',
+              name: `Pass Black Out — ${city}`,
               description: 'Accès complet · 12 défis · ~2h de jeu',
             },
           },
@@ -48,7 +49,7 @@ export async function createCheckoutSession(
       ],
       mode: 'payment',
       return_url: `${origin}/dashboard?stripe_session_id={CHECKOUT_SESSION_ID}`,
-      metadata: { userId, isGift: isGift ? 'true' : 'false', ...(promoCodeStr && { promoCode: promoCodeStr }) },
+      metadata: { userId, city, isGift: isGift ? 'true' : 'false', ...(promoCodeStr && { promoCode: promoCodeStr }) },
       ...(promoCodeId && { discounts: [{ promotion_code: promoCodeId }] }),
     })
 

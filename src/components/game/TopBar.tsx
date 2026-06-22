@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Timer, ChevronLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { TOTAL_STEPS } from '@/lib/game/sion-scenario'
+import { TOTAL_STEPS } from '@/lib/game/scenarios'
 
 type TopBarProps = {
   currentStep: number     // 1-based

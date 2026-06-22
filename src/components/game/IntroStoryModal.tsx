@@ -5,10 +5,56 @@ import { Skull } from 'lucide-react'
 
 type IntroStoryModalProps = {
   isOpen: boolean
+  city: string
   onStart: () => void
 }
 
-export function IntroStoryModal({ isOpen, onStart }: IntroStoryModalProps) {
+const INTRO_CONTENT: Record<string, { locationLabel: string; headline: React.ReactNode; narration: React.ReactNode[]; warning: React.ReactNode }> = {
+  Sion: {
+    locationLabel: 'Sion · 14h00',
+    headline: (
+      <>
+        UN MAL
+        <br />
+        DE CRÂNE
+        <br />
+        <span className="text-pink-400 text-glow-pink">ÉPOU–</span>
+        <br />
+        <span className="text-pink-400 text-glow-pink">VANTABLE.</span>
+      </>
+    ),
+    narration: [
+      <>Votre dernier souvenir ?{' '}<strong className="text-white">Une tournée de trop à la Place du Midi.</strong></>,
+      <>Un inconnu a disparu{' '}<strong className="text-pink-400">avec les clés de la voiture…</strong></>,
+      <>Pour retrouver la mémoire et vos clés, vous allez devoir{' '}<strong className="text-white">retracer votre soirée.</strong></>,
+    ],
+    warning: <>⚠️ Attention : l&apos;inconnu qui a vos clés exige des preuves visuelles.</>,
+  },
+  Lausanne: {
+    locationLabel: 'Lausanne · 14h00',
+    headline: (
+      <>
+        GUEULE
+        <br />
+        DE BOIS
+        <br />
+        <span className="text-pink-400 text-glow-pink">ABYS–</span>
+        <br />
+        <span className="text-pink-400 text-glow-pink">SALE.</span>
+      </>
+    ),
+    narration: [
+      <>Votre dernier souvenir ?{' '}<strong className="text-white">Une bière de trop au bord du Flon.</strong></>,
+      <>Vous vous réveillez sur un banc,{' '}<strong className="text-pink-400">sans téléphone, sans aucun souvenir…</strong></>,
+      <>Pour rentrer chez vous, vous allez devoir{' '}<strong className="text-white">retracer votre soirée à travers la ville.</strong></>,
+    ],
+    warning: <>⚠️ Attention : chaque étape exige des preuves visuelles pour avancer.</>,
+  },
+}
+
+export function IntroStoryModal({ isOpen, city, onStart }: IntroStoryModalProps) {
+  const content = INTRO_CONTENT[city] ?? INTRO_CONTENT.Sion
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -53,16 +99,10 @@ export function IntroStoryModal({ isOpen, onStart }: IntroStoryModalProps) {
               className="text-center"
             >
               <p className="text-xs font-black text-pink-400 uppercase tracking-[0.3em] mb-4">
-                Sion · 14h00
+                {content.locationLabel}
               </p>
               <h1 className="text-5xl font-black text-white leading-[0.9] tracking-tighter">
-                UN MAL
-                <br />
-                DE CRÂNE
-                <br />
-                <span className="text-pink-400 text-glow-pink">ÉPOU–</span>
-                <br />
-                <span className="text-pink-400 text-glow-pink">VANTABLE.</span>
+                {content.headline}
               </h1>
             </motion.div>
 
@@ -73,20 +113,13 @@ export function IntroStoryModal({ isOpen, onStart }: IntroStoryModalProps) {
               transition={{ delay: 0.5 }}
               className="glass rounded-2xl p-5 space-y-3 border border-pink-500/10"
             >
-              <p className="text-zinc-300 text-sm leading-relaxed">
-                Votre dernier souvenir ?{' '}
-                <strong className="text-white">Une tournée de trop à la Place du Midi.</strong>
-              </p>
-              <p className="text-zinc-300 text-sm leading-relaxed">
-                Un inconnu a disparu{' '}
-                <strong className="text-pink-400">avec les clés de la voiture…</strong>
-              </p>
-              <p className="text-zinc-300 text-sm leading-relaxed">
-                Pour retrouver la mémoire et vos clés, vous allez devoir{' '}
-                <strong className="text-white">retracer votre soirée.</strong>
-              </p>
+              {content.narration.map((paragraph, i) => (
+                <p key={i} className="text-zinc-300 text-sm leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
               <p className="text-yellow-400 text-sm font-bold leading-relaxed">
-                ⚠️ Attention : l&apos;inconnu qui a vos clés exige des preuves visuelles.
+                {content.warning}
               </p>
             </motion.div>
 

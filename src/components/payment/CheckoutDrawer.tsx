@@ -13,6 +13,7 @@ import { useToastStore } from '@/store/toastStore'
 import { createCheckoutSession } from '@/app/actions/stripe'
 import { validatePromoCode } from '@/app/actions/promo'
 import { ttqInitiateCheckout } from '@/lib/analytics/tiktok'
+import { citySlug } from '@/lib/utils'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -105,7 +106,7 @@ export function CheckoutDrawer({
     ttqInitiateCheckout()
     setLoading(true)
     const promoStr = promoStatus === 'valid' ? promoInput.trim().toUpperCase() : undefined
-    const result = await createCheckoutSession(user.id, isGift, promoCodeId ?? undefined, promoStr)
+    const result = await createCheckoutSession(user.id, isGift, promoCodeId ?? undefined, promoStr, city)
     setLoading(false)
 
     if (result.error || !result.clientSecret) {
@@ -314,7 +315,7 @@ export function CheckoutDrawer({
                       className="overflow-hidden"
                     >
                       <div className="bg-amber-500/8 border border-amber-500/20 rounded-xl px-4 py-3 text-xs text-amber-400/80 leading-relaxed">
-                        Un code type <span className="font-mono font-bold text-amber-300">SION-XXXXXX</span> sera créé
+                        Un code type <span className="font-mono font-bold text-amber-300">{citySlug(city).toUpperCase().slice(0, 4) || 'PASS'}-XXXXXX</span> sera créé
                         après confirmation du paiement. Partagez-le à votre ami.
                       </div>
                     </motion.div>

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
 import type { Step } from '@/lib/game/sion-scenario'
-import { TOTAL_STEPS } from '@/lib/game/sion-scenario'
+import { TOTAL_STEPS } from '@/lib/game/scenarios'
 
 type StepInterludeProps = {
   step: Step

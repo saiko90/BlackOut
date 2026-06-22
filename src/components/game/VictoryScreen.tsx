@@ -7,7 +7,8 @@ import {
   Film, Timer, Star, Gift, Medal,
 } from 'lucide-react'
 import type { GameSession } from '@/lib/supabase/types'
-import { SION_SCENARIO } from '@/lib/game/sion-scenario'
+import { getScenario } from '@/lib/game/scenarios'
+import { cityHashtag } from '@/lib/utils'
 
 /* ── Messages humoristiques pendant le rendu ── */
 const LOADING_MESSAGES = [
@@ -114,16 +115,12 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
   }, [phase])
 
   /* ── Hashtag dynamique selon la ville ── */
-  const citySlug = session.city
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')  // supprime les accents
-    .replace(/[^a-zA-Z]/g, '')        // supprime espaces et tirets
-  const cityHashtag = `#BlackOut${citySlug}`
+  const hashtag = cityHashtag(session.city)
 
   /* ── Partage natif ── */
   const handleShare = useCallback(async () => {
     if (!videoUrl) return
-    const text = `Je viens de survivre au Black Out à ${session.city} ! 💀🍻 ${cityHashtag} @BlackOutGame`
+    const text = `Je viens de survivre au Black Out à ${session.city} ! 💀🍻 ${hashtag} @BlackOutGame`
     try {
       if (navigator.share) {
         await navigator.share({ title: 'Black Out ! — Mon film souvenir', text, url: videoUrl })
@@ -199,7 +196,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
           {[
             { icon: Star,   value: `${session.score}`,                         label: 'pts',       color: 'text-violet-400' },
             { icon: Timer,  value: formatDuration(session.start_time, session.end_time), label: 'durée', color: 'text-pink-400'   },
-            { icon: Trophy, value: `${SION_SCENARIO.length}`,                  label: 'étapes',    color: 'text-amber-400' },
+            { icon: Trophy, value: `${getScenario(session.city).length}`,      label: 'étapes',    color: 'text-amber-400' },
           ].map(({ icon: Icon, value, label, color }) => (
             <div key={label} className="glass rounded-2xl px-3 py-4 flex flex-col items-center gap-1">
               <Icon size={16} className={color} />
@@ -305,7 +302,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                 <span className="relative flex items-center gap-2 text-base">
                   {shared ? '✓ Partagé !' : <><Share2 size={18} /> Partager ma vidéo</>}
                 </span>
-                <span className="relative text-xs text-white/70 font-normal">{cityHashtag} @BlackOutGame</span>
+                <span className="relative text-xs text-white/70 font-normal">{hashtag} @BlackOutGame</span>
               </motion.button>
 
               {/* Bouton télécharger */}
@@ -341,7 +338,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                 <div className="px-4 pb-4 pt-3 space-y-2">
                   <p className="text-xs text-zinc-400 leading-relaxed">
                     Partagez votre vidéo <span className="text-white font-semibold">en public</span> avec le hashtag{' '}
-                    <span className="text-pink-400 font-bold">{cityHashtag}</span> et taguez{' '}
+                    <span className="text-pink-400 font-bold">{hashtag}</span> et taguez{' '}
                     <span className="text-violet-400 font-bold">@BlackOutGame</span> pour participer au concours mensuel de la meilleure vidéo.
                   </p>
                   <p className="text-xs text-zinc-500 leading-relaxed">

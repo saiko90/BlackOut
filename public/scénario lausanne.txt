@@ -1,0 +1,99 @@
+📍 Étape 1 : Le Parvis de la Gare (Le Réveil)
+Narrative : "Commence par te lever. C'est dur, je sais. Hier soir, tu as juré que tu pouvais prendre le M2 à la nage. Trouve l'entrée du métro, mais on va y aller à pied."
+
+Mission : Quelle est la couleur du 2ème anneau olympique visible sur la batiment de la gare? réponse jaune.
+gps: 46.517278, 6.629286
+
+Défi  (Roulette de la honte) :  un membre de l'équipe doit annoncer un train imaginaire à voix forte : "Le train InterCity à destination de la Gueule de Bois partira voie 9 3/4."
+
+📍 Étape 2 : Le Bas du Petit-Chêne (Le Mur)
+Narrative : "Face à toi, la rue du Petit-Chêne. 12% d'inclinaison. Hier soir, tu as essayé de la monter en moonwalk. Prouve-moi que tes mollets répondent encore."
+
+Mission : filmer un membre de léquipe monter quelques mètre du petit chêne en moonwalk.
+gps: 46.517983, 6.629397
+
+Défi (Roulette de la honte) : Réaliser une chorégraphie de 10 secondes en mime d'alpiniste (avec piolets imaginaires) en pleine montée.
+
+📍 Étape 3 :  Lausanne Palace (La Haute Société)
+Narrative : "Tu as survécu à l'ascension. Devant le Lausanne Palace, tu as essayé de soudoyer le portier avec un ticket de kebab pour avoir une suite. Retrouve un peu de dignité."
+
+Mission : Combien de colonnes se trouvent devant l'entrée principale? réponse : 6
+gps: 46.519690, 6.630733
+
+Défi (Roulette de la honte) : Marcher sur 10 mètres avec une démarche exagérément snob en saluant les passants avec un "Salutations, manant" très poli.
+
+📍 Étape 4 : Parc de Montbenon (La Vision Spatiale)
+Narrative : "Petit détour par les jardins. Face au lac, tu as cru voir le monstre du Léman. C'était juste un pédalo, redescends sur terre."
+gps: 46.520187, 6.626663
+Mission : photo de groupe devant la statue de guillaume tell avec votre meilleure grimace.
+
+Défi (Roulette de la honte) : Faire prendre la pose du Titanic à deux membres de l'équipe face au lac pendant 10 secondes.
+
+📍 Étape 5 : Place Saint-François (La Confession)
+Narrative : "Direction le centre névralgique. Devant l'église Saint-François, tu as voulu confesser tes péchés au chauffeur du bus 1. Il n'a pas voulu t'absoudre."
+
+Mission : Compter le nombre de marches que compose l'entrée principale, ajoute 20, fais X2, +19, retire 10 et donne le résultat. Réponse 69
+
+gps: 46.519718, 6.632897
+
+Défi (Roulette de la honte) : Chanter "Alléluia" en chœur (et très fort) en imitant une chorale de gospel.
+
+📍 Étape 6 : Place de la Palud (La Justice Aveugle)
+Narrative : "Descends vers la Palud. Devant la fontaine, tu as longuement débattu avec la statue de la Justice. Tu as perdu."
+
+Mission : filmez vous en train de faire un gnagnamstyle devant la fontaine.minimum 5sec de vidéo
+
+gps: 46.521824, 6.633214
+
+Défi (Roulette de la honte) : Un joueur doit se bander les yeux (ou les fermer très fort) et tenir en équilibre sur une jambe pendant que les autres font semblant de le plaider coupable.
+
+📍 Étape 7 : Les Escaliers du Marché (Le Faux Espoir)
+Narrative : "Regarde ces magnifiques escaliers en bois. Hier, tu as voulu les descendre en luge. Heureusement, tu n'avais pas de luge."
+
+Mission : Trouver en quelle année a été fondée la maison de défense, chasse et tir?  réponse : 1808
+
+Défi (Roulette de la honte) : Faire une course au ralenti (façon Alerte à Malibu) sur les 5 prochaines marches.
+gps: 46.522341, 6.634067
+
+📍 Étape 8 : Place de la Louve (La Cachette)
+Narrative : "La place de la mairie. C'est ici que tu t'es caché derrière une poubelle en croyant échapper aux mangemorts. Sortez de l'ombre."
+
+Mission: Imiter un loup qui hurle à la mort en plein milieu de la place. vous devez atteindre 85Db pendant 3 secondes
+gps: 46.521674, 6.632367
+
+Défi (Roulette de la honte) : un joueur doit tourner 10x sur lui même et faire un highfive au caméraman.
+
+📍 Étape 9 : Rue Saint-Laurent (Le Bain de Foule)
+Narrative : "Retour dans l'agitation. Dans cette rue piétonne, tu as essayé de lancer une chenille géante. Personne n'a suivi. C'est le moment de te rattraper."
+
+Mission : tentez une chenille humaine en invitant des inconnus a se joindre a vous! celui en tête doit filmer en selfie
+gps : 46.522374, 6.630803
+
+Défi (Roulette de la honte) : ramassez 10 mégots et les jeter a la poubelle. 
+
+📍 Étape 10 : Le Grand-Pont (Le Vertige)
+Narrative : "Mets-toi au milieu du pont et regarde en bas. C'est là que tu as menacé de jeter ton téléphone parce qu'il n'avait plus de batterie. Ne fais pas ça."
+
+Mission : Se placer sur le pont et prendre la plus belle photo de groupe faisant un Dab 
+gps: 46.521054, 6.630754
+
+Défi (Roulette de la honte) : Tout le groupe s'aligne contre la rambarde et hurle "On arrive en baaaas !" en regardant vers le Flon.
+
+📍 Étape 11 : Place de l'Europe (Les Arches)
+Narrative : "Tu redescends enfin. Sous ces arches, tu te prenais pour Batman surveillant Gotham City. Trouve la bonne planque."
+
+Mission : trouve les dates correspondant à notre chère enseignante, Hélène monastier, cela te donne un code a 8chiffre. réponse: 18821976
+gps: 46.520455, 6.631051
+
+Défi (Roulette de la honte) : Interpeller un passant poliment pour lui demander de valider un "check" (tape m'en cinq).
+
+📍 Étape 12 : Place du Flon (L'Arrivée Triomphale)
+Narrative : "Bienvenue dans l'arène. C'est ici que tu as échangé ta dignité contre une dernière bière. Va au centre du quartier."
+
+Mission : rendez-vous a l esplanade du flon et crier tous ensemble : APéRO !!! atteigner 85Db pour valider ce dernier défi!
+
+gps: 46.521458, 6.627343
+
+défi (Roulette de la honte): mets une story facebook ou instagrame disant que tu as échoué au jeu du blackout! 
+
+Écran de fin : Félicitations, tu as survécu au cardio de la honte. Tes souvenirs s'arrêtent là... mais votre soirée peut commencer. Santé !

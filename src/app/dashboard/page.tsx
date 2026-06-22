@@ -39,6 +39,13 @@ export default function DashboardPage() {
   const [redeemLoading, setRedeemLoading] = useState(false)
   const [newPassword, setNewPassword]   = useState('')
   const [pwdLoading, setPwdLoading]     = useState(false)
+  const [selectedCity, setSelectedCity] = useState('Sion')
+
+  /* ── Ville sélectionnée depuis /cities (?city=Lausanne) ── */
+  useEffect(() => {
+    const city = new URLSearchParams(window.location.search).get('city')
+    if (city) setSelectedCity(city)
+  }, [])
 
   /* ── Fetch inventaire + historique ── */
   const fetchData = useCallback(async () => {
@@ -116,7 +123,7 @@ export default function DashboardPage() {
     if (code === 'DEV-GODMODE') {
       const { error } = await supabase
         .from('tokens')
-        .insert({ user_id: user.id, city: 'Sion', is_used: false })
+        .insert({ user_id: user.id, city: selectedCity, is_used: false })
       if (!error) {
         addToast('👾 God Mode : Jeton gratuit généré !', 'success')
         setGiftCode('')
@@ -234,7 +241,7 @@ export default function DashboardPage() {
                     value={giftCode}
                     onChange={(e) => setGiftCode(e.target.value.toUpperCase())}
                     onKeyDown={(e) => e.key === 'Enter' && handleRedeem()}
-                    placeholder="SION-XXXXXX"
+                    placeholder="VILLE-XXXXXX"
                     maxLength={11}
                     className="w-full bg-zinc-800/60 border border-white/10 rounded-xl pl-9 pr-3 py-2.5 text-white placeholder:text-zinc-600 text-sm font-mono tracking-wider focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 transition-all uppercase"
                   />
@@ -451,7 +458,7 @@ export default function DashboardPage() {
           isOpen={checkoutOpen}
           onClose={() => setCheckoutOpen(false)}
           onSuccess={fetchData}
-          city="Sion"
+          city={selectedCity}
           price="29 CHF"
         />
       </div>
