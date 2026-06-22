@@ -7,6 +7,11 @@ import { cn } from '@/lib/utils'
 import { useToastStore } from '@/store/toastStore'
 import type { Token } from '@/lib/supabase/types'
 
+const CITY_REGIONS: Record<string, string> = {
+  Sion: 'Valais, Suisse',
+  Lausanne: 'Vaud, Suisse',
+}
+
 type TokenCardProps =
   | { variant: 'empty'; onBuy: () => void }
   | { variant: 'token'; token: Token & { gift_code?: string | null }; onActivate: () => void }
@@ -116,7 +121,7 @@ export function TokenCard(props: TokenCardProps) {
         <div className="mb-1">
           <p className="text-xl font-black text-white tracking-tight">PASS BLACK OUT !</p>
           <p className="text-sm text-zinc-400 mt-0.5">
-            {token.city} · Valais, Suisse
+            {token.city} · {CITY_REGIONS[token.city] ?? 'Suisse'}
           </p>
         </div>
 
