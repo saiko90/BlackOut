@@ -17,9 +17,15 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
+const SITE_URL = 'https://www.theblackoutgame.ch'
+const SITE_TITLE = 'Black Out ! — Le jeu urbain qui détruit la dignité'
+const SITE_DESCRIPTION =
+  'Le rallye urbain en équipe à Sion et Lausanne. Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues. 12 défis, ~2h de jeu, un film souvenir généré par IA.'
+
 export const metadata: Metadata = {
-  title: 'Black Out ! — Le jeu urbain',
-  description: 'Exploration urbaine, défis absurdes et roulette de la honte. Serez-vous à la hauteur ?',
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -28,6 +34,21 @@ export const metadata: Metadata = {
   },
   icons: {
     apple: '/icon.png',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_CH',
+    url: SITE_URL,
+    siteName: 'Black Out !',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [{ url: '/logo.png', width: 512, height: 512, alt: 'Black Out !' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ['/logo.png'],
   },
 }
 

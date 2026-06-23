@@ -10,6 +10,7 @@ import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
 import { CITIES } from '@/lib/cities'
 import { PromoBanner } from '@/components/ui/PromoBanner'
+import { daysLeftInMonth } from '@/lib/utils'
 
 const stagger = {
   hidden: {},
@@ -39,6 +40,13 @@ export default function CitiesPage() {
   }, [setUser])
 
   const [pendingCity, setPendingCity] = useState<string | null>(null)
+
+  /* ── Reprend la sélection en attente après un retour de connexion OAuth (Google) ── */
+  useEffect(() => {
+    if (!user) return
+    const pending = new URLSearchParams(window.location.search).get('pendingCity')
+    if (pending) router.replace(`/checkout?city=${encodeURIComponent(pending)}`)
+  }, [user, router])
 
   const handleSelectCity = (cityName: string) => {
     if (!user) {
@@ -87,6 +95,12 @@ export default function CitiesPage() {
           <p className="text-zinc-500 text-sm mt-2">
             Une ville, une nuit, des défis absurdes.
           </p>
+          <p className="text-zinc-600 text-xs mt-1">
+            29 CHF pour toute l&apos;équipe (jusqu&apos;à 6 pers.)
+          </p>
+          <p className="text-amber-400/80 text-xs mt-3 font-semibold">
+            🏆 Plus que {daysLeftInMonth()} jours pour participer au tirage du mois (50.- Migros)
+          </p>
         </motion.div>
 
         {/* City cards */}
@@ -117,7 +131,7 @@ export default function CitiesPage() {
                   <p className="text-xs text-zinc-400 mt-0.5">{city.region} · {city.country}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-base font-black text-white">{city.price}</p>
+                  <p className="text-base font-black text-white">{city.price}<span className="text-[10px] font-semibold text-zinc-500">/équipe</span></p>
                   <p className="text-[10px] text-violet-400 font-semibold mt-0.5 group-hover:text-violet-300 transition-colors">
                     Jouer →
                   </p>
@@ -141,7 +155,7 @@ export default function CitiesPage() {
                   <p className="text-xs text-zinc-600 mt-0.5">{city.region} · {city.country}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-base font-black text-zinc-600">{city.price}</p>
+                  <p className="text-base font-black text-zinc-600">{city.price}<span className="text-[10px] font-semibold text-zinc-700">/équipe</span></p>
                 </div>
               </motion.div>
             )
@@ -156,6 +170,7 @@ export default function CitiesPage() {
             setAuthOpen(false)
             router.push(pendingCity ? `/checkout?city=${encodeURIComponent(pendingCity)}` : '/dashboard')
           }}
+          oauthRedirectPath={pendingCity ? `/cities?pendingCity=${encodeURIComponent(pendingCity)}` : '/cities'}
         />
       </div>
     </div>

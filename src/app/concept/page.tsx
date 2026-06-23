@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   ArrowLeft, Ticket, MapPin, Camera, Film,
   Clock, Smartphone, Backpack, Calendar,
-  ChevronDown, Zap, ChevronRight,
+  ChevronDown, Zap, ChevronRight, CloudRain, Users, PartyPopper,
 } from 'lucide-react'
 import { PromoBanner } from '@/components/ui/PromoBanner'
 
@@ -100,6 +100,21 @@ const FAQ = [
     a: 'Oui ! Une fois le pass acheté, vous lancez la partie le jour et l\'heure de votre choix. Le code n\'expire pas — idéal comme cadeau.',
     icon: Calendar,
   },
+  {
+    q: 'Et s\'il pleut ?',
+    a: 'Le jeu se joue par (presque) tous les temps : prévoyez une veste imperméable, le parcours continue normalement. En cas d\'alerte météo sévère, contactez-nous, on trouve toujours une solution.',
+    icon: CloudRain,
+  },
+  {
+    q: 'Peut-on jouer en plusieurs équipes en même temps ?',
+    a: 'Oui, sans problème : chaque équipe achète son propre pass et joue indépendamment, même en même temps sur le même parcours. Parfait pour les groupes plus larges (anniversaire, EVG, sortie d\'entreprise) qui veulent se challenger entre équipes.',
+    icon: Users,
+  },
+  {
+    q: 'C\'est adapté à qui ?',
+    a: 'Le jeu est pensé pour des groupes de 2 à 6 adultes, à pied, avec un peu d\'humour potache (ambiance EVG, EVJF, sortie entre potes ou entre collègues). Comptez une bonne condition physique pour la marche, et un brin d\'auto-dérision.',
+    icon: PartyPopper,
+  },
 ]
 
 function FaqItem({ q, a, icon: Icon }: { q: string; a: React.ReactNode; icon: React.ElementType }) {
@@ -192,6 +207,9 @@ export default function ConceptPage() {
               Pas d&apos;application à télécharger. Juste votre smartphone,
               votre équipe, et un peu de dignité à perdre.
             </p>
+            <p className="text-xs text-zinc-500">
+              Parfait pour un EVG, un EVJF, un anniversaire ou une sortie d&apos;entreprise.
+            </p>
           </motion.header>
 
           {/* ── 4 ÉTAPES ── */}
@@ -279,7 +297,7 @@ export default function ConceptPage() {
                 className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-violet-600 to-violet-500 text-white font-bold py-4 rounded-2xl glow-violet text-base"
               >
                 <Zap size={18} />
-                Acheter un Pass · 29 CHF
+                Acheter un Pass · 29 CHF/équipe
                 <ChevronRight size={18} />
               </motion.div>
             </Link>

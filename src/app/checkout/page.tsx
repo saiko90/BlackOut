@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import {
   ArrowLeft, X, CreditCard, Gift, Loader2, ShoppingBag, Zap,
-  Tag, CheckCircle2, AlertCircle,
+  Tag, CheckCircle2, AlertCircle, Film, Shield,
 } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js'
@@ -14,7 +14,7 @@ import { useToastStore } from '@/store/toastStore'
 import { createCheckoutSession } from '@/app/actions/stripe'
 import { validatePromoCode } from '@/app/actions/promo'
 import { ttqInitiateCheckout } from '@/lib/analytics/tiktok'
-import { citySlug, cn } from '@/lib/utils'
+import { citySlug, cn, daysLeftInMonth } from '@/lib/utils'
 import { getActiveCities, getCity } from '@/lib/cities'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
@@ -192,7 +192,7 @@ export default function CheckoutPage() {
                     <p className="text-xs text-zinc-500 mt-0.5">
                       {isGift
                         ? 'Un code unique sera généré après paiement'
-                        : 'Accès complet · 12 défis · ~2h de jeu'}
+                        : '12 défis · ~2h de jeu · jusqu\'à 6 joueurs'}
                     </p>
                   </div>
                   {promoStatus === 'valid' ? (
@@ -201,7 +201,9 @@ export default function CheckoutPage() {
                       <span className="font-black text-emerald-400">{finalPrice}</span>
                     </div>
                   ) : (
-                    <span className="font-black text-white shrink-0">{price}</span>
+                    <span className="font-black text-white shrink-0">
+                      {price}<span className="text-[10px] font-normal text-zinc-500">/équipe</span>
+                    </span>
                   )}
                 </div>
 
@@ -216,9 +218,21 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                   ) : (
-                    <span className="font-bold text-white">{price}</span>
+                    <span className="font-bold text-white">
+                      {price}<span className="text-[10px] font-normal text-zinc-500">/équipe</span>
+                    </span>
                   )}
                 </div>
+              </div>
+
+              {/* ── Valeur ajoutée + urgence concours ── */}
+              <div className="flex items-center justify-between gap-2 mb-5 px-1">
+                <span className="text-[11px] text-zinc-500 flex items-center gap-1">
+                  <Film size={11} /> Film souvenir IA inclus
+                </span>
+                <span className="text-[11px] text-amber-400/90 font-semibold">
+                  🏆 J-{daysLeftInMonth()} concours 50.-
+                </span>
               </div>
 
               {/* ── Champ code promo ── */}
@@ -350,7 +364,11 @@ export default function CheckoutPage() {
                   )}
                 </motion.button>
 
-                <p className="text-center text-xs text-zinc-600 mt-3 flex items-center justify-center gap-1">
+                <p className="text-center text-xs text-zinc-500 mt-3 flex items-center justify-center gap-1.5">
+                  <Shield size={12} className="text-emerald-500" />
+                  Paiement 100% sécurisé · Un souci ? On répond sous 24h
+                </p>
+                <p className="text-center text-xs text-zinc-600 mt-1.5 flex items-center justify-center gap-1">
                   <ShoppingBag size={11} />
                   Carte · Apple Pay · Google Pay · PayPal · Powered by Stripe
                 </p>

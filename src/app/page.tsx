@@ -11,6 +11,7 @@ import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt'
 import { PromoBanner } from '@/components/ui/PromoBanner'
+import { TestimonialsCarousel } from '@/components/ui/TestimonialsCarousel'
 
 const stagger = {
   hidden: {},
@@ -58,7 +59,7 @@ export default function HomePage() {
     <div className="flex justify-center min-h-dvh bg-zinc-950">
       {user && <PwaInstallPrompt />}
 
-      <div className="relative w-full max-w-md h-dvh bg-zinc-950 overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-md min-h-dvh bg-zinc-950 flex flex-col">
 
         <PromoBanner />
 
@@ -69,7 +70,7 @@ export default function HomePage() {
           <div className="absolute bottom-1/4 -left-20 w-56 h-56 rounded-full bg-yellow-500/8 blur-3xl" />
         </div>
 
-        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center gap-6 px-6">
+        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center gap-6 px-6 py-8">
 
           {/* Logo */}
           <motion.div
@@ -91,6 +92,9 @@ export default function HomePage() {
             </p>
             <p className="text-zinc-400 text-sm text-center">
               100% sur ton téléphone, rien à télécharger.
+            </p>
+            <p className="text-zinc-500 text-xs text-center">
+              Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues.
             </p>
           </motion.div>
 
@@ -204,6 +208,8 @@ export default function HomePage() {
             <span className="text-zinc-700">·</span>
             <Link href="/mentions-legales" className="underline underline-offset-2 hover:text-zinc-200 transition-colors">Mentions légales</Link>
           </motion.div>
+
+          <TestimonialsCarousel />
         </div>
 
         {/* Auth overlay */}
@@ -214,6 +220,7 @@ export default function HomePage() {
             setAuthOpen(false)
             router.push('/dashboard')
           }}
+          oauthRedirectPath="/dashboard"
         />
       </div>
     </div>
