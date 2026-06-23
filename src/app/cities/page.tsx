@@ -96,7 +96,7 @@ export default function CitiesPage() {
             Une ville, une nuit, des défis absurdes.
           </p>
           <p className="text-zinc-600 text-xs mt-1">
-            29 CHF pour toute l&apos;équipe (jusqu&apos;à 6 pers.)
+            29 CHF pour toute l&apos;équipe · nombre de joueurs illimité
           </p>
           <p className="text-amber-400/80 text-xs mt-3 font-semibold">
             🏆 Plus que {daysLeftInMonth()} jours pour participer au tirage du mois (50.- Migros)

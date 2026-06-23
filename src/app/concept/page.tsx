@@ -28,7 +28,7 @@ const STEPS = [
     color: 'text-violet-400',
     border: 'border-violet-500/25',
     glow: 'bg-violet-500/10',
-    body: 'Achetez un accès unique à 29 CHF pour toute votre équipe (2 à 6 joueurs). Rien à télécharger depuis les stores — le jeu s\'ouvre directement dans le navigateur de votre téléphone (Safari ou Chrome). Pour jouer avec plus de confort en extérieur, vous pourrez ajouter un simple raccourci sur votre écran d\'accueil.',
+    body: 'Achetez un accès unique à 29 CHF pour toute votre équipe — nombre de joueurs illimité. Rien à télécharger depuis les stores — le jeu s\'ouvre directement dans le navigateur de votre téléphone (Safari ou Chrome). Pour jouer avec plus de confort en extérieur, vous pourrez ajouter un simple raccourci sur votre écran d\'accueil.',
   },
   {
     num: '02',
@@ -112,7 +112,7 @@ const FAQ = [
   },
   {
     q: 'C\'est adapté à qui ?',
-    a: 'Le jeu est pensé pour des groupes de 2 à 6 adultes, à pied, avec un peu d\'humour potache (ambiance EVG, EVJF, sortie entre potes ou entre collègues). Comptez une bonne condition physique pour la marche, et un brin d\'auto-dérision.',
+    a: 'Le jeu est pensé pour des groupes d\'adultes à pied, sans limite de nombre de joueurs (chaque équipe achète un pass), avec un peu d\'humour potache (ambiance EVG, EVJF, sortie entre potes ou entre collègues). Comptez une bonne condition physique pour la marche, et un brin d\'auto-dérision.',
     icon: PartyPopper,
   },
 ]
@@ -302,7 +302,7 @@ export default function ConceptPage() {
               </motion.div>
             </Link>
             <p className="text-center text-xs text-zinc-600">
-              Paiement sécurisé · Carte bancaire &amp; TWINT · Powered by Stripe
+              Paiement sécurisé · TWINT &amp; carte bancaire · Powered by Stripe
             </p>
           </motion.div>
 

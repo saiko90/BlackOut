@@ -29,8 +29,8 @@ export async function createCheckoutSession(
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded_page' as Stripe.Checkout.SessionCreateParams.UiMode,
       payment_method_types: [
+        'twint',   // mis en avant en premier — fort différenciateur pour la clientèle suisse
         'card',    // inclut Apple Pay et Google Pay automatiquement (wallet via carte)
-        'twint',
         'paypal',
       ] as Stripe.Checkout.SessionCreateParams.PaymentMethodType[],
       currency: 'chf',

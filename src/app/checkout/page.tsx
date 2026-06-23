@@ -192,7 +192,7 @@ export default function CheckoutPage() {
                     <p className="text-xs text-zinc-500 mt-0.5">
                       {isGift
                         ? 'Un code unique sera généré après paiement'
-                        : '12 défis · ~2h de jeu · jusqu\'à 6 joueurs'}
+                        : '12 défis · ~2h de jeu · joueurs illimités'}
                     </p>
                   </div>
                   {promoStatus === 'valid' ? (
@@ -370,7 +370,7 @@ export default function CheckoutPage() {
                 </p>
                 <p className="text-center text-xs text-zinc-600 mt-1.5 flex items-center justify-center gap-1">
                   <ShoppingBag size={11} />
-                  Carte · Apple Pay · Google Pay · PayPal · Powered by Stripe
+                  TWINT · Carte · Apple Pay · Google Pay · PayPal · Powered by Stripe
                 </p>
               </div>
             </motion.div>
