@@ -8,23 +8,7 @@ import { ArrowLeft, MapPin, Lock } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
-
-type City = {
-  name: string
-  region: string
-  country: string
-  price: string
-  emoji: string
-  isActive: boolean
-}
-
-const CITIES: City[] = [
-  { name: 'Sion',     region: 'Valais',   country: 'Suisse', price: '29 CHF', emoji: '🏔️', isActive: true  },
-  { name: 'Lausanne', region: 'Vaud',     country: 'Suisse', price: '29 CHF', emoji: '🌊', isActive: true  },
-  { name: 'Martigny', region: 'Valais',   country: 'Suisse', price: '29 CHF', emoji: '🍷', isActive: false },
-  { name: 'Genève',   region: 'Genève',   country: 'Suisse', price: '29 CHF', emoji: '⌚', isActive: false },
-  { name: 'Fribourg', region: 'Fribourg', country: 'Suisse', price: '29 CHF', emoji: '🏰', isActive: false },
-]
+import { CITIES } from '@/lib/cities'
 
 const stagger = {
   hidden: {},
@@ -60,7 +44,7 @@ export default function CitiesPage() {
       setPendingCity(cityName)
       setAuthOpen(true)
     } else {
-      router.push(`/dashboard?city=${encodeURIComponent(cityName)}`)
+      router.push(`/checkout?city=${encodeURIComponent(cityName)}`)
     }
   }
 
@@ -167,7 +151,7 @@ export default function CitiesPage() {
           onClose={() => setAuthOpen(false)}
           onSuccess={() => {
             setAuthOpen(false)
-            router.push(pendingCity ? `/dashboard?city=${encodeURIComponent(pendingCity)}` : '/dashboard')
+            router.push(pendingCity ? `/checkout?city=${encodeURIComponent(pendingCity)}` : '/dashboard')
           }}
         />
       </div>

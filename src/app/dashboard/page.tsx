@@ -11,7 +11,6 @@ import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
 import { TokenCard } from '@/components/dashboard/TokenCard'
-import { CheckoutDrawer } from '@/components/payment/CheckoutDrawer'
 import { activateToken } from '@/app/actions/session'
 import { trackPurchase } from '@/lib/analytics/meta'
 import type { Token, GameSession } from '@/lib/supabase/types'
@@ -34,7 +33,6 @@ export default function DashboardPage() {
   const [tokens, setTokens]       = useState<TokenWithGift[]>([])
   const [sessions, setSessions]   = useState<GameSession[]>([])
   const [loading, setLoading]     = useState(true)
-  const [checkoutOpen, setCheckoutOpen] = useState(false)
   const [giftCode, setGiftCode]   = useState('')
   const [redeemLoading, setRedeemLoading] = useState(false)
   const [newPassword, setNewPassword]   = useState('')
@@ -295,7 +293,7 @@ export default function DashboardPage() {
                   : (
                     <TokenCard
                       variant="empty"
-                      onBuy={() => setCheckoutOpen(true)}
+                      onBuy={() => router.push(`/checkout?city=${encodeURIComponent(selectedCity)}`)}
                     />
                   )}
               </div>
@@ -307,7 +305,7 @@ export default function DashboardPage() {
             <motion.button
               custom={3} variants={fadeUp} initial="hidden" animate="visible"
               whileTap={{ scale: 0.97 }}
-              onClick={() => setCheckoutOpen(true)}
+              onClick={() => router.push(`/checkout?city=${encodeURIComponent(selectedCity)}`)}
               className="w-full flex items-center justify-center gap-2 border border-violet-500/20 hover:border-violet-500/40 text-violet-400 hover:text-violet-300 font-semibold py-3 rounded-2xl text-sm transition-all"
             >
               + Acheter un autre pass
@@ -452,15 +450,6 @@ export default function DashboardPage() {
           </motion.section>
 
         </div>
-
-        {/* ── CHECKOUT DRAWER ── */}
-        <CheckoutDrawer
-          isOpen={checkoutOpen}
-          onClose={() => setCheckoutOpen(false)}
-          onSuccess={fetchData}
-          city={selectedCity}
-          price="29 CHF"
-        />
       </div>
     </div>
   )

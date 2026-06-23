@@ -6,11 +6,7 @@ import { Zap, Gift, Share2, ShoppingBag, Copy, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useToastStore } from '@/store/toastStore'
 import type { Token } from '@/lib/supabase/types'
-
-const CITY_REGIONS: Record<string, string> = {
-  Sion: 'Valais, Suisse',
-  Lausanne: 'Vaud, Suisse',
-}
+import { getCity } from '@/lib/cities'
 
 type TokenCardProps =
   | { variant: 'empty'; onBuy: () => void }
@@ -72,6 +68,7 @@ export function TokenCard(props: TokenCardProps) {
   /* ── Token classique ou cadeau ── */
   const { token, onActivate } = props
   const isGift = !!token.gift_code
+  const cityRegion = getCity(token.city)?.region
 
   return (
     <motion.div
@@ -121,7 +118,7 @@ export function TokenCard(props: TokenCardProps) {
         <div className="mb-1">
           <p className="text-xl font-black text-white tracking-tight">PASS BLACK OUT !</p>
           <p className="text-sm text-zinc-400 mt-0.5">
-            {token.city} · {CITY_REGIONS[token.city] ?? 'Suisse'}
+            {token.city} · {cityRegion ? `${cityRegion}, Suisse` : 'Suisse'}
           </p>
         </div>
 
