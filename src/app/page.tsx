@@ -10,6 +10,7 @@ import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt'
+import { PromoBanner } from '@/components/ui/PromoBanner'
 
 const stagger = {
   hidden: {},
@@ -20,6 +21,11 @@ const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] } },
 }
+
+const WHATSAPP_MESSAGE =
+  '🚨 SOS dignité ! Je monte une équipe pour BLACK OUT !, le rallye urbain qui va nous détruire 💀🍻 ' +
+  'Qui est assez fou pour venir ? 👉 https://www.theblackoutgame.ch'
+const WHATSAPP_HREF = `https://wa.me/?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
 export default function HomePage() {
   const router = useRouter()
@@ -52,7 +58,9 @@ export default function HomePage() {
     <div className="flex justify-center min-h-dvh bg-zinc-950">
       {user && <PwaInstallPrompt />}
 
-      <div className="relative w-full max-w-md h-dvh bg-zinc-950 overflow-hidden flex flex-col items-center justify-center px-6">
+      <div className="relative w-full max-w-md h-dvh bg-zinc-950 overflow-hidden flex flex-col">
+
+        <PromoBanner />
 
         {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -61,7 +69,7 @@ export default function HomePage() {
           <div className="absolute bottom-1/4 -left-20 w-56 h-56 rounded-full bg-yellow-500/8 blur-3xl" />
         </div>
 
-        <div className="relative z-10 w-full flex flex-col items-center gap-6">
+        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center gap-6 px-6">
 
           {/* Logo */}
           <motion.div
@@ -85,6 +93,24 @@ export default function HomePage() {
               100% sur ton téléphone, rien à télécharger.
             </p>
           </motion.div>
+
+          {/* Partage WhatsApp — invite ton équipe */}
+          <motion.a
+            initial={{ opacity: 0, y: 14, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.45, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            whileTap={{ scale: 0.96 }}
+            href={WHATSAPP_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-2.5 bg-[#25D366] text-zinc-950 font-black py-4 rounded-2xl text-base shadow-[0_0_28px_rgba(37,211,102,.45)]"
+          >
+            <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" aria-hidden>
+              <path d="M17.47 14.38c-.29-.15-1.71-.84-1.97-.94-.27-.1-.46-.15-.66.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.07-1.7-.85-2.81-1.51-3.93-3.42-.3-.51.3-.48.85-1.6.1-.2.05-.37-.05-.52-.1-.15-.66-1.6-.91-2.19-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.8.37-.27.29-1.04 1.02-1.04 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.09 3.2 5.07 4.36 2.98 1.17 2.98.78 3.52.73.54-.05 1.71-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.2-.55-.34Z" />
+              <path d="M12.02 2C6.5 2 2 6.48 2 12c0 1.95.56 3.78 1.62 5.39L2 22l4.74-1.55A9.96 9.96 0 0 0 12.02 22C17.53 22 22 17.52 22 12S17.53 2 12.02 2Zm0 18.13c-1.75 0-3.4-.46-4.83-1.33l-.35-.21-3.13 1.02 1.04-3.05-.23-.36A8.1 8.1 0 0 1 3.9 12c0-4.48 3.65-8.13 8.13-8.13S20.16 7.52 20.16 12s-3.65 8.13-8.14 8.13Z" />
+            </svg>
+            🔥 Chauffer mon équipe
+          </motion.a>
 
           {/* 4 buttons */}
           <motion.div

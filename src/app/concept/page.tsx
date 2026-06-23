@@ -8,6 +8,7 @@ import {
   Clock, Smartphone, Backpack, Calendar,
   ChevronDown, Zap, ChevronRight,
 } from 'lucide-react'
+import { PromoBanner } from '@/components/ui/PromoBanner'
 
 /* ── Variants ── */
 const fadeUp = {
@@ -151,6 +152,8 @@ export default function ConceptPage() {
   return (
     <div className="flex justify-center min-h-dvh bg-zinc-950">
       <div className="relative w-full max-w-md min-h-dvh">
+
+        <PromoBanner />
 
         {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">

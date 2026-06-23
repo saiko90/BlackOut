@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
@@ -13,10 +13,11 @@ type AuthOverlayProps = {
   isOpen: boolean
   onClose: () => void
   onSuccess?: () => void
+  initialMode?: Mode
 }
 
-export function AuthOverlay({ isOpen, onClose, onSuccess }: AuthOverlayProps) {
-  const [mode, setMode] = useState<Mode>('login')
+export function AuthOverlay({ isOpen, onClose, onSuccess, initialMode = 'login' }: AuthOverlayProps) {
+  const [mode, setMode] = useState<Mode>(initialMode)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -35,6 +36,11 @@ export function AuthOverlay({ isOpen, onClose, onSuccess }: AuthOverlayProps) {
     resetForm()
     setMode(next)
   }
+
+  /* ── Repart sur le mode demandé à chaque (ré)ouverture ── */
+  useEffect(() => {
+    if (isOpen) setMode(initialMode)
+  }, [isOpen, initialMode])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

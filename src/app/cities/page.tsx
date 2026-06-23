@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
 import { CITIES } from '@/lib/cities'
+import { PromoBanner } from '@/components/ui/PromoBanner'
 
 const stagger = {
   hidden: {},
@@ -53,6 +54,8 @@ export default function CitiesPage() {
   return (
     <div className="flex justify-center min-h-dvh bg-zinc-950">
       <div className="relative w-full max-w-md min-h-dvh bg-zinc-950 flex flex-col overflow-hidden">
+
+        <PromoBanner />
 
         {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
