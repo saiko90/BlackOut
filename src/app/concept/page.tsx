@@ -177,7 +177,7 @@ export default function ConceptPage() {
           >
             <span className="inline-flex items-center gap-1.5 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-semibold px-3 py-1.5 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-              Disponible à Sion
+              Disponible à Sion et Lausanne
             </span>
             <h1 className="text-3xl font-black text-white leading-tight tracking-tight">
               Comment survivre au{' '}
