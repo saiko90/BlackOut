@@ -108,18 +108,27 @@ export function RouletteModal({ isOpen, penalty, onRetry, onSkipStep }: Roulette
 
             {/* Slot machine */}
             <div className="w-full max-w-xs">
-              <div className="relative bg-zinc-900 border-2 border-red-600/40 rounded-2xl overflow-hidden h-28 flex items-center justify-center shadow-[0_0_40px_rgba(239,68,68,.2)]">
-
-                {/* Scanline effect */}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,.06)_2px,rgba(0,0,0,.06)_4px)]"
-                />
-
-                {/* Lignes de sélection */}
-                <div aria-hidden className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-zinc-900 to-transparent z-10" />
-                <div aria-hidden className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-zinc-900 to-transparent z-10" />
-                <div aria-hidden className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-10 border-t border-b border-red-500/40" />
+              <motion.div
+                layout
+                transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                className={`relative bg-zinc-900 border-2 border-red-600/40 rounded-2xl flex items-center justify-center shadow-[0_0_40px_rgba(239,68,68,.2)] ${
+                  landed
+                    ? 'min-h-28 max-h-[50vh] overflow-y-auto py-5'
+                    : 'h-28 overflow-hidden'
+                }`}
+              >
+                {/* Effets de tirage — masqués une fois le résultat affiché, pour ne pas couper le texte */}
+                {!landed && (
+                  <>
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,.06)_2px,rgba(0,0,0,.06)_4px)]"
+                    />
+                    <div aria-hidden className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-zinc-900 to-transparent z-10" />
+                    <div aria-hidden className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-zinc-900 to-transparent z-10" />
+                    <div aria-hidden className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-10 border-t border-b border-red-500/40" />
+                  </>
+                )}
 
                 <AnimatePresence mode="wait">
                   <motion.p
@@ -135,7 +144,7 @@ export function RouletteModal({ isOpen, penalty, onRetry, onSkipStep }: Roulette
                     {displayText}
                   </motion.p>
                 </AnimatePresence>
-              </div>
+              </motion.div>
 
               {/* Indicateurs latéraux */}
               <div className="flex justify-between mt-2 px-1">

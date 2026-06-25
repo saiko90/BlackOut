@@ -4,11 +4,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Trophy, Share2, Download, Home, Loader2, AlertCircle,
-  Film, Timer, Star, Gift, Medal,
+  Film, Timer, Star, Gift, Medal, Bell,
 } from 'lucide-react'
 import type { GameSession } from '@/lib/supabase/types'
 import { getScenario } from '@/lib/game/scenarios'
-import { cityHashtag } from '@/lib/utils'
+import { cityHashtag, citySlug } from '@/lib/utils'
+import { SocialLinks } from '@/components/ui/SocialLinks'
 
 /* ── Messages humoristiques pendant le rendu ── */
 const LOADING_MESSAGES = [
@@ -54,6 +55,7 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
   const [errorMsg, setErrorMsg]     = useState<string | null>(null)
   const [msgIndex, setMsgIndex]     = useState(0)
   const [shared, setShared]         = useState(false)
+  const [isPreparingShare, setIsPreparingShare] = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
   const pollingRef                  = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -117,20 +119,49 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
   /* ── Hashtag dynamique selon la ville ── */
   const hashtag = cityHashtag(session.city)
 
-  /* ── Partage natif ── */
+  /* ── Partage natif ──
+     Tente d'abord de partager le FICHIER vidéo lui-même (pas juste un lien) : sur mobile,
+     ça fait apparaître Instagram Stories / TikTok / Facebook directement dans le menu de
+     partage natif avec la vidéo déjà prête à poster. Sinon, repli sur un partage de lien
+     classique, puis sur la copie dans le presse-papier. */
   const handleShare = useCallback(async () => {
     if (!videoUrl) return
-    const text = `Je viens de survivre au Black Out à ${session.city} ! 💀🍻 ${hashtag} @BlackOutGame`
-    try {
+    const title = 'Black Out ! — Mon film souvenir'
+    const text  = `Je viens de survivre au Black Out à ${session.city} ! 💀🍻 ${hashtag} @BlackOutGame`
+
+    const shareLinkFallback = async () => {
       if (navigator.share) {
-        await navigator.share({ title: 'Black Out ! — Mon film souvenir', text, url: videoUrl })
+        await navigator.share({ title, text, url: videoUrl })
       } else {
         await navigator.clipboard.writeText(`${text}\n${videoUrl}`)
       }
       setShared(true)
       setTimeout(() => setShared(false), 3000)
-    } catch { /* annulé par l'utilisateur */ }
-  }, [videoUrl])
+    }
+
+    try {
+      if (navigator.canShare) {
+        setIsPreparingShare(true)
+        const response = await fetch(videoUrl)
+        const blob = await response.blob()
+        const file = new File([blob], `BlackOut_${citySlug(session.city)}.mp4`, { type: 'video/mp4' })
+
+        if (navigator.canShare({ files: [file] })) {
+          setIsPreparingShare(false)
+          await navigator.share({ title, text, files: [file] })
+          setShared(true)
+          setTimeout(() => setShared(false), 3000)
+          return
+        }
+      }
+      setIsPreparingShare(false)
+      await shareLinkFallback()
+    } catch (err) {
+      setIsPreparingShare(false)
+      if (err instanceof DOMException && err.name === 'AbortError') return // annulé par l'utilisateur
+      try { await shareLinkFallback() } catch { /* annulé par l'utilisateur */ }
+    }
+  }, [videoUrl, session.city, hashtag])
 
   /* ── Téléchargement blob (reste dans la PWA) ── */
   const handleDownload = useCallback(async () => {
@@ -296,11 +327,17 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
               <motion.button
                 whileTap={{ scale: 0.96 }}
                 onClick={handleShare}
-                className="relative w-full flex flex-col items-center justify-center gap-1 bg-gradient-to-r from-pink-600 to-violet-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(236,72,153,.3)]"
+                disabled={isPreparingShare}
+                className="relative w-full flex flex-col items-center justify-center gap-1 bg-gradient-to-r from-pink-600 to-violet-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(236,72,153,.3)] disabled:opacity-80"
               >
                 <span aria-hidden className="absolute inset-0 animate-pulse bg-white/5" />
                 <span className="relative flex items-center gap-2 text-base">
-                  {shared ? '✓ Partagé !' : <><Share2 size={18} /> Partager ma vidéo</>}
+                  {shared
+                    ? '✓ Partagé !'
+                    : isPreparingShare
+                      ? <><Loader2 size={18} className="animate-spin" /> Préparation…</>
+                      : <><Share2 size={18} /> Partager ma vidéo</>
+                  }
                 </span>
                 <span className="relative text-xs text-white/70 font-normal">{hashtag} @BlackOutGame</span>
               </motion.button>
@@ -346,6 +383,18 @@ export function VictoryScreen({ session, onHome }: VictoryScreenProps) {
                   </p>
                 </div>
               </div>
+
+              {/* Teaser nouveaux scénarios */}
+              <div className="glass rounded-2xl p-4 flex items-center gap-3 border border-violet-500/15">
+                <div className="w-9 h-9 rounded-xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center shrink-0">
+                  <Bell size={16} className="text-violet-400" />
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Reste connecté : de nouveaux scénarios pour <span className="text-white font-semibold">{session.city}</span> arriveront bientôt 👀
+                </p>
+              </div>
+
+              <SocialLinks className="pt-2" />
             </motion.div>
           )}
 

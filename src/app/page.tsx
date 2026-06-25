@@ -12,6 +12,7 @@ import { AuthOverlay } from '@/components/auth/AuthOverlay'
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt'
 import { PromoBanner } from '@/components/ui/PromoBanner'
 import { TestimonialsCarousel } from '@/components/ui/TestimonialsCarousel'
+import { SocialLinks } from '@/components/ui/SocialLinks'
 
 const stagger = {
   hidden: {},
@@ -208,6 +209,8 @@ export default function HomePage() {
             <span className="text-zinc-700">·</span>
             <Link href="/mentions-legales" className="underline underline-offset-2 hover:text-zinc-200 transition-colors">Mentions légales</Link>
           </motion.div>
+
+          <SocialLinks />
 
           <TestimonialsCarousel />
         </div>
