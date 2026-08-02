@@ -17,6 +17,20 @@ export function cityHashtag(city: string): string {
   return `#BlackOut${citySlug(city)}`
 }
 
+/* ── Normalise une réponse texte pour comparaison tolérante (accents, casse, ponctuation, articles) ── */
+export function normalizeAnswer(raw: string): string {
+  return raw
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[’]/g, "'")
+    .replace(/[.,!?;:"()-]/g, ' ')
+    .trim()
+    .replace(/^(?:le |la |les |un |une |des |du |de |l'|d')/i, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 /* ── Jours restants avant la fin du mois en cours (tirage du concours mensuel) ── */
 export function daysLeftInMonth(): number {
   const now = new Date()

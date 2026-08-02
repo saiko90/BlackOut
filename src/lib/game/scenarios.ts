@@ -1,10 +1,12 @@
 import type { Step } from './sion-scenario'
 import { SION_SCENARIO } from './sion-scenario'
 import { LAUSANNE_SCENARIO } from './lausanne-scenario'
+import { GENEVE_SCENARIO } from './geneve-scenario'
 
 export const SCENARIOS: Record<string, Step[]> = {
   Sion: SION_SCENARIO,
   Lausanne: LAUSANNE_SCENARIO,
+  Genève: GENEVE_SCENARIO,
 }
 
 export function getScenario(city: string | undefined | null): Step[] {

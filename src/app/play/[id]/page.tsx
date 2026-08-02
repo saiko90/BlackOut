@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { useToastStore } from '@/store/toastStore'
 import { getScenario, TOTAL_STEPS } from '@/lib/game/scenarios'
+import { normalizeAnswer } from '@/lib/utils'
 import { getUploadToken, recordMediaUpload } from '@/app/actions/upload'
 import { TopBar } from '@/components/game/TopBar'
 import { StepCard } from '@/components/game/StepCard'
@@ -103,7 +104,7 @@ export default function PlayPage() {
   const handleTextSubmit = (answer: string) => {
     if (!step) return
     if (step.expectedAnswer) {
-      const correct = answer.trim().toLowerCase() === step.expectedAnswer.toLowerCase()
+      const correct = normalizeAnswer(answer) === normalizeAnswer(step.expectedAnswer)
       if (!correct) {
         setPenalty(step.penalty)
         setPhase('roulette')

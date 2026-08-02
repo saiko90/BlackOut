@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 const SITE_URL = 'https://www.theblackoutgame.ch'
 const SITE_TITLE = 'Black Out ! — Le jeu urbain qui détruit la dignité'
 const SITE_DESCRIPTION =
-  'Le rallye urbain en équipe à Sion et Lausanne. Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues. 12 défis, ~2h de jeu, un film souvenir généré par IA.'
+  'Le rallye urbain en équipe à Sion, Lausanne et Genève. Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues. 12 défis, ~2h de jeu, un film souvenir généré par IA.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

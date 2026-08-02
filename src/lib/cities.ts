@@ -11,7 +11,7 @@ export const CITIES: City[] = [
   { name: 'Sion',     region: 'Valais',   country: 'Suisse', price: '29 CHF', emoji: '🏔️', isActive: true  },
   { name: 'Lausanne', region: 'Vaud',     country: 'Suisse', price: '29 CHF', emoji: '🌊', isActive: true  },
   { name: 'Martigny', region: 'Valais',   country: 'Suisse', price: '29 CHF', emoji: '🍷', isActive: false },
-  { name: 'Genève',   region: 'Genève',   country: 'Suisse', price: '29 CHF', emoji: '⌚', isActive: false },
+  { name: 'Genève',   region: 'Genève',   country: 'Suisse', price: '29 CHF', emoji: '⌚', isActive: true  },
   { name: 'Fribourg', region: 'Fribourg', country: 'Suisse', price: '29 CHF', emoji: '🏰', isActive: false },
 ]
 

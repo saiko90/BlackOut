@@ -50,6 +50,24 @@ const INTRO_CONTENT: Record<string, { locationLabel: string; headline: React.Rea
     ],
     warning: <>⚠️ Attention : chaque étape exige des preuves visuelles pour avancer.</>,
   },
+  Genève: {
+    locationLabel: 'Genève · 14h00',
+    headline: (
+      <>
+        BLACK-OUT
+        <br />
+        AU BORD
+        <br />
+        <span className="text-pink-400 text-glow-pink">DU LAC.</span>
+      </>
+    ),
+    narration: [
+      <>Votre dernier souvenir ?{' '}<strong className="text-white">Un jet d&apos;eau, un Mojito de trop, et une tentative de bain dans le Rhône.</strong></>,
+      <>Vous vous réveillez à Cornavin,{' '}<strong className="text-pink-400">sans montre, sans honneur, sans aucun souvenir…</strong></>,
+      <>Pour retrouver votre dignité, vous allez devoir{' '}<strong className="text-white">retracer votre soirée à travers la ville.</strong></>,
+    ],
+    warning: <>⚠️ Attention : chaque étape exige des preuves visuelles pour avancer.</>,
+  },
 }
 
 export function IntroStoryModal({ isOpen, city, onStart }: IntroStoryModalProps) {
