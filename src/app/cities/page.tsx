@@ -8,7 +8,7 @@ import { ArrowLeft, MapPin, Lock } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
-import { CITIES } from '@/lib/cities'
+import { getSortedCities } from '@/lib/cities'
 import { PromoBanner } from '@/components/ui/PromoBanner'
 import { daysLeftInMonth } from '@/lib/utils'
 
@@ -110,7 +110,7 @@ export default function CitiesPage() {
           animate="visible"
           className="relative z-10 flex flex-col gap-3 px-4 pb-12"
         >
-          {CITIES.map((city) =>
+          {getSortedCities().map((city) =>
             city.isActive ? (
               <motion.button
                 key={city.name}
