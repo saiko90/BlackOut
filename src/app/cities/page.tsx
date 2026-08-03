@@ -56,7 +56,7 @@ export default function CitiesPage() {
   }
 
   return (
-    <div className="flex justify-center min-h-dvh bg-zinc-950">
+    <main className="flex justify-center min-h-dvh bg-zinc-950">
       <div className="relative w-full max-w-md min-h-dvh bg-zinc-950 flex flex-col overflow-hidden">
 
         <PromoBanner />
@@ -68,15 +68,15 @@ export default function CitiesPage() {
         </div>
 
         {/* Header */}
-        <div className="relative z-10 flex items-center px-4 pt-12 pb-6">
+        <nav aria-label="Retour" className="relative z-10 flex items-center px-4 pt-12 pb-6">
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 transition-colors text-sm font-medium"
+            className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 transition-colors text-sm font-medium rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
           >
             <ArrowLeft size={16} />
             Retour
           </Link>
-        </div>
+        </nav>
 
         {/* Title */}
         <motion.div
@@ -91,7 +91,7 @@ export default function CitiesPage() {
           <p className="text-zinc-500 text-sm mt-2">
             Une ville, une nuit, des défis absurdes.
           </p>
-          <p className="text-zinc-600 text-xs mt-1">
+          <p className="text-zinc-400 text-xs mt-1">
             29 CHF pour toute l&apos;équipe · nombre de joueurs illimité
           </p>
           <p className="text-amber-400/80 text-xs mt-3 font-semibold">
@@ -113,12 +113,12 @@ export default function CitiesPage() {
                 variants={fadeUp}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleSelectCity(city.name)}
-                className="w-full text-left flex items-center gap-4 px-5 py-4 rounded-2xl border border-violet-500/40 bg-violet-500/8 hover:bg-violet-500/14 hover:border-violet-500/60 transition-all group"
+                className="w-full text-left flex items-center gap-4 px-5 py-4 rounded-2xl border border-violet-500/40 bg-violet-500/8 hover:bg-violet-500/14 hover:border-violet-500/60 transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
               >
                 <span className="text-3xl">{city.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-lg font-black text-white">{city.name}</span>
+                    <h2 className="text-lg font-black text-white">{city.name}</h2>
                     <span className="inline-flex items-center gap-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       Disponible
@@ -142,7 +142,7 @@ export default function CitiesPage() {
                 <span className="text-3xl grayscale">{city.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-lg font-black text-zinc-400">{city.name}</span>
+                    <h2 className="text-lg font-black text-zinc-400">{city.name}</h2>
                     <span className="inline-flex items-center gap-1 bg-zinc-700/40 border border-zinc-600/40 text-zinc-500 text-[10px] font-bold px-2 py-0.5 rounded-full">
                       <Lock size={8} />
                       Prochainement
@@ -169,6 +169,6 @@ export default function CitiesPage() {
           oauthRedirectPath={pendingCity ? `/cities?pendingCity=${encodeURIComponent(pendingCity)}` : '/cities'}
         />
       </div>
-    </div>
+    </main>
   )
 }

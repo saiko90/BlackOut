@@ -126,7 +126,7 @@ function FaqItem({ q, a, icon: Icon }: { q: string; a: React.ReactNode; icon: Re
     >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left"
+        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-inset"
       >
         <div className="flex items-center gap-3 min-w-0">
           <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shrink-0">
@@ -177,16 +177,18 @@ export default function ConceptPage() {
           <div className="absolute bottom-1/4 -left-24 w-56 h-56 rounded-full bg-amber-500/6 blur-3xl" />
         </div>
 
-        <div className="relative z-10 px-4 pt-12 pb-16 space-y-10">
+        <main className="relative z-10 px-4 pt-12 pb-16 space-y-10">
 
           {/* ── Retour ── */}
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors"
-          >
-            <ArrowLeft size={16} />
-            Retour
-          </Link>
+          <nav aria-label="Retour">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            >
+              <ArrowLeft size={16} />
+              Retour
+            </Link>
+          </nav>
 
           {/* ── HERO ── */}
           <motion.header
@@ -214,12 +216,12 @@ export default function ConceptPage() {
 
           {/* ── 4 ÉTAPES ── */}
           <section className="space-y-3">
-            <motion.p
+            <motion.h2
               custom={1} variants={fadeUp} initial="hidden" animate="visible"
               className="text-xs font-semibold text-zinc-500 uppercase tracking-widest"
             >
               Les 4 étapes
-            </motion.p>
+            </motion.h2>
 
             {STEPS.map((step, i) => {
               const Icon = step.icon
@@ -240,7 +242,7 @@ export default function ConceptPage() {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`font-bold text-white text-base mb-1`}>{step.title}</p>
+                      <h3 className={`font-bold text-white text-base mb-1`}>{step.title}</h3>
                       <p className="text-sm text-zinc-400 leading-relaxed">{step.body}</p>
                     </div>
                   </div>
@@ -268,12 +270,12 @@ export default function ConceptPage() {
 
           {/* ── FAQ ── */}
           <section className="space-y-3">
-            <motion.p
+            <motion.h2
               custom={8} variants={fadeUp} initial="hidden" animate="visible"
               className="text-xs font-semibold text-zinc-500 uppercase tracking-widest"
             >
               Questions fréquentes
-            </motion.p>
+            </motion.h2>
 
             <motion.div
               custom={9} variants={fadeUp} initial="hidden" animate="visible"
@@ -290,7 +292,7 @@ export default function ConceptPage() {
             custom={10} variants={fadeUp} initial="hidden" animate="visible"
             className="space-y-3 pt-2"
           >
-            <Link href="/" className="block">
+            <Link href="/" className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950">
               <motion.div
                 whileTap={{ scale: 0.97 }}
                 whileHover={{ scale: 1.01 }}
@@ -301,12 +303,12 @@ export default function ConceptPage() {
                 <ChevronRight size={18} />
               </motion.div>
             </Link>
-            <p className="text-center text-xs text-zinc-600">
+            <p className="text-center text-xs text-zinc-400">
               Paiement sécurisé · TWINT &amp; carte bancaire · Powered by Stripe
             </p>
           </motion.div>
 
-        </div>
+        </main>
       </div>
     </div>
   )
