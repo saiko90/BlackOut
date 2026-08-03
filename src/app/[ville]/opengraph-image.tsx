@@ -1,14 +1,16 @@
 import { buildOgImage, OG_SIZE } from '@/lib/seo/og-image-template'
+import { VILLES_CONTENT } from '@/data/villes'
 
-// TODO : rendre alt/subtitle dynamiques par ville (via params) le jour
-// où Sion et Lausanne sont ajoutés à KNOWN_VILLE_SLUGS dans page.tsx.
-export const alt = 'Black Out ! — Rallye urbain à Genève'
+export const alt = 'Black Out ! — Rallye urbain'
 export const size = OG_SIZE
 export const contentType = 'image/png'
 
-export default async function Image() {
+export default async function Image({ params }: { params: Promise<{ ville: string }> }) {
+  const { ville } = await params
+  const content = VILLES_CONTENT[ville]
+
   return buildOgImage({
-    subtitle: 'Rallye urbain à Genève',
+    subtitle: content?.h1 ?? 'Rallye urbain',
     bottomText: '29 CHF par équipe · joueurs illimités',
     badgeText: 'Disponible',
   })

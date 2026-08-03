@@ -72,7 +72,57 @@ export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
     ctaLabel: 'Jouer à Genève →',
   },
 
-  // sion: // TODO: contenu Sion
+  lausanne: {
+    slug: 'lausanne',
+    title: 'Rallye urbain à Lausanne — EVG, EVJF & sorties entre amis | Black Out !',
+    description:
+      "Jeu de piste géolocalisé dans Lausanne. 12 défis, ~2h, départ à la gare. 29 CHF pour toute l'équipe, joueurs illimités. Rien à télécharger.",
+    heroImage: {
+      src: '/cities/lausanne.jpg',
+      alt: 'Place de Lausanne éclairée la nuit',
+    },
+    h1: 'Rallye urbain à Lausanne',
+    subhead: 'Ta ville. Ton équipe. Douze mauvaises décisions.',
+    intro: [
+      "Tu te réveilles devant la gare sans aucun souvenir de la nuit. Douze défis te séparent de la vérité, et Lausanne est une ville qui monte.",
+      "Black Out ! est un jeu de piste géolocalisé qui transforme le centre de Lausanne en terrain de jeu. Ton équipe suit les instructions sur son téléphone, le GPS valide chaque position, et personne ne ressort tout à fait pareil.",
+    ],
+    sections: [
+      {
+        heading: 'Le terrain',
+        paragraphs: [
+          "Départ devant la gare CFF. La première montée arrive tout de suite — Lausanne ne fait pas de cadeau, et vos mollets vont le comprendre avant vos cerveaux. Le parcours traverse ensuite Saint-François, plonge dans la vieille ville par les places et les escaliers, longe le Grand-Pont, puis redescend jusqu'au Flon pour le final.",
+          "C'est la seule ville du jeu où le dénivelé fait partie des défis. Comptez environ deux heures, en prenant votre temps dans les montées. Chaussures fermées recommandées.",
+        ],
+      },
+      {
+        heading: 'Ce qui vous attend',
+        paragraphs: [
+          "Des énigmes qui demandent d'ouvrir les yeux sur des bâtiments que vous croisez depuis des années sans les regarder. Des photos de groupe que vous n'oserez pas montrer à vos parents. Des défis qui impliquent de parler à des inconnus dans une rue piétonne bondée. Et un compteur de décibels qui ne fait aucune concession.",
+          'Chaque équipe repart avec son film souvenir, monté automatiquement à partir de ses propres photos et vidéos.',
+        ],
+      },
+      {
+        heading: 'Pour qui',
+        paragraphs: [
+          "EVG, EVJF, anniversaire, sortie d'équipe, ou simplement un samedi après-midi à Lausanne dont vous parlerez encore dans dix ans.",
+          'De 3 à 15 joueurs environ. Au-delà, jouez en plusieurs équipes et comparez les scores.',
+          'Un conseil : le final se joue au Flon. Ne prévoyez rien juste après.',
+        ],
+      },
+    ],
+    infosPratiques: [
+      { label: 'Départ', value: 'gare de Lausanne' },
+      { label: 'Arrivée', value: 'quartier du Flon' },
+      { label: 'Durée', value: 'environ 2 heures' },
+      { label: 'Prix', value: "29 CHF pour toute l'équipe, nombre de joueurs illimité" },
+      { label: 'Matériel', value: 'un smartphone chargé par équipe, GPS et caméra activés' },
+      { label: 'Installation', value: "aucune. Le jeu s'ouvre dans le navigateur" },
+      { label: 'Quand', value: "toute l'année, à l'heure que vous voulez" },
+      { label: 'Terrain', value: 'dénivelé important, chaussures confortables conseillées' },
+    ],
+    ctaLabel: 'Jouer à Lausanne →',
+  },
 
-  // lausanne: // TODO: contenu Lausanne
+  // sion: // TODO: contenu Sion
 }
