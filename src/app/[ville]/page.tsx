@@ -16,7 +16,7 @@ export const viewport = marketingViewport
    Ajouter 'sion' / 'lausanne' ici une fois leur contenu rédigé dans
    src/data/villes.ts — sans ça, generateStaticParams ne les construit
    pas et /sion, /lausanne renvoient 404 (notFound() ci-dessous). ── */
-const KNOWN_VILLE_SLUGS = ['geneve', 'lausanne']
+const KNOWN_VILLE_SLUGS = ['geneve', 'lausanne', 'sion']
 
 export function generateStaticParams() {
   return KNOWN_VILLE_SLUGS.map((ville) => ({ ville }))
