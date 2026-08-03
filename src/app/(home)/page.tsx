@@ -13,6 +13,7 @@ import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt'
 import { PromoBanner } from '@/components/ui/PromoBanner'
 import { TestimonialsCarousel } from '@/components/ui/TestimonialsCarousel'
 import { SocialLinks } from '@/components/ui/SocialLinks'
+import { getActiveCities } from '@/lib/cities'
 
 const stagger = {
   hidden: {},
@@ -192,6 +193,23 @@ export default function HomePage() {
                 </div>
               </a>
             </motion.div>
+          </motion.div>
+
+          {/* Liens villes */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.65 }}
+            className="flex items-center gap-2 text-xs text-zinc-400"
+          >
+            {getActiveCities().map((city, i) => (
+              <span key={city.slug} className="flex items-center gap-2">
+                {i > 0 && <span className="text-zinc-600">·</span>}
+                <Link href={`/${city.slug}`} className="hover:text-zinc-200 transition-colors">
+                  {city.name}
+                </Link>
+              </span>
+            ))}
           </motion.div>
 
           {/* Legal links */}
