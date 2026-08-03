@@ -26,10 +26,8 @@ export default function CitiesPage() {
   const router = useRouter()
   const { user, setUser } = useGameStore()
   const [authOpen, setAuthOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
     })
@@ -56,8 +54,6 @@ export default function CitiesPage() {
       router.push(`/checkout?city=${encodeURIComponent(cityName)}`)
     }
   }
-
-  if (!mounted) return null
 
   return (
     <div className="flex justify-center min-h-dvh bg-zinc-950">
