@@ -1,8 +1,16 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
+import { marketingViewport } from '@/lib/seo/viewport'
 
-export const metadata = {
-  title: 'Conditions Générales de Vente — Black Out!',
+export const viewport = marketingViewport
+
+export const metadata: Metadata = {
+  title: 'Conditions Générales de Vente',
+  description: 'Conditions générales de vente de Black Out !, le rallye urbain en équipe à Sion, Lausanne et Genève.',
+  alternates: {
+    canonical: '/cgv',
+  },
 }
 
 export default function CGVPage() {

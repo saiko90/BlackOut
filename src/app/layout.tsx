@@ -18,13 +18,16 @@ const geistMono = Geist_Mono({
 })
 
 const SITE_URL = 'https://www.theblackoutgame.ch'
-const SITE_TITLE = 'Black Out ! — Le jeu urbain qui détruit la dignité'
+const SITE_TITLE = 'Black Out — Rallye urbain EVG & EVJF à Sion, Lausanne et Genève'
 const SITE_DESCRIPTION =
   'Le rallye urbain en équipe à Sion, Lausanne et Genève. Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues. 12 défis, ~2h de jeu, un film souvenir généré par IA.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_TITLE,
+  title: {
+    default: SITE_TITLE,
+    template: '%s | Black Out',
+  },
   description: SITE_DESCRIPTION,
   manifest: '/manifest.json',
   appleWebApp: {
@@ -65,7 +68,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="fr"
+      lang="fr-CH"
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
     >
       <body className="min-h-dvh bg-zinc-950 text-white antialiased overflow-x-hidden">

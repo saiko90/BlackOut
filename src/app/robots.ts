@@ -11,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         '/admingodmode',
         '/forgot-password',
         '/reset-password',
+        '/checkout',
       ],
     },
     sitemap: 'https://www.theblackoutgame.ch/sitemap.xml',
