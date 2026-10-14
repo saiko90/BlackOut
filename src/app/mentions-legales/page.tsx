@@ -28,7 +28,7 @@ export default function MentionsLegalesPage() {
         </Link>
 
         <h1 className="text-3xl font-black text-white mb-2">Mentions Légales</h1>
-        <p className="text-sm text-zinc-500 mb-10">Dernière mise à jour : juin 2025</p>
+        <p className="text-sm text-zinc-500 mb-10">Dernière mise à jour : octobre 2026</p>
 
         <div className="space-y-8 text-sm leading-relaxed">
 
@@ -60,6 +60,17 @@ export default function MentionsLegalesPage() {
                     className="text-violet-400 hover:text-violet-300 transition-colors"
                   >
                     contact@theblackoutgame.ch
+                  </a>
+                </dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="text-zinc-500 shrink-0 w-36">Téléphone</dt>
+                <dd>
+                  <a
+                    href="tel:+41787116411"
+                    className="text-violet-400 hover:text-violet-300 transition-colors"
+                  >
+                    +41 78 711 64 11
                   </a>
                 </dd>
               </div>
