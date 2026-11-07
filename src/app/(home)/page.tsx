@@ -28,7 +28,7 @@ const WHATSAPP_MESSAGE =
   '🚨 SOS dignité ! Je monte une équipe pour BLACK OUT !, le rallye urbain qui va nous détruire 💀🍻 ' +
   'Qui est assez fou pour venir ? 👉 https://www.theblackoutgame.ch'
 const PROGRAMME = [
-  { title: '12 défis', text: 'Énigmes, photos de groupe et gages, validés par GPS.' },
+  { title: '12 défis', text: 'Énigmes, photos et gages ; chaque étape se valide sur place, par GPS.' },
   { title: '~2 h à pied', text: 'Départ à la gare, parcours dans le centre-ville.' },
   { title: 'Film souvenir', text: 'Monté automatiquement par IA avec vos photos et vidéos.' },
   { title: '29 CHF', text: "Pour toute l'équipe, nombre de joueurs illimité." },
