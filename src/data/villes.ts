@@ -24,9 +24,9 @@ export type VilleContent = {
 export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
   geneve: {
     slug: 'geneve',
-    title: 'Rallye urbain à Genève — EVG, EVJF & sorties entre amis | Black Out !',
+    title: 'Rallye urbain à Genève : jeu de piste EVJF/EVG | 29 CHF',
     description:
-      "Jeu de piste géolocalisé dans Genève. 12 défis, ~2h, départ à Cornavin. 29 CHF pour toute l'équipe, joueurs illimités. Rien à télécharger.",
+      "Jeu de piste dans Genève, de Cornavin au Jet d'Eau : 12 défis sur smartphone, ~2 h, film souvenir IA. 29 CHF pour toute l'équipe, joueurs illimités.",
     heroImage: {
       src: '/cities/geneve.jpg',
       alt: 'Rue de la vieille ville de Genève la nuit',
@@ -74,9 +74,9 @@ export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
 
   lausanne: {
     slug: 'lausanne',
-    title: 'Rallye urbain à Lausanne — EVG, EVJF & sorties entre amis | Black Out !',
+    title: 'Rallye urbain à Lausanne : jeu de piste EVJF/EVG | 29 CHF',
     description:
-      "Jeu de piste géolocalisé dans Lausanne. 12 défis, ~2h, départ à la gare. 29 CHF pour toute l'équipe, joueurs illimités. Rien à télécharger.",
+      "Jeu de piste dans Lausanne, de la gare au Flon : 12 défis sur smartphone, ~2 h, film souvenir IA. 29 CHF pour toute l'équipe, joueurs illimités.",
     heroImage: {
       src: '/cities/lausanne.jpg',
       alt: 'Place de Lausanne éclairée la nuit',
@@ -126,9 +126,9 @@ export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
 
   sion: {
     slug: 'sion',
-    title: 'Rallye urbain à Sion — EVG, EVJF & sorties entre amis | Black Out !',
+    title: 'Jeu de piste à Sion : rallye urbain EVJF/EVG | 29 CHF',
     description:
-      "Jeu de piste géolocalisé dans Sion. 12 défis, ~2h, départ à la gare, final sous les châteaux. 29 CHF pour toute l'équipe, joueurs illimités. Rien à télécharger.",
+      "Escape game en plein air à Sion : 12 défis sur smartphone, de la gare au château de Valère, ~2 h et film souvenir IA. 29 CHF pour toute l'équipe.",
     heroImage: {
       src: '/cities/sion.jpg',
       alt: 'Place de la vieille ville de Sion éclairée la nuit',
