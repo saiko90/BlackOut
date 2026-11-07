@@ -126,7 +126,7 @@ export const INTENTIONS_CONTENT: Record<'evjf' | 'evg', IntentionContent> = {
     h1: 'EVG : un rallye urbain pour enterrer sa vie de garçon',
     intro: [
       "Pour un enterrement de vie de garçon, il y a les classiques qu'on a tous déjà faits. Black Out ! propose autre chose : un rallye urbain sur smartphone où le futur marié et ses potes enchaînent douze défis absurdes dans les rues de Sion, Lausanne ou Genève.",
-      "Le scénario : vous vous réveillez à la gare sans aucun souvenir de la veille, et douze défis vous séparent de la vérité. Environ deux heures à pied, un téléphone par équipe, et à la fin un film souvenir monté par IA que le marié ne pourra pas effacer.",
+      "Le scénario : vous vous réveillez à la gare sans aucun souvenir de la veille, et douze défis vous séparent de la vérité. Environ deux heures à pied, un téléphone par équipe, et à la fin un film souvenir monté par IA que le marié n'est pas près d'oublier.",
     ],
     sections: [
       {
@@ -176,7 +176,7 @@ export const INTENTIONS_CONTENT: Record<'evjf' | 'evg', IntentionContent> = {
     faqHeading: "Questions sur l'EVG Black Out !",
     faq: [
       {
-        q: 'Combien coûte un EVG avec Black Out ! ?',
+        q: 'Combien coûte un EVG à Sion, Lausanne ou Genève ?',
         a: "29 CHF pour toute l'équipe, quel que soit le nombre de joueurs. Le film souvenir est inclus.",
       },
       {
