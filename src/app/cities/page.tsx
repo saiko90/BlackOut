@@ -108,31 +108,41 @@ export default function CitiesPage() {
         >
           {getSortedCities().map((city) =>
             city.isActive ? (
-              <motion.button
+              <motion.div
                 key={city.name}
                 variants={fadeUp}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handleSelectCity(city.name)}
-                className="w-full text-left flex items-center gap-4 px-5 py-4 rounded-2xl border border-violet-500/40 bg-violet-500/8 hover:bg-violet-500/14 hover:border-violet-500/60 transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                className="w-full rounded-2xl border border-violet-500/40 bg-violet-500/8 hover:border-violet-500/60 transition-all"
               >
-                <span className="text-3xl">{city.emoji}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-lg font-black text-white">{city.name}</h2>
-                    <span className="inline-flex items-center gap-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Disponible
-                    </span>
+                <div className="flex items-center gap-4 px-5 pt-4 pb-3">
+                  <span className="text-3xl">{city.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="text-lg font-black text-white">{city.name}</h2>
+                      <span className="inline-flex items-center gap-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Disponible
+                      </span>
+                    </div>
+                    <p className="text-xs text-zinc-400 mt-0.5">{city.region} · {city.country}</p>
                   </div>
-                  <p className="text-xs text-zinc-400 mt-0.5">{city.region} · {city.country}</p>
+                  <p className="text-base font-black text-white shrink-0">{city.price}<span className="text-[10px] font-semibold text-zinc-500">/équipe</span></p>
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="text-base font-black text-white">{city.price}<span className="text-[10px] font-semibold text-zinc-500">/équipe</span></p>
-                  <p className="text-[10px] text-violet-400 font-semibold mt-0.5 group-hover:text-violet-300 transition-colors">
+                <div className="flex items-center gap-2 px-5 pb-4">
+                  <Link
+                    href={`/${city.slug}`}
+                    className="flex-1 text-center text-xs font-semibold text-zinc-300 hover:text-white py-2.5 rounded-xl border border-white/10 hover:border-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                  >
+                    Voir le parcours de {city.name}
+                  </Link>
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => handleSelectCity(city.name)}
+                    className="flex-1 text-xs font-bold text-white py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                  >
                     Jouer →
-                  </p>
+                  </motion.button>
                 </div>
-              </motion.button>
+              </motion.div>
             ) : (
               <motion.div
                 key={city.name}

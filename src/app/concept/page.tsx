@@ -59,6 +59,12 @@ const STEPS = [
   },
 ]
 
+const CITY_LINKS = [
+  { href: '/sion', label: 'Jeu de piste à Sion' },
+  { href: '/lausanne', label: 'Rallye urbain à Lausanne' },
+  { href: '/geneve', label: 'Rallye urbain à Genève' },
+]
+
 const FAQ = [
   {
     q: 'Combien de temps ça dure ?',
@@ -249,6 +255,29 @@ export default function ConceptPage() {
                 </motion.div>
               )
             })}
+          </section>
+
+          {/* ── Maillage vers les pages villes ── */}
+          <section aria-labelledby="choisis-ta-ville" className="space-y-3">
+            <h2
+              id="choisis-ta-ville"
+              className="text-xs font-semibold text-zinc-500 uppercase tracking-widest"
+            >
+              Choisis ta ville :
+            </h2>
+            <ul className="space-y-2">
+              {CITY_LINKS.map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className="glass rounded-2xl px-5 py-3.5 flex items-center justify-between gap-3 text-sm font-semibold text-white hover:border-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                  >
+                    {label}
+                    <ChevronRight size={16} className="text-zinc-500 shrink-0" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </section>
 
           {/* ── CHIFFRES CLÉS ── */}

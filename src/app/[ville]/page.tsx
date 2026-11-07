@@ -7,7 +7,7 @@ import { PromoBanner } from '@/components/ui/PromoBanner'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { marketingViewport } from '@/lib/seo/viewport'
 import { buildSocial } from '@/lib/seo/og'
-import { getCityBySlug } from '@/lib/cities'
+import { getActiveCities, getCityBySlug } from '@/lib/cities'
 import { VILLES_CONTENT } from '@/data/villes'
 import { PlayCta } from './PlayCta'
 
@@ -178,6 +178,38 @@ export default async function VillePage({ params }: VillePageProps) {
                     {info.value}
                   </li>
                 ))}
+              </ul>
+            </section>
+
+            {/* ── Maillage : autres villes + concept ── */}
+            <section aria-labelledby="autres-villes" className="space-y-3">
+              <h2
+                id="autres-villes"
+                className="text-xl font-black text-white leading-snug tracking-tight"
+              >
+                Le rallye dans les autres villes
+              </h2>
+              <ul className="space-y-2 text-sm">
+                {getActiveCities()
+                  .filter((c) => c.slug !== ville)
+                  .map((c) => (
+                    <li key={c.slug}>
+                      <Link
+                        href={`/${c.slug}`}
+                        className="text-violet-300 hover:text-violet-200 underline underline-offset-2 transition-colors"
+                      >
+                        Rallye urbain à {c.name}
+                      </Link>
+                    </li>
+                  ))}
+                <li>
+                  <Link
+                    href="/concept"
+                    className="text-violet-300 hover:text-violet-200 underline underline-offset-2 transition-colors"
+                  >
+                    Comment se déroule une partie
+                  </Link>
+                </li>
               </ul>
             </section>
 

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: '%s | Black Out',
+    template: '%s | Black Out Game',
   },
   description: SITE_DESCRIPTION,
   manifest: '/manifest.json',

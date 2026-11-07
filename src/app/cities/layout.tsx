@@ -6,12 +6,12 @@ import { getActiveCities } from '@/lib/cities'
 
 export const viewport = marketingViewport
 
-const TITLE = 'Choisis ta ville'
+const TITLE = 'Choisir sa ville : Sion, Lausanne ou Genève | Black Out Game'
 const DESCRIPTION =
-  'Black Out !, le rallye urbain disponible à Sion, Lausanne et Genève. 29 CHF par équipe, joueurs illimités, 12 défis, film souvenir généré par IA.'
+  'Trois parcours de jeu de piste sur smartphone : Sion, Lausanne et Genève. 29 CHF par équipe, joueurs illimités, environ 2 h. Choisis ta ville.'
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: {
     canonical: '/cities',
@@ -50,7 +50,7 @@ const BREADCRUMB_JSON_LD = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.theblackoutgame.ch/' },
-    { '@type': 'ListItem', position: 2, name: 'Choisis ta ville', item: 'https://www.theblackoutgame.ch/cities' },
+    { '@type': 'ListItem', position: 2, name: 'Choisir sa ville', item: 'https://www.theblackoutgame.ch/cities' },
   ],
 }
 

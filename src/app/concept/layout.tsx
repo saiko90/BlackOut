@@ -5,12 +5,12 @@ import { buildSocial } from '@/lib/seo/og'
 
 export const viewport = marketingViewport
 
-const TITLE = 'Le concept'
+const TITLE = 'Rallye urbain sur smartphone : le concept Black Out Game'
 const DESCRIPTION =
-  "Comment se déroule Black Out ! : achetez un pass d'équipe, rendez-vous à la gare, relevez 12 défis dans la ville et repartez avec un film souvenir généré par IA. Le mode d'emploi complet."
+  "Un pass à 29 CHF pour toute l'équipe, départ à la gare, 12 défis géolocalisés et un film souvenir IA, sans appli à télécharger. Le mode d'emploi."
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: {
     canonical: '/concept',
