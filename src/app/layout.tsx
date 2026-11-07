@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { ToastContainer } from '@/components/ui/Toast'
 import { MetaPixel } from '@/components/analytics/MetaPixel'
 import { TikTokPixel } from '@/components/analytics/TikTokPixel'
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION } from '@/lib/seo/site'
 import './globals.css'
 
 
@@ -17,10 +18,6 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const SITE_URL = 'https://www.theblackoutgame.ch'
-const SITE_TITLE = 'Black Out — Rallye urbain EVG & EVJF à Sion, Lausanne et Genève'
-const SITE_DESCRIPTION =
-  'Le rallye urbain en équipe à Sion, Lausanne et Genève. Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues. 12 défis, ~2h de jeu, un film souvenir généré par IA.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -77,12 +77,8 @@ export default function HomePage() {
         <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center gap-6 px-6 py-8">
 
           {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col items-center gap-3"
-          >
+          {/* Pas d'animation d'entrée : logo (LCP) et h1 visibles dès le HTML serveur */}
+          <div className="flex flex-col items-center gap-3">
             <Image
               src="/logo.png"
               alt="Black Out !"
@@ -91,7 +87,10 @@ export default function HomePage() {
               className="drop-shadow-[0_0_24px_rgba(236,72,153,0.45)]"
               priority
             />
-            <p className="text-white text-lg font-semibold text-center leading-snug">
+            <h1 className="text-white text-lg font-semibold text-center leading-snug">
+              Rallye urbain sur smartphone à Sion, Lausanne et Genève
+            </h1>
+            <p className="text-zinc-300 text-sm text-center">
               Le rallye urbain qui détruit la dignité.
             </p>
             <p className="text-zinc-400 text-sm text-center">
@@ -100,7 +99,7 @@ export default function HomePage() {
             <p className="text-zinc-500 text-xs text-center">
               Idéal pour un EVG, un EVJF, un anniversaire ou une sortie entre collègues.
             </p>
-          </motion.div>
+          </div>
 
           {/* Partage WhatsApp — invite ton équipe */}
           <motion.a
