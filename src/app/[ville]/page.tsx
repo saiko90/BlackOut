@@ -176,6 +176,20 @@ export default async function VillePage({ params }: VillePageProps) {
                     {paragraph}
                   </p>
                 ))}
+                {section.links && (
+                  <ul className="space-y-1 text-sm">
+                    {section.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-violet-300 hover:text-violet-200 underline underline-offset-2 transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </section>
             ))}
 

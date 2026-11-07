@@ -1,6 +1,12 @@
+export type VilleLink = {
+  href: string
+  label: string
+}
+
 export type VilleSection = {
   heading: string
   paragraphs: string[]
+  links?: VilleLink[]
 }
 
 export type VilleInfo = {
@@ -26,6 +32,12 @@ export type VilleContent = {
   faq: VilleFaq[]
   ctaLabel: string
 }
+
+/* ── Liens vers les pages d'intention, affichés sous la section EVJF/EVG de chaque ville ── */
+const INTENTION_LINKS: VilleLink[] = [
+  { href: '/evjf', label: 'Organiser un EVJF avec Black Out !' },
+  { href: '/evg', label: 'Organiser un EVG avec Black Out !' },
+]
 
 export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
   geneve: {
@@ -66,6 +78,7 @@ export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
           "Un EVJF qui se termine en photo de groupe face au Jet d'Eau, un EVG qui traverse la vieille ville en chantant, un anniversaire ou une sortie d'équipe qui sort du bar habituel : le parcours part de Cornavin, à deux pas des trains, et personne n'a besoin de voiture.",
           'De 3 à 15 joueurs environ. Au-delà, jouez en plusieurs équipes et comparez les scores.',
         ],
+        links: INTENTION_LINKS,
       },
     ],
     infosPratiques: [
@@ -137,6 +150,7 @@ export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
           'De 3 à 15 joueurs environ. Au-delà, jouez en plusieurs équipes et comparez les scores.',
           'Un conseil : le final se joue au Flon. Ne prévoyez rien juste après.',
         ],
+        links: INTENTION_LINKS,
       },
     ],
     infosPratiques: [
@@ -209,6 +223,7 @@ export const VILLES_CONTENT: Partial<Record<string, VilleContent>> = {
           "Un EVJF qui se termine en photo de groupe devant Valère, un EVG qui traverse la Place du Midi en criant, un anniversaire ou une sortie d'équipe : le départ se fait à la gare, tout se fait à pied, et la vallée du Rhône sert de décor au final.",
           'De 3 à 15 joueurs environ. Au-delà, jouez en plusieurs équipes et comparez les scores.',
         ],
+        links: INTENTION_LINKS,
       },
     ],
     infosPratiques: [

@@ -217,6 +217,18 @@ export default function HomePage() {
             ))}
           </motion.div>
 
+          {/* Liens EVJF / EVG */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.68 }}
+            className="flex items-center gap-2 text-xs text-zinc-400"
+          >
+            <Link href="/evjf" className="hover:text-zinc-200 transition-colors">Jeu de piste EVJF</Link>
+            <span className="text-zinc-600">·</span>
+            <Link href="/evg" className="hover:text-zinc-200 transition-colors">Rallye EVG</Link>
+          </motion.div>
+
           {/* Legal links */}
           <motion.div
             initial={{ opacity: 0 }}
