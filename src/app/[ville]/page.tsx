@@ -7,6 +7,7 @@ import { PromoBanner } from '@/components/ui/PromoBanner'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { marketingViewport } from '@/lib/seo/viewport'
 import { buildSocial } from '@/lib/seo/og'
+import { SITE_URL, SITE_NAME, ORGANIZATION_ID } from '@/lib/seo/site'
 import { getActiveCities, getCityBySlug } from '@/lib/cities'
 import { VILLES_CONTENT } from '@/data/villes'
 import { PlayCta } from './PlayCta'
@@ -57,20 +58,31 @@ export default async function VillePage({ params }: VillePageProps) {
   }
 
   const checkoutHref = `/checkout?city=${encodeURIComponent(city.name)}`
-  const pageUrl = `https://www.theblackoutgame.ch/${ville}`
+  const pageUrl = `${SITE_URL}/${ville}`
+
+  /* ── Référence à l'Organization déclarée sur l'accueil ((home)/layout.tsx).
+     Jamais d'aggregateRating ni de Review tant qu'il n'existe pas d'avis réels. ── */
+  const ORGANIZATION_REF = {
+    '@type': 'Organization',
+    '@id': ORGANIZATION_ID,
+    name: SITE_NAME,
+    url: `${SITE_URL}/`,
+  }
 
   const PRODUCT_JSON_LD = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: `Pass Black Out ! — ${city.name}`,
     description: "Pass d'équipe pour le rallye urbain Black Out !, 12 défis, joueurs illimités.",
-    brand: { '@type': 'Brand', name: 'Black Out !' },
+    image: `${SITE_URL}${content.heroImage.src}`,
+    brand: { '@type': 'Brand', name: SITE_NAME },
     offers: {
       '@type': 'Offer',
       price: '29',
       priceCurrency: 'CHF',
       availability: 'https://schema.org/InStock',
-      url: `https://www.theblackoutgame.ch/checkout?city=${encodeURIComponent(city.name)}`,
+      url: pageUrl,
+      seller: ORGANIZATION_REF,
     },
   }
 
@@ -78,8 +90,9 @@ export default async function VillePage({ params }: VillePageProps) {
     '@context': 'https://schema.org',
     '@type': 'Service',
     serviceType: 'Rallye urbain en extérieur',
-    provider: { '@type': 'Organization', name: 'Black Out !', url: 'https://www.theblackoutgame.ch' },
+    provider: ORGANIZATION_REF,
     areaServed: { '@type': 'City', name: city.name },
+    offers: { '@type': 'Offer', price: '29', priceCurrency: 'CHF' },
   }
 
   const BREADCRUMB_JSON_LD = {
