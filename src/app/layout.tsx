@@ -4,7 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { ToastContainer } from '@/components/ui/Toast'
 import { MetaPixel } from '@/components/analytics/MetaPixel'
 import { TikTokPixel } from '@/components/analytics/TikTokPixel'
-import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION } from '@/lib/seo/site'
+import { SITE_URL, SITE_NAME, SITE_TITLE, SITE_DESCRIPTION } from '@/lib/seo/site'
 import './globals.css'
 
 
@@ -38,8 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'fr_CH',
-    url: SITE_URL,
-    siteName: 'Black Out !',
+    siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: [{ url: '/logo.png', width: 512, height: 512, alt: 'Black Out !' }],

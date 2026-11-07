@@ -1,7 +1,15 @@
 import type { Metadata } from 'next'
 import { marketingViewport } from '@/lib/seo/viewport'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { SITE_URL, SITE_NAME, ORGANIZATION_ID, WEBSITE_ID } from '@/lib/seo/site'
+import { buildSocial } from '@/lib/seo/og'
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  ORGANIZATION_ID,
+  WEBSITE_ID,
+} from '@/lib/seo/site'
 
 export const viewport = marketingViewport
 
@@ -9,6 +17,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  ...buildSocial('/', SITE_TITLE, SITE_DESCRIPTION),
 }
 
 const WEBSITE_JSON_LD = {

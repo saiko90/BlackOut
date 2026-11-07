@@ -1,17 +1,22 @@
 import type { Metadata } from 'next'
 import { marketingViewport } from '@/lib/seo/viewport'
 import { JsonLd } from '@/components/seo/JsonLd'
+import { buildSocial } from '@/lib/seo/og'
 import { getActiveCities } from '@/lib/cities'
 
 export const viewport = marketingViewport
 
+const TITLE = 'Choisis ta ville'
+const DESCRIPTION =
+  'Black Out !, le rallye urbain disponible à Sion, Lausanne et Genève. 29 CHF par équipe, joueurs illimités, 12 défis, film souvenir généré par IA.'
+
 export const metadata: Metadata = {
-  title: 'Choisis ta ville',
-  description:
-    'Black Out !, le rallye urbain disponible à Sion, Lausanne et Genève. 29 CHF par équipe, joueurs illimités, 12 défis, film souvenir généré par IA.',
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: '/cities',
   },
+  ...buildSocial('/cities', TITLE, DESCRIPTION),
 }
 
 const activeCities = getActiveCities()

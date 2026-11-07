@@ -1,16 +1,21 @@
 import type { Metadata } from 'next'
 import { marketingViewport } from '@/lib/seo/viewport'
 import { JsonLd } from '@/components/seo/JsonLd'
+import { buildSocial } from '@/lib/seo/og'
 
 export const viewport = marketingViewport
 
+const TITLE = 'Le concept'
+const DESCRIPTION =
+  "Comment se déroule Black Out ! : achetez un pass d'équipe, rendez-vous à la gare, relevez 12 défis dans la ville et repartez avec un film souvenir généré par IA. Le mode d'emploi complet."
+
 export const metadata: Metadata = {
-  title: 'Le concept',
-  description:
-    "Comment se déroule Black Out ! : achetez un pass d'équipe, rendez-vous à la gare, relevez 12 défis dans la ville et repartez avec un film souvenir généré par IA. Le mode d'emploi complet.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: '/concept',
   },
+  ...buildSocial('/concept', TITLE, DESCRIPTION),
 }
 
 const FAQ_JSON_LD = {

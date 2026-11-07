@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react'
 import { PromoBanner } from '@/components/ui/PromoBanner'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { marketingViewport } from '@/lib/seo/viewport'
+import { buildSocial } from '@/lib/seo/og'
 import { getCityBySlug } from '@/lib/cities'
 import { VILLES_CONTENT } from '@/data/villes'
 import { PlayCta } from './PlayCta'
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: VillePageProps): Promise<Meta
     alternates: {
       canonical: `/${ville}`,
     },
+    ...buildSocial(`/${ville}`, content.title, content.description),
   }
 }
 
