@@ -260,6 +260,17 @@ export default function HomePage() {
               ))}
             </ul>
           </section>
+
+          <p className="text-xs text-zinc-500 text-center">
+            Développé par{' '}
+            <a
+              href="https://swissdigitalstudio.ch/"
+              className="underline underline-offset-2 hover:text-zinc-300 transition-colors"
+            >
+              Swiss Digital Studio
+            </a>
+            , Valais
+          </p>
         </div>
 
         {/* Auth overlay */}
