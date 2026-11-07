@@ -194,6 +194,26 @@ export default async function VillePage({ params }: VillePageProps) {
               </ul>
             </section>
 
+            {/* ── FAQ locale (visible, sans JSON-LD FAQPage) ── */}
+            <section className="space-y-3">
+              <h2 className="text-xl font-black text-white leading-snug tracking-tight">
+                Questions sur le jeu de piste à {city.name}
+              </h2>
+              <div className="space-y-2">
+                {content.faq.map((item) => (
+                  <details key={item.q} className="glass rounded-2xl group">
+                    <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-white leading-snug flex items-center justify-between gap-3 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-inset">
+                      {item.q}
+                      <span aria-hidden className="text-zinc-500 transition-transform group-open:rotate-180">
+                        ▾
+                      </span>
+                    </summary>
+                    <p className="px-5 pb-5 text-sm text-zinc-400 leading-relaxed">{item.a}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+
             {/* ── Maillage : autres villes + concept ── */}
             <section aria-labelledby="autres-villes" className="space-y-3">
               <h2
