@@ -11,7 +11,6 @@ import { useGameStore } from '@/store/gameStore'
 import { AuthOverlay } from '@/components/auth/AuthOverlay'
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt'
 import { PromoBanner } from '@/components/ui/PromoBanner'
-import { TestimonialsCarousel } from '@/components/ui/TestimonialsCarousel'
 import { SocialLinks } from '@/components/ui/SocialLinks'
 import { getActiveCities } from '@/lib/cities'
 
@@ -28,6 +27,13 @@ const fadeUp = {
 const WHATSAPP_MESSAGE =
   '🚨 SOS dignité ! Je monte une équipe pour BLACK OUT !, le rallye urbain qui va nous détruire 💀🍻 ' +
   'Qui est assez fou pour venir ? 👉 https://www.theblackoutgame.ch'
+const PROGRAMME = [
+  { title: '12 défis', text: 'Énigmes, photos de groupe et gages, validés par GPS.' },
+  { title: '~2 h à pied', text: 'Départ à la gare, parcours dans le centre-ville.' },
+  { title: 'Film souvenir', text: 'Monté automatiquement par IA avec vos photos et vidéos.' },
+  { title: '29 CHF', text: "Pour toute l'équipe, nombre de joueurs illimité." },
+]
+
 const WHATSAPP_HREF = `https://wa.me/?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
 export default function HomePage() {
@@ -226,7 +232,23 @@ export default function HomePage() {
 
           <SocialLinks />
 
-          <TestimonialsCarousel />
+          {/* Au programme — faits du jeu uniquement (aucun avis client tant qu'il n'en existe pas de vrais) */}
+          <section aria-labelledby="au-programme" className="w-full">
+            <h2
+              id="au-programme"
+              className="text-xs font-semibold text-zinc-500 uppercase tracking-widest text-center mb-4"
+            >
+              Au programme
+            </h2>
+            <ul className="grid grid-cols-2 gap-3">
+              {PROGRAMME.map(({ title, text }) => (
+                <li key={title} className="glass rounded-2xl p-4 flex flex-col gap-1">
+                  <p className="text-sm font-bold text-white">{title}</p>
+                  <p className="text-xs text-zinc-400 leading-relaxed">{text}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
 
         {/* Auth overlay */}
