@@ -263,7 +263,7 @@ export default function ConceptPage() {
               id="choisis-ta-ville"
               className="text-xs font-semibold text-zinc-500 uppercase tracking-widest"
             >
-              Choisis ta ville :
+              Choisis ta ville
             </h2>
             <ul className="space-y-2">
               {CITY_LINKS.map(({ href, label }) => (
